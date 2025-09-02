@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.db
+*.log
+
+# Environment
+.env
+*.env
+venv/
+env/
+.venv/
+
+# Django
+/staticfiles/
+/media/
+/*.sqlite3
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+
+# Node/React (frontend folder)
+node_modules/
+dist/
+build/
+*.lock
+
+# OS files
+.DS_Store
+Thumbs.db
