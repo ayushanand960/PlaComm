@@ -85,6 +85,7 @@ INSTALLED_APPS = [
     'corsheaders',
     # local
     'testAPI',
+    'PlacementCoordinator',
 ]
 
 MIDDLEWARE = [

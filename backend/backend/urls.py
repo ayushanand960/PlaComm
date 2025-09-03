@@ -21,6 +21,8 @@ from testAPI.views import CookieLoginView, CookieTokenRefreshView, LogoutView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('testapi/', include('testAPI.urls')),
+    path("placements/", include("PlacementCoordinator.urls")),
+
 
     # Cookie-based auth endpoints
     path("auth/login/", CookieLoginView.as_view(), name="cookie_login"),
