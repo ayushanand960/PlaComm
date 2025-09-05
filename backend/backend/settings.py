@@ -14,8 +14,12 @@ from pathlib import Path
 from datetime import timedelta
 import os
 from dotenv import load_dotenv
+
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 load_dotenv(os.path.join(BASE_DIR, '..', '.env'))
+
+AUTH_USER_MODEL = "users.User"
 
 
 DEBUG = os.getenv('DJANGO_DEBUG', '0') == '1'
@@ -55,7 +59,7 @@ CSRF_TRUSTED_ORIGINS = [
 
 REST_FRAMEWORK = {
 'DEFAULT_AUTHENTICATION_CLASSES': (
- "testAPI.authentication.CookieJWTAuthentication",
+ "users.authentication.CookieJWTAuthentication",
 # 'rest_framework_simplejwt.authentication.JWTAuthentication',
 ),
 "DEFAULT_PERMISSION_CLASSES": [
@@ -68,6 +72,10 @@ SIMPLE_JWT = {
 'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
 "AUTH_COOKIE_ACCESS": "access_token",  # cookie names
 "AUTH_COOKIE_REFRESH": "refresh_token",
+"AUTH_COOKIE_SECURE": False,    # True if HTTPS
+"AUTH_COOKIE_HTTP_ONLY": True,
+"ROTATE_REFRESH_TOKENS": True,
+"BLACKLIST_AFTER_ROTATION": True,
 }
 
 # Application definition
@@ -86,6 +94,7 @@ INSTALLED_APPS = [
     # local
     'testAPI',
     'PlacementCoordinator',
+    'users',
 ]
 
 MIDDLEWARE = [
