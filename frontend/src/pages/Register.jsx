@@ -37,9 +37,9 @@ export default function Register() {
         newErrors.rum_number = "RUM must be like RUM2201146 (7 digits after RUM)";
       }
     } else {
-      const empRegex = /^[A-Z]{2}-[A-Z]{3}\/E\d{7}$/;
+      const empRegex = /^[A-Z]{2}-[A-Z]{3}\E\d{7}$/;
       if (!empRegex.test(formData.employee_id || "")) {
-        newErrors.employee_id = "Employee ID must be like RG-MND/E0011314";
+        newErrors.employee_id = "Employee ID must be like RG-MNDE0011314";
       }
     }
 
@@ -89,7 +89,7 @@ export default function Register() {
       if (role === "student") payload.unique_id = formData.rum_number;
       else payload.unique_id = formData.employee_id;
 
-      await axiosInstance.post(endpoint, payload);
+      await axiosInstance.post(endpoint, payload, {withCredentials: false,});
 
       alert("Registration successful!");
       setFormData({});
@@ -282,6 +282,7 @@ export default function Register() {
                         fullWidth
                         label="Department"
                         name="department"
+                        value={formData.department || ""}
                         onChange={handleChange}
                       />
                     </Grid>
@@ -291,6 +292,7 @@ export default function Register() {
                         fullWidth
                         label="Designation"
                         name="designation"
+                        value={formData.designation || ""}
                         onChange={handleChange}
                       />
                     </Grid>

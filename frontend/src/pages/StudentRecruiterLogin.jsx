@@ -57,7 +57,7 @@ const StudentRecruiterLogin = () => {
 
       if (role === userRole) {
         if (userRole === "student") navigate(`/student-dashboard/${unique_id}`);
-        else if (userRole === "officer") navigate(`/officer-dashboard/${unique_id}`);
+        // else if (userRole === "officer") navigate(`/officer-dashboard/${unique_id}`);
         else if (userRole === "recruiter") navigate(`/recruiter-dashboard/${unique_id}`);
       } else {
         setError("Access denied: You selected the wrong role.");
@@ -72,13 +72,13 @@ const StudentRecruiterLogin = () => {
     <Container maxWidth="md" sx={{ minHeight: "100vh", py: 5 }}>
       <Box textAlign="center" mb={5}>
         <Typography variant="h4" fontWeight="bold" color="primary">
-          Institute for Research, Development & Training (IRDT)
+          PlaComm Placement Tracker Portal
         </Typography>
         <Typography variant="subtitle1" color="text.secondary">
-          Government of Uttar Pradesh
+          Rama University
         </Typography>
         <Typography variant="subtitle2" fontStyle="italic" color="text.secondary">
-          Shiksha Pragati - "Bridge of Education for Progress"
+          Faculty of Engineering and Technology
         </Typography>
       </Box>
 
@@ -96,14 +96,14 @@ const StudentRecruiterLogin = () => {
           >
             Student
           </Button>
-          <Button
+          {/* <Button
             fullWidth
             variant={role === "officer" ? "contained" : "outlined"}
             sx={{ mb: 2 }}
             onClick={() => setRole("officer")}
           >
             Training Officer
-          </Button>
+          </Button> */}
           <Button
             fullWidth
             variant={role === "recruiter" ? "contained" : "outlined"}

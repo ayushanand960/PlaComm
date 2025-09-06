@@ -1,6 +1,6 @@
 // src/pages/AdminCoordinatorLogin.jsx
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../api/axiosInstance";
 import {
     Container,
@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
+
 const AdminCoordinatorLogin = () => {
     const [identifier, setIdentifier] = useState(""); // unique_id
     const [password, setPassword] = useState("");
@@ -25,6 +26,7 @@ const AdminCoordinatorLogin = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const sessionExpired = location.state?.sessionExpired || false;
+    
 
     useEffect(() => {
         if (sessionExpired) {
@@ -56,6 +58,7 @@ const AdminCoordinatorLogin = () => {
 
             const res = await axiosInstance.get("/users/profile/");
             const { unique_id, role: userRole } = res.data;
+            const encodedId = encodeURIComponent(unique_id);
 
             localStorage.setItem("user", JSON.stringify(res.data));
             localStorage.setItem("hasLoggedInBefore", "true");
@@ -66,13 +69,13 @@ const AdminCoordinatorLogin = () => {
                         navigate(`/admin/manage-users`);
                         break;
                     case "placement_coordinator":
-                        navigate(`/coordinator-dashboard/${unique_id}`);
+                        navigate(`/coordinator-dashboard/${encodedId}`);
                         break;
                     case "authority":
-                        navigate(`/authority-dashboard/${unique_id}`);
+                        navigate(`/authority-dashboard/${encodedId}`);
                         break;
                     case "officer":
-                        navigate(`/officer-dashboard/${unique_id}`);
+                        navigate(`/officer-dashboard/${encodedId}`);
                         break;
                     default:
                         setError("Role not recognized");
@@ -91,13 +94,13 @@ const AdminCoordinatorLogin = () => {
         <Container maxWidth="md" sx={{ minHeight: "100vh", py: 5 }}>
             <Box textAlign="center" mb={5}>
                 <Typography variant="h4" fontWeight="bold" color="primary">
-                    Institute for Research, Development & Training (IRDT)
+                    PlaComm Placement Tracker Portal
                 </Typography>
                 <Typography variant="subtitle1" color="text.secondary">
-                    Government of Uttar Pradesh
+                    Rama University
                 </Typography>
                 <Typography variant="subtitle2" fontStyle="italic" color="text.secondary">
-                    Shiksha Pragati - "Bridge of Education for Progress"
+                    Faculty of Engineering and Technology
                 </Typography>
             </Box>
 

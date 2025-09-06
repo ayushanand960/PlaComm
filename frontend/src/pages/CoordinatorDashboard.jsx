@@ -1,75 +1,170 @@
+// // import React from "react";
+// // import { Link } from "react-router-dom";
+
+// // export default function CoordinatorDashboard() {
+// //   return (
+// //     <div className="max-w-5xl mx-auto mt-10 p-6 bg-gray-50 rounded-2xl shadow-md">
+// //       <h1 className="text-3xl font-bold text-center mb-8">
+// //         Placement Coordinator Dashboard
+// //       </h1>
+
+// //       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+// //         {/* Card: Post Job */}
+// //         <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+// //           <h2 className="text-xl font-semibold mb-3">Post New Job</h2>
+// //           <p className="text-gray-600 mb-4">
+// //             Create and publish a new on-campus hiring post.
+// //           </p>
+// //           <Link
+// //             to="/dashboard/post-job"
+// //             className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+// //           >
+// //             Post Job
+// //           </Link>
+// //         </div>
+
+// //         {/* Card: Manage Jobs */}
+// //         <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+// //           <h2 className="text-xl font-semibold mb-3">Manage Job Postings</h2>
+// //           <p className="text-gray-600 mb-4">
+// //             View, edit, or delete your previously posted jobs.
+// //           </p>
+// //           <Link
+// //             to="/dashboard/jobs"
+// //             className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+// //           >
+// //             View Jobs
+// //           </Link>
+// //         </div>
+// //       </div>
+// //     </div>
+// //   );
+// // }
 // import React from "react";
-// import { Link } from "react-router-dom";
+// import { Container, Typography, Grid, Card, CardContent, Button } from "@mui/material";
+// import { Work, AddCircle } from "@mui/icons-material";
+// import { useNavigate, useParams } from "react-router-dom";
+// import PostJob from "./PostJob";
 
 // export default function CoordinatorDashboard() {
+//   const navigate = useNavigate();
+//   const user = JSON.parse(localStorage.getItem("user"));
+//   const userId = user?.unique_id;
+//   const { collegeCode, id } = useParams();
+
 //   return (
-//     <div className="max-w-5xl mx-auto mt-10 p-6 bg-gray-50 rounded-2xl shadow-md">
-//       <h1 className="text-3xl font-bold text-center mb-8">
+//     <Container maxWidth="md" sx={{ mt: 6 }}>
+//       <Typography variant="h4" gutterBottom fontWeight="bold" textAlign="center">
 //         Placement Coordinator Dashboard
-//       </h1>
+//       </Typography>
+//       <Typography variant="h4" gutterBottom fontWeight="bold" textAlign="center">
+//         Welcome Coordinator ({collegeCode}) {id}
+//       </Typography>
+//       <Grid container spacing={4} sx={{ mt: 2 }}>
+//         {/* Post Job */}
+//         <Grid item xs={12} md={6}>
+//           <Card sx={{ boxShadow: 4, borderRadius: 3 }}>
+//             <CardContent sx={{ textAlign: "center" }}>
+//               <AddCircle sx={{ fontSize: 60, color: "primary.main", mb: 2 }} />
+//               <Typography variant="h6" gutterBottom>
+//                 Post New Job
+//               </Typography>
+//               <Typography variant="body2" color="text.secondary" mb={2}>
+//                 Create and publish a new on-campus hiring post.
+//               </Typography>
+//               <Button
+//                 variant="contained"
+//                 color="primary"
+//                 onClick={() => navigate(`/coordinator-dashboard/${userId}/post-job`)}
+//               >
+//                 Post Job
+//               </Button>
+//             </CardContent>
+//           </Card>
+//         </Grid>
 
-//       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-//         {/* Card: Post Job */}
-//         <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
-//           <h2 className="text-xl font-semibold mb-3">Post New Job</h2>
-//           <p className="text-gray-600 mb-4">
-//             Create and publish a new on-campus hiring post.
-//           </p>
-//           <Link
-//             to="/dashboard/post-job"
-//             className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-//           >
-//             Post Job
-//           </Link>
-//         </div>
-
-//         {/* Card: Manage Jobs */}
-//         <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
-//           <h2 className="text-xl font-semibold mb-3">Manage Job Postings</h2>
-//           <p className="text-gray-600 mb-4">
-//             View, edit, or delete your previously posted jobs.
-//           </p>
-//           <Link
-//             to="/dashboard/jobs"
-//             className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-//           >
-//             View Jobs
-//           </Link>
-//         </div>
-//       </div>
-//     </div>
+//         {/* Manage Jobs */}
+//         <Grid item xs={12} md={6}>
+//           <Card sx={{ boxShadow: 4, borderRadius: 3 }}>
+//             <CardContent sx={{ textAlign: "center" }}>
+//               <Work sx={{ fontSize: 60, color: "secondary.main", mb: 2 }} />
+//               <Typography variant="h6" gutterBottom>
+//                 Manage Job Postings
+//               </Typography>
+//               <Typography variant="body2" color="text.secondary" mb={2}>
+//                 View, edit, or delete your previously posted jobs.
+//               </Typography>
+//               <Button
+//                 variant="contained"
+//                 color="secondary"
+//                 onClick={() => navigate(`/coordinator-dashboard/${userId}/jobs`)}
+//               >
+//                 View Jobs
+//               </Button>
+//             </CardContent>
+//           </Card>
+//         </Grid>
+//       </Grid>
+//     </Container>
 //   );
 // }
-import React from "react";
-import { Container, Typography, Grid, Card, CardContent, Button } from "@mui/material";
+
+
+import React, { useEffect, useState } from "react";
+import { Container, Typography, Grid, Card, CardContent, Button, CircularProgress, Alert } from "@mui/material";
 import { Work, AddCircle } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
-import PostJob from "./PostJob";
+import { useNavigate, useParams } from "react-router-dom";
+import axiosInstance from "../api/axiosInstance";
 
 export default function CoordinatorDashboard() {
   const navigate = useNavigate();
+  const { id } = useParams(); // Only id
+  const decodedId = decodeURIComponent(id);
+
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await axiosInstance.get(`/users/users/${decodedId}/`); 
+        setUserData(res.data);
+      } catch (err) {
+        setError("Failed to fetch coordinator details.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProfile();
+  }, [id]);
+
+  if (loading) return <Container sx={{ mt: 6, textAlign: "center" }}><CircularProgress /></Container>;
+  if (error) return <Container sx={{ mt: 6 }}><Alert severity="error">{error}</Alert></Container>;
 
   return (
     <Container maxWidth="md" sx={{ mt: 6 }}>
       <Typography variant="h4" gutterBottom fontWeight="bold" textAlign="center">
         Placement Coordinator Dashboard
       </Typography>
+
+      <Typography variant="h6" gutterBottom fontWeight="bold" textAlign="center">
+        Welcome {userData?.first_name} {userData?.last_name} ({id})
+      </Typography>
+
       <Grid container spacing={4} sx={{ mt: 2 }}>
-        {/* Post Job */}
         <Grid item xs={12} md={6}>
           <Card sx={{ boxShadow: 4, borderRadius: 3 }}>
             <CardContent sx={{ textAlign: "center" }}>
               <AddCircle sx={{ fontSize: 60, color: "primary.main", mb: 2 }} />
-              <Typography variant="h6" gutterBottom>
-                Post New Job
-              </Typography>
+              <Typography variant="h6" gutterBottom>Post New Job</Typography>
               <Typography variant="body2" color="text.secondary" mb={2}>
                 Create and publish a new on-campus hiring post.
               </Typography>
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => navigate("/dashboard/post-job")}
+                onClick={() => navigate(`/coordinator-dashboard/${id}/post-job`)}
               >
                 Post Job
               </Button>
@@ -77,21 +172,18 @@ export default function CoordinatorDashboard() {
           </Card>
         </Grid>
 
-        {/* Manage Jobs */}
         <Grid item xs={12} md={6}>
           <Card sx={{ boxShadow: 4, borderRadius: 3 }}>
             <CardContent sx={{ textAlign: "center" }}>
               <Work sx={{ fontSize: 60, color: "secondary.main", mb: 2 }} />
-              <Typography variant="h6" gutterBottom>
-                Manage Job Postings
-              </Typography>
+              <Typography variant="h6" gutterBottom>Manage Job Postings</Typography>
               <Typography variant="body2" color="text.secondary" mb={2}>
                 View, edit, or delete your previously posted jobs.
               </Typography>
               <Button
                 variant="contained"
                 color="secondary"
-                onClick={() => navigate("/dashboard/jobs")}
+                onClick={() => navigate(`/coordinator-dashboard/${id}/jobs`)}
               >
                 View Jobs
               </Button>

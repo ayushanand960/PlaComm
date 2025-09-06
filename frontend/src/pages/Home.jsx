@@ -51,7 +51,7 @@ export default function Home() {
 
         <Button
           variant="outlined"
-          onClick={() => navigate("/student-register")}
+          onClick={() => navigate("/register")}
         >
           Register as Student
         </Button>

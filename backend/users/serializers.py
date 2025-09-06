@@ -114,3 +114,9 @@ class UserRoleUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["role"]
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["unique_id", "first_name", "last_name", "email", "role"]

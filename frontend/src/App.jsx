@@ -1,14 +1,21 @@
+
 // src/App.jsx
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "./pages/Home";
-// import Login from "./pages/Login"; // optional, remove if not needed
 import PostJob from "./pages/PostJob";
 import CoordinatorDashboard from "./pages/CoordinatorDashboard";
 import JobList from "./pages/JobList";
 import Register from "./pages/Register";
 import StudentRecruiterLogin from "./pages/StudentRecruiterLogin";
-import AdminCoordinatorLogin from "./pages/AdminCoordinatorLogin"; // new page
+import AdminCoordinatorLogin from "./pages/AdminCoordinatorLogin";
 import AdminManageUsers from "./pages/AdminManageUsers";
+import PrivateRoute from "./pages/PrivateRoute";
+
+// Newly added dashboards
+import StudentDashboard from "./pages/StudentDashboard";
+import RecruiterDashboard from "./pages/RecruiterDashboard";
+import AuthorityDashboard from "./pages/AuthorityDashboard";
+import TrainingOfficerDashboard from "./pages/TrainingOfficerDashboard";
 
 export default function App() {
   return (
@@ -26,20 +33,45 @@ export default function App() {
         </nav>
 
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/student-recruiter-login" element={<StudentRecruiterLogin />} />
           <Route path="/admin-coordinator-login" element={<AdminCoordinatorLogin />} />
 
-          {/* Coordinator / Dashboard routes */}
-          <Route path="/dashboard/post-job" element={<PostJob />} />
-          <Route path="/dashboard" element={<CoordinatorDashboard />} />
-          <Route path="/dashboard/jobs" element={<JobList />} />
-          <Route path="/admin/manage-users" element={<AdminManageUsers />} />
+          {/* Protected Routes */}
 
+          {/* Coordinator */}
+          <Route element={<PrivateRoute allowedRoles={["placement_coordinator"]} />}>
+            <Route path="/coordinator-dashboard/:id" element={<CoordinatorDashboard />} />
+            <Route path="/coordinator-dashboard/:id/post-job" element={<PostJob />} />
+            <Route path="/coordinator-dashboard/:id/jobs" element={<JobList />} />
+          </Route>
 
-          {/* Optional old login page */}
-          {/* <Route path="/login" element={<Login />} /> */}
+          {/* Admin */}
+          <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
+            <Route path="/admin/manage-users" element={<AdminManageUsers />} />
+          </Route>
+
+          {/* Authority */}
+          <Route element={<PrivateRoute allowedRoles={["authority"]} />}>
+            <Route path="/authority-dashboard/:id" element={<AuthorityDashboard />} />
+          </Route>
+
+          {/* Training Officer */}
+          <Route element={<PrivateRoute allowedRoles={["training_officer"]} />}>
+            <Route path="/officer-dashboard/:id" element={<TrainingOfficerDashboard />} />
+          </Route>
+
+          {/* Student */}
+          <Route element={<PrivateRoute allowedRoles={["student"]} />}>
+            <Route path="/student-dashboard/:id" element={<StudentDashboard />} />
+          </Route>
+
+          {/* Recruiter */}
+          <Route element={<PrivateRoute allowedRoles={["recruiter"]} />}>
+            <Route path="/recruiter-dashboard/:id" element={<RecruiterDashboard />} />
+          </Route>
         </Routes>
       </div>
     </Router>

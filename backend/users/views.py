@@ -2,13 +2,14 @@ from django.db import IntegrityError
 from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.generics import RetrieveAPIView
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from .authentication import CookieJWTAuthentication
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 
-from .serializers import StudentSerializer, TrainingOfficerSerializer, CustomTokenObtainPairSerializer
+from .serializers import StudentSerializer, TrainingOfficerSerializer, CustomTokenObtainPairSerializer, UserSerializer
 from .models import User
 
 
@@ -225,3 +226,11 @@ class UpdateUserRoleView(APIView):
         user.role = role
         user.save()
         return Response({"message": f"Role updated to '{role}' successfully"})
+
+
+
+class UserDetailView(RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    lookup_field = "unique_id"       # lookup by unique_id instead of pk
+    permission_classes = [IsAuthenticated]  # Require authentication
