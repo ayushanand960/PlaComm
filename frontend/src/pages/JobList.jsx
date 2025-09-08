@@ -13,7 +13,8 @@ import {
   Button,
 } from "@mui/material";
 import { Edit, Delete } from "@mui/icons-material";
-import axios from "axios";
+// import axios from "axios";
+import axiosInstance from "../api/axiosInstance";
 
 export default function JobList() {
   const [jobs, setJobs] = useState([]);
@@ -25,9 +26,7 @@ export default function JobList() {
 
   const fetchJobs = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/placements/job-postings/", {
-        withCredentials: true,
-      });
+      const res = await axiosInstance.get("/placements/job-postings/");
       setJobs(res.data);
     } catch (err) {
       console.error("❌ Failed to fetch jobs", err);
@@ -37,9 +36,7 @@ export default function JobList() {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this job?")) return;
     try {
-      await axios.delete(`http://localhost:8000/placements/job-postings/${id}/`, {
-        withCredentials: true,
-      });
+      await axiosInstance.delete(`/placements/job-postings/${id}/`);
       alert("✅ Job deleted!");
       fetchJobs(); // refresh list
     } catch (err) {

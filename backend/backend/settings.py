@@ -81,6 +81,7 @@ SIMPLE_JWT = {
 "AUTH_COOKIE_HTTP_ONLY": True,
 "ROTATE_REFRESH_TOKENS": True,
 "BLACKLIST_AFTER_ROTATION": True,
+"AUTH_COOKIE_SAMESITE": "None",
 }
 
 # Application definition
