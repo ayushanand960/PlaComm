@@ -1,30 +1,54 @@
-from django.shortcuts import render
+# job/views.py
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import get_object_or_404
+from django.contrib.auth import get_user_model
+from users.authentication import CookieJWTAuthentication 
 
-# Create your views here.
-from rest_framework import viewsets, permissions
 from .models import JobPosting
 from .serializers import JobPostingSerializer
-from django.contrib.auth import get_user_model
+from users.permissions import IsPlacementCoordinator  # import your custom permission
 
-class IsCoordinator(permissions.BasePermission):
-    def has_permission(self, request, view):
-        # Customize this: you can check user role field if you have it
-        return request.user.is_authenticated and request.user.is_staff  
 
-class JobPostingViewSet(viewsets.ModelViewSet):
-    queryset = JobPosting.objects.all().order_by("-created_at")
-    serializer_class = JobPostingSerializer
-    permission_classes = [permissions.AllowAny]#[permissions.IsAuthenticated, IsCoordinator]
+class JobPostingListCreateAPIView(APIView):
+    permission_classes = [IsAuthenticated, IsPlacementCoordinator]
+    authentication_classes = [CookieJWTAuthentication]
 
-    def perform_create(self, serializer):
-        # serializer.save(coordinator=self.request.user)
-        User = get_user_model()
-        coordinator = User.objects.first()  # ✅ pick the first user in DB  after that replace with coordinator = self.request.user
 
-        serializer.save(coordinator=coordinator)
-    # def perform_create(self, serializer):
-    #     User = get_user_model()
-    #     coordinator = User.objects.first()
-    #     if not coordinator:
-    #         raise ValueError("⚠️ No users found in the database. Please create a user first.")
-    #     serializer.save(coordinator=coordinator)
+    def get(self, request):
+        jobs = JobPosting.objects.all().order_by("-created_at")
+        serializer = JobPostingSerializer(jobs, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = JobPostingSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(coordinator=request.user)  # ✅ logged-in coordinator
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class JobPostingDetailAPIView(APIView):
+    permission_classes = [IsAuthenticated, IsPlacementCoordinator]
+    authentication_classes = [CookieJWTAuthentication]
+
+
+    def get(self, request, pk):
+        job = get_object_or_404(JobPosting, pk=pk)
+        serializer = JobPostingSerializer(job)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        job = get_object_or_404(JobPosting, pk=pk)
+        serializer = JobPostingSerializer(job, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save(coordinator=request.user)  # update with current coordinator
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        job = get_object_or_404(JobPosting, pk=pk)
+        job.delete()
+        return Response({"detail": "Job deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
