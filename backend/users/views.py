@@ -37,6 +37,7 @@ class StudentRegistrationView(APIView):
                 status=status.HTTP_201_CREATED,
             )
         except IntegrityError:
+            print(serializer.errors) 
             return Response(
                 {"error": "RUM number, email, or phone already exists"},
                 status=status.HTTP_400_BAD_REQUEST,
