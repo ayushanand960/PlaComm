@@ -3,6 +3,9 @@ import React, { useEffect, useState } from "react";
 import { Container, Typography, CircularProgress, Alert, Box } from "@mui/material";
 import axiosInstance from "../api/axiosInstance";
 
+//importing TrainingOfficerRoutes.jsx from TrainingOfficerPages
+import TrainingOfficerRoutes from "../routes/TrainingOfficerRoutes";
+
 const TrainingOfficerDashboard = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const uniqueId = user?.unique_id;
@@ -47,22 +50,7 @@ const TrainingOfficerDashboard = () => {
   );
 
   return (
-    <Container sx={{ mt: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        Training Officer Dashboard
-      </Typography>
-
-      <Typography variant="h6">
-        Welcome, {officerData?.first_name} {officerData?.last_name}
-      </Typography>
-      <Typography><strong>Unique ID:</strong> {officerData?.unique_id}</Typography>
-      <Typography><strong>Email:</strong> {officerData?.email}</Typography>
-      <Typography><strong>Department:</strong> {officerData?.department}</Typography>
-      <Typography><strong>Designation:</strong> {officerData?.designation}</Typography>
-      <Typography><strong>Phone:</strong> {officerData?.phone}</Typography>
-      <hr />
-      <Typography>This dashboard is specifically for Training Officers.</Typography>
-    </Container>
+    <TrainingOfficerRoutes />
   );
 };
 

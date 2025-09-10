@@ -17,6 +17,10 @@ import RecruiterDashboard from "./pages/RecruiterDashboard";
 import AuthorityDashboard from "./pages/AuthorityDashboard";
 import TrainingOfficerDashboard from "./pages/TrainingOfficerDashboard";
 
+//imports for Training Officer
+import Navbar from "./TrainingOfficerComponents/Navbar";
+import TrainingOfficerRoutes from "./routes/TrainingOfficerRoutes";
+
 export default function App() {
   return (
     <Router>
@@ -59,8 +63,9 @@ export default function App() {
           </Route>
 
           {/* Training Officer */}
+          {/* Training Officer */}
           <Route element={<PrivateRoute allowedRoles={["training_officer"]} />}>
-            <Route path="/officer-dashboard/:id" element={<TrainingOfficerDashboard />} />
+            <Route path="/officer-dashboard/:id/*" element={<TrainingOfficerDashboard />} />
           </Route>
 
           {/* Student */}
