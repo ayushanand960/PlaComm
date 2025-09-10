@@ -13,10 +13,14 @@ import {
   Grid,
 } from "@mui/material";
 import axiosInstance from "../api/axiosInstance";
+import { useNavigate } from "react-router-dom";
 
 const StudentDashboard = () => {
   const user = JSON.parse(localStorage.getItem("user"));
+  const navigate = useNavigate();
+  
   const uniqueId = user?.unique_id;
+  
 
   const [studentData, setStudentData] = useState(null);
   const [jobs, setJobs] = useState([]);
@@ -24,25 +28,55 @@ const StudentDashboard = () => {
   const [error, setError] = useState("");
 
   // Fetch student profile
+  // useEffect(() => {
+  //   const fetchStudentData = async () => {
+  //     if (!uniqueId) {
+  //       setError("User not logged in");
+  //       setLoading(false);
+  //       return;
+  //     }
+
+  //     try {
+  //       const res = await axiosInstance.get(
+  //         `/users/users/${encodeURIComponent(uniqueId)}/`
+  //       );
+  //       setStudentData(res.data);
+  //     } catch (err) {
+  //       console.error(err.response?.data || err.message);
+  //       setError("Failed to fetch student data.");
+  //     }
+  //   };
+
+  //   fetchStudentData();
+  // }, [uniqueId]);
+
   useEffect(() => {
-    const fetchStudentData = async () => {
-      if (!uniqueId) {
-        setError("User not logged in");
-        setLoading(false);
-        return;
-      }
+  const fetchStudentData = async () => {
+    if (!uniqueId) return;
+    try {
+      // const res = await axiosInstance.get(`/users/users/${encodeURIComponent(uniqueId)}/`);
+      const res = await axiosInstance.get(`/users/users/${uniqueId}/`);
+      setStudentData(res.data);
 
-      try {
-        const res = await axiosInstance.get(`/users/users/${encodeURIComponent(uniqueId)}/`);
-        setStudentData(res.data);
-      } catch (err) {
-        console.error(err.response?.data || err.message);
-        setError("Failed to fetch student data.");
-      }
-    };
+      // Update localStorage so other components also get fresh data
+      localStorage.setItem("user", JSON.stringify(res.data));
+    } catch (err) {
+      console.error(err.response?.data || err.message);
+      setError("Failed to fetch student data.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchStudentData();
-  }, [uniqueId]);
+  fetchStudentData();
+
+  // Optional: refetch when tab/window gains focus
+  const handleFocus = () => fetchStudentData();
+  window.addEventListener("focus", handleFocus);
+
+  return () => window.removeEventListener("focus", handleFocus);
+}, [uniqueId]);
+
 
   // Fetch all job postings
   useEffect(() => {
@@ -120,6 +154,15 @@ const StudentDashboard = () => {
       <Typography>
         <strong>Phone:</strong> {studentData?.phone}
       </Typography>
+      <Button
+        variant="contained"
+        color="primary"
+        sx={{ mt: 2, mb: 2 }}
+        onClick={() => navigate(`/student-profile/${id}`)}
+      >
+        Edit / Complete Profile
+      </Button>
+
       <hr />
 
       {/* Job Listings */}

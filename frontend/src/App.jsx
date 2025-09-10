@@ -13,6 +13,7 @@ import About from "./pages/About";
 import Gallery from "./pages/Gallery";
 // Newly added dashboards
 import StudentDashboard from "./pages/StudentDashboard";
+import StudentProfile from "./pages/StudentProfile";
 import RecruiterDashboard from "./pages/RecruiterDashboard";
 import AuthorityDashboard from "./pages/AuthorityDashboard";
 import TrainingOfficerDashboard from "./pages/TrainingOfficerDashboard";
@@ -38,7 +39,7 @@ export default function App() {
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/gallery" element={<Gallery/>} />
+          <Route path="/gallery" element={<Gallery />} />
           <Route
             path="/student-recruiter-login"
             element={<StudentRecruiterLogin />}
@@ -95,6 +96,7 @@ export default function App() {
               path="/student-dashboard/:id"
               element={<StudentDashboard />}
             />
+            <Route path="/student-profile/:id" element={<StudentProfile />} />
           </Route>
 
           {/* Recruiter */}

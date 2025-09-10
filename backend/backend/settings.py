@@ -15,8 +15,8 @@ from datetime import timedelta
 import os
 from dotenv import load_dotenv
 
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 load_dotenv(os.path.join(BASE_DIR, '..', '.env'))
 
 AUTH_USER_MODEL = "users.User"
@@ -96,6 +96,7 @@ INSTALLED_APPS = [
     'testAPI',
     'PlacementCoordinator',
     'users',
+    'student_profile'
 ]
 
 MIDDLEWARE = [
@@ -181,3 +182,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"

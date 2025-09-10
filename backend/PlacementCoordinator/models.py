@@ -28,7 +28,7 @@ class JobApplication(models.Model):
 
     job = models.ForeignKey(JobPosting, on_delete=models.CASCADE, related_name="applications")
     student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="applications")
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES,default="applied")
     applied_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

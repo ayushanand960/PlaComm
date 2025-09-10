@@ -63,6 +63,55 @@ class StudentSerializer(serializers.ModelSerializer):
         student = Student.objects.create(user=user, rum_number=unique_id, **validated_data)
         return student
 
+class StudentDashboardSerializer(serializers.ModelSerializer):
+    # Include fields from related Student model
+    middle_name = serializers.CharField(source="student.middle_name", allow_blank=True, allow_null=True)
+    phone = serializers.CharField(source="student.phone", allow_blank=True, allow_null=True)
+    course = serializers.CharField(source="student.course", allow_blank=True, allow_null=True)
+    branch = serializers.CharField(source="student.branch", allow_blank=True, allow_null=True)
+    year = serializers.CharField(source="student.year", allow_blank=True, allow_null=True)
+    gender = serializers.CharField(source="student.gender", allow_blank=True, allow_null=True)
+
+    class Meta:
+        model = User
+        fields = [
+            "unique_id",
+            "first_name",
+            "middle_name",
+            "last_name",
+            "email",
+            "phone",
+            "course",
+            "branch",
+            "year",
+            "gender"
+        ]
+
+
+class PersonalDetailUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = [
+            "first_name", "middle_name", "last_name", "email",
+            "phone", "course", "branch", "year", "gender"
+        ]
+
+    def update(self, instance, validated_data):
+        # Update Student fields
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        instance.save()
+
+        # Update related User fields
+        user = instance.user
+        user.first_name = validated_data.get("first_name", user.first_name)
+        user.last_name = validated_data.get("last_name", user.last_name)
+        user.email = validated_data.get("email", user.email)
+        user.save()
+
+        return instance
+
 # ------------------------------------
 # Training Officer Registration Serializer
 # ------------------------------------

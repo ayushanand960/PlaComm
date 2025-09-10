@@ -1,5 +1,6 @@
 from django.db import IntegrityError
 from django.conf import settings
+from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import RetrieveAPIView
@@ -10,8 +11,9 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from django.middleware import csrf
 
-from .serializers import StudentSerializer, TrainingOfficerSerializer, CustomTokenObtainPairSerializer, UserSerializer
-from .models import User
+from .serializers import StudentSerializer, PersonalDetailUpdateSerializer,StudentDashboardSerializer,TrainingOfficerSerializer, CustomTokenObtainPairSerializer, UserSerializer
+from .models import User, Student  # Add Student here
+
 
 
 # ------------------------------------
@@ -44,8 +46,58 @@ class StudentRegistrationView(APIView):
             )
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+class StudentDetailView(APIView):
+    permission_classes = [IsAuthenticated]
 
+    def get(self, request, unique_id):
+        try:
+            user = User.objects.get(unique_id=unique_id, role="student")
+        except User.DoesNotExist:
+            return Response({"error": "Student not found"}, status=404)
 
+        serializer = StudentDashboardSerializer(user)
+        return Response(serializer.data)
+
+    def put(self, request, unique_id):
+        try:
+            user = User.objects.get(unique_id=unique_id, role="student")
+        except User.DoesNotExist:
+            return Response({"error": "Student not found"}, status=404)
+
+        # Update User fields
+        user.first_name = request.data.get("first_name", user.first_name)
+        user.last_name = request.data.get("last_name", user.last_name)
+        user.email = request.data.get("email", user.email)
+        user.save()
+
+        # Update Student fields
+        student = user.student
+        student.middle_name = request.data.get("middle_name", student.middle_name)
+        student.phone = request.data.get("phone", student.phone)
+        student.course = request.data.get("course", student.course)
+        student.branch = request.data.get("branch", student.branch)
+        student.year = request.data.get("year", student.year)
+        student.gender = request.data.get("gender", student.gender)
+        student.save()
+
+        serializer = StudentDashboardSerializer(user)
+        return Response(serializer.data)
+class PersonalDetailViewSet(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request):
+        student = Student.objects.get(user=request.user)
+        serializer = PersonalDetailUpdateSerializer(student)
+        return Response(serializer.data)
+
+    def update(self, request, pk=None):
+        student = Student.objects.get(user=request.user)
+        serializer = PersonalDetailUpdateSerializer(student, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
 # ------------------------------------
 # Training Officer Registration View
 # ------------------------------------
