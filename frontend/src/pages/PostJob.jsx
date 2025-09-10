@@ -7,7 +7,8 @@ import {
   Grid,
   Paper,
 } from "@mui/material";
-import axios from "axios";
+// import axios from "axios";
+import axiosInstance from "../api/axiosInstance";
 
 export default function PostJob() {
   const [formData, setFormData] = useState({
@@ -29,9 +30,8 @@ export default function PostJob() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8000/placements/job-postings/", formData, {
-        withCredentials: true,
-      });
+      await axiosInstance.post("/placements/job-postings/", formData);
+      
       alert("✅ Job posted successfully!");
       setFormData({
         company_name: "",

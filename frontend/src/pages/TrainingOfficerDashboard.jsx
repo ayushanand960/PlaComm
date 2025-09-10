@@ -1,6 +1,19 @@
 // src/pages/TrainingOfficerDashboard.jsx
 import React, { useEffect, useState } from "react";
-import { Container, Typography, CircularProgress, Alert, Box } from "@mui/material";
+import {
+  Container,
+  Typography,
+  CircularProgress,
+  Alert,
+  Box,
+  Card,
+  CardContent,
+  Grid,
+  Divider,
+  Avatar,
+  Paper,
+} from "@mui/material";
+import { Email, Phone, Work, Business, Badge } from "@mui/icons-material";
 import axiosInstance from "../api/axiosInstance";
 
 //importing TrainingOfficerRoutes.jsx from TrainingOfficerPages
@@ -11,9 +24,11 @@ const TrainingOfficerDashboard = () => {
   const uniqueId = user?.unique_id;
 
   const [officerData, setOfficerData] = useState(null);
+  const [jobPostings, setJobPostings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  // Fetch Officer Data
   useEffect(() => {
     const fetchOfficerData = async () => {
       if (!uniqueId) {
@@ -21,10 +36,11 @@ const TrainingOfficerDashboard = () => {
         setLoading(false);
         return;
       }
-
       try {
         setLoading(true);
-        const res = await axiosInstance.get(`/users/users/${encodeURIComponent(uniqueId)}/`);
+        const res = await axiosInstance.get(
+          `/users/users/${encodeURIComponent(uniqueId)}/`
+        );
         setOfficerData(res.data);
       } catch (err) {
         console.error(err.response?.data || err.message);
@@ -37,17 +53,33 @@ const TrainingOfficerDashboard = () => {
     fetchOfficerData();
   }, [uniqueId]);
 
-  if (loading) return (
-    <Box sx={{ display: "flex", justifyContent: "center", mt: 6 }}>
-      <CircularProgress />
-    </Box>
-  );
+  // Fetch Job Postings
+  useEffect(() => {
+    const fetchJobPostings = async () => {
+      try {
+        const res = await axiosInstance.get("/placements/job-postings/");
+        setJobPostings(res.data);
+      } catch (err) {
+        console.error("Failed to fetch job postings:", err);
+      }
+    };
 
-  if (error) return (
-    <Container sx={{ mt: 6 }}>
-      <Alert severity="error">{error}</Alert>
-    </Container>
-  );
+    fetchJobPostings();
+  }, []);
+
+  if (loading)
+    return (
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 6 }}>
+        <CircularProgress size={60} thickness={5} />
+      </Box>
+    );
+
+  if (error)
+    return (
+      <Container sx={{ mt: 6 }}>
+        <Alert severity="error">{error}</Alert>
+      </Container>
+    );
 
   return (
     <TrainingOfficerRoutes />

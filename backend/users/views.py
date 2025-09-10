@@ -8,6 +8,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .authentication import CookieJWTAuthentication
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
+from django.middleware import csrf
 
 from .serializers import StudentSerializer, TrainingOfficerSerializer, CustomTokenObtainPairSerializer, UserSerializer
 from .models import User
@@ -96,6 +97,12 @@ class CookieLoginView(TokenObtainPairView):
                 secure=SECURE_COOKIE,
                 samesite=samesite,
             )
+            response.set_cookie(
+                key="csrftoken",
+                value=csrf.get_token(request),
+                secure=SECURE_COOKIE,
+                samesite=samesite,
+            )
 
             response.data = {"message": "Login successful"}
         return response
@@ -114,6 +121,7 @@ class CookieTokenRefreshView(APIView):
         try:
             refresh = RefreshToken(refresh_token)
             access_token = str(refresh.access_token)
+            samesite = "None" if SECURE_COOKIE else "Lax"
 
             response = Response({"success": True})
             response.set_cookie(
@@ -121,7 +129,7 @@ class CookieTokenRefreshView(APIView):
                 value=access_token,
                 httponly=True,
                 secure=SECURE_COOKIE,
-                samesite="None",
+                samesite=samesite,
             )
             return response
         except Exception:
@@ -234,3 +242,4 @@ class UserDetailView(RetrieveAPIView):
     serializer_class = UserSerializer
     lookup_field = "unique_id"       # lookup by unique_id instead of pk
     permission_classes = [IsAuthenticated]  # Require authentication
+    authentication_classes = [CookieJWTAuthentication]
