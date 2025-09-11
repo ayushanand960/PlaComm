@@ -50,13 +50,13 @@ export default function Navbar() {
   const { id } = useParams();
 
   const links = [
-    { to: `/dashboard/${id}`, label: "Dashboard",icon: <Dashboard /> },
-    // { to: `/dashboard/${id}/job-management`, label: "Job Management", icon: <Work />  },
-    { to: `/dashboard/${id}/placement-drives`, label: "Placement Drives", icon: <Event /> },
-    { to: `/dashboard/${id}/applications`, label: "Applications", icon: <Assignment /> },
-    { to: `/dashboard/${id}/company-relations`, label: "Company Relations", icon: <Business /> },
-    { to: `/dashboard/${id}/reports`, label: "Reports", icon: <BarChart /> },
-    { to: `/dashboard/${id}/notifications`, label: "Notifications", icon: <Notifications /> },
+    { to: `/coordinator-dashboard/${id}`, label: "Dashboard",icon: <Dashboard /> },
+    // { to:coordinator- `/dashboard/${id}/job-management`, label: "Job Management", icon: <Work />  },
+    { to: `/coordinator-dashboard/${id}/placement-drives`, label: "Placement Drives", icon: <Event /> },
+    { to: `/coordinator-dashboard/${id}/applications`, label: "Applications", icon: <Assignment /> },
+    { to: `/coordinator-dashboard/${id}/company-relations`, label: "Company Relations", icon: <Business /> },
+    { to: `/coordinator-dashboard/${id}/reports`, label: "Reports", icon: <BarChart /> },
+    { to: `/coordinator-dashboard/${id}/notifications`, label: "Notifications", icon: <Notifications /> },
   ];
 
   return (

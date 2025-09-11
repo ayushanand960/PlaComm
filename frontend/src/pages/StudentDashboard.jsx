@@ -18,9 +18,9 @@ import { useNavigate } from "react-router-dom";
 const StudentDashboard = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
-  
+
   const uniqueId = user?.unique_id;
-  
+
 
   const [studentData, setStudentData] = useState(null);
   const [jobs, setJobs] = useState([]);
@@ -51,31 +51,30 @@ const StudentDashboard = () => {
   // }, [uniqueId]);
 
   useEffect(() => {
-  const fetchStudentData = async () => {
-    if (!uniqueId) return;
-    try {
-      // const res = await axiosInstance.get(`/users/users/${encodeURIComponent(uniqueId)}/`);
-      const res = await axiosInstance.get(`/users/users/student/${uniqueId}/`);
-      setStudentData(res.data);
+    const fetchStudentData = async () => {
+      if (!uniqueId) return;
+      try {
+        // const res = await axiosInstance.get(`/users/users/${encodeURIComponent(uniqueId)}/`);
+        const res = await axiosInstance.get(`/users/student/data/${uniqueId}/`);
+        const userData = { ...res.data, role: "student" }; // add role
+        setStudentData(userData); // use userData, not res.data
+        localStorage.setItem("user", JSON.stringify(userData)); // store userData
+      } catch (err) {
+        console.error(err.response?.data || err.message);
+        setError("Failed to fetch student data.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-      // Update localStorage so other components also get fresh data
-      localStorage.setItem("user", JSON.stringify(res.data));
-    } catch (err) {
-      console.error(err.response?.data || err.message);
-      setError("Failed to fetch student data.");
-    } finally {
-      setLoading(false);
-    }
-  };
+    fetchStudentData();
 
-  fetchStudentData();
+    // Optional: refetch when tab/window gains focus
+    const handleFocus = () => fetchStudentData();
+    window.addEventListener("focus", handleFocus);
 
-  // Optional: refetch when tab/window gains focus
-  const handleFocus = () => fetchStudentData();
-  window.addEventListener("focus", handleFocus);
-
-  return () => window.removeEventListener("focus", handleFocus);
-}, [uniqueId]);
+    return () => window.removeEventListener("focus", handleFocus);
+  }, [uniqueId]);
 
 
   // Fetch all job postings
@@ -158,7 +157,7 @@ const StudentDashboard = () => {
         variant="contained"
         color="primary"
         sx={{ mt: 2, mb: 2 }}
-        onClick={() => navigate(`/student-profile/${id}`)}
+        onClick={() => navigate(`/student-profile/${uniqueId}`)}
       >
         Edit / Complete Profile
       </Button>

@@ -32,7 +32,7 @@ urlpatterns = [
     # Admin-only user management
     path("users/", ListUsersView.as_view(), name="list-users"),
     path("users/<path:unique_id>/", UserDetailView.as_view(), name="user-detail"),# Replace UserDetailView for student dashboard
-path("users/student/<path:unique_id>/", StudentDetailView.as_view(), name="user-detail"),
+path("student/data/<path:unique_id>/", StudentDetailView.as_view(), name="user-detail"),
 
     
     path("<path:unique_id>/role/", UpdateUserRoleView.as_view(), name="update-user-role"),
