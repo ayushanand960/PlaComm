@@ -91,7 +91,7 @@ const AdminCoordinatorLogin = () => {
 
 
     return (
-        <Container maxWidth="md" sx={{ minHeight: "100vh", py: 5 }}>
+        <Container maxWidth={false}  disableGutters sx={{ minHeight: "100vh", py: 5 }}>
             <Box textAlign="center" mb={5}>
                 <Typography variant="h4" fontWeight="bold" color="primary">
                     PlaComm Placement Tracker Portal
@@ -104,7 +104,7 @@ const AdminCoordinatorLogin = () => {
                 </Typography>
             </Box>
 
-            <Box display="flex" gap={4}>
+            <Box display="flex" gap={4} sx={{width: "100vw", px: 4}}>
                 {/* Role Selection */}
                 <Paper elevation={3} sx={{ p: 3, flex: 1 }}>
                     <Typography variant="h6" textAlign="center" mb={2}>
@@ -124,7 +124,7 @@ const AdminCoordinatorLogin = () => {
                 </Paper>
 
                 {/* Login Form */}
-                <Paper elevation={3} sx={{ p: 4, flex: 2 }}>
+                <Paper elevation={3} sx={{ p: 4, flex: 1, mr:10 }}>
                     <Typography variant="h6" textAlign="center" mb={3}>
                         {role ? `${role.charAt(0).toUpperCase() + role.slice(1)} Login` : "Login"}
                     </Typography>

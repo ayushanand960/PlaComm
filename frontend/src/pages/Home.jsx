@@ -24,7 +24,14 @@ export default function Home() {
   const navigate = useNavigate();
 
   return (
-    <Container maxWidth="sm" sx={{ textAlign: "center", mt: 10 }}>
+    <Container maxWidth={false} disableGutters sx={{  minHeight: "100vh",
+    width: "100vw",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: "center",
+    px: 3, }}>
       <Typography variant="h3" fontWeight="bold" gutterBottom>
         Welcome to PlaComm 🚀
       </Typography>

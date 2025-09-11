@@ -113,7 +113,7 @@ export default function Register() {
         py: 4,
       }}
     >
-      <Container maxWidth="md">
+      <Container maxWidth={false} disableGutters>
         <Card sx={{ borderRadius: 3, boxShadow: 4 }}>
           <CardContent sx={{ p: 4 }}>
             <Typography variant="h4" align="center" gutterBottom>

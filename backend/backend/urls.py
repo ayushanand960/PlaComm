@@ -19,7 +19,7 @@ from django.urls import path, include
 from testAPI.views import CookieLoginView, CookieTokenRefreshView, LogoutView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),    
     path('users/', include('users.urls')),
     path("placements/", include("PlacementCoordinator.urls")),
 
