@@ -13,7 +13,21 @@ export default function SkillList(){
 
   const handleOpen = (item=null)=>{ setEditing(item); setForm(item?{...item}:{name:"",level:""}); setOpen(true); }
   const handleClose = ()=>{ setOpen(false); setEditing(null); }
-  const handleSubmit = async ()=>{ try{ if(editing) await axiosInstance.put(`/students/skills/${editing.id}/`, form); else await axiosInstance.post("/api/students/skills/", form); fetch(); handleClose(); }catch(e){console.error(e); alert("Failed");} }
+  const handleSubmit = async () => {
+  try {
+    if (editing) {
+      await axiosInstance.patch(`/students/projects/${editing.id}/`, form);
+    } else {
+      await axiosInstance.post("/students/projects/", form);
+    }
+    fetch();
+    handleClose();
+  } catch (e) {
+    console.error(e.response?.data || e.message);
+    alert("Failed");
+  }
+};
+
   const handleDelete = async id => { if(!window.confirm("Delete?")) return; await axiosInstance.delete(`/students/skills/${id}/`); fetch(); }
 
   return (

@@ -11,20 +11,31 @@ export default function DocumentList(){
 
   const handleOpen = (item=null)=>{ setEditing(item); setForm(item?{...item, file:null}:{title:"", file:null}); setOpen(true); }
   const handleClose = ()=>{ setOpen(false); setEditing(null); }
-  const handleSubmit = async ()=>{
-    try{
-      const data = new FormData();
-      data.append("title", form.title);
-      if(form.file) data.append("file", form.file);
+  const handleSubmit = async () => {
+  try {
+    const data = new FormData();
+    data.append("title", form.title);
+    if (form.file) data.append("file", form.file);
 
-      if(editing){
-        await axiosInstance.put(`/students/documents/${editing.id}/`, data, { headers: { "Content-Type": "multipart/form-data" }});
-      } else {
-        await axiosInstance.post("/students/documents/", data, { headers: { "Content-Type": "multipart/form-data" }});
-      }
-      fetch(); handleClose();
-    }catch(e){console.error(e); alert("Failed");}
-  };
+    if (editing) {
+      const res = await axiosInstance.patch(`/students/documents/${editing.id}/`, data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setList(list.map(d => (d.id === editing.id ? res.data : d)));
+    } else {
+      const res = await axiosInstance.post("/students/documents/", data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setList([...list, res.data]);
+    }
+
+    setForm({ title: "", file: null });
+    handleClose();
+  } catch (e) {
+    console.error(e.response?.data || e.message);
+    alert("Failed");
+  }
+};
 
   const handleDelete = async id => { if(!window.confirm("Delete?")) return; await axiosInstance.delete(`/students/documents/${id}/`); fetch(); }
 
