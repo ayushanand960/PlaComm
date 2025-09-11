@@ -55,7 +55,7 @@ const StudentDashboard = () => {
     if (!uniqueId) return;
     try {
       // const res = await axiosInstance.get(`/users/users/${encodeURIComponent(uniqueId)}/`);
-      const res = await axiosInstance.get(`/users/users/${uniqueId}/`);
+      const res = await axiosInstance.get(`/users/users/student/${uniqueId}/`);
       setStudentData(res.data);
 
       // Update localStorage so other components also get fresh data
