@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import logo from "../assets/logo.png";
+import { useNavigate } from "react-router-dom";
 
 const navItems = [
   { name: "Dashboard", path: "dashboard" },
@@ -28,10 +29,24 @@ const navItems = [
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate(); // ✅ initialize navigate
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  const handleLogout = () => {
+
+
+
+const confirmLogout = window.confirm("Are you sure you want to logout?");
+    if (confirmLogout) {
+      // clear saved user (if you’re storing login info)
+       localStorage.removeItem("user");
+      // Clear storage if needed: localStorage.clear(); sessionStorage.clear();
+      navigate("/"); // redirect to home
+    }
+};
 
   const drawer = (
     <Box sx={{ width: 250 }} onClick={handleDrawerToggle}>
@@ -77,7 +92,7 @@ const Navbar = () => {
 
   return (
     <>
-      <AppBar position="static" sx={{ bgcolor: "#fff", color: "black" }}>
+      <AppBar position="fixed" sx={{ bgcolor: "#fff", color: "black" ,width: "100%" }}>
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
           {/* Left: Logo + Heading */}
           <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -119,14 +134,15 @@ const Navbar = () => {
 
             {/* Logout on right */}
             <Button
-              sx={{
-                borderRadius: 1,
-                color: "black",
-                ml: 2,
-                "&:hover": { color: "grey" },
-              }}
-            >
-              Logout
+               onClick={handleLogout}
+               sx={{
+               borderRadius: 1,
+               color: "black",
+               ml: 2,
+               "&:hover": { color: "grey" },
+               }}
+              >
+               Logout
             </Button>
           </Box>
 

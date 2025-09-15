@@ -86,12 +86,11 @@ export default function App() {
           </Route>
 
           {/* Training Officer */}
-          {/* Training Officer */}
           <Route element={<PrivateRoute allowedRoles={["training_officer"]} />}>
-            <Route
-              path="/officer-dashboard/:id"
-              element={<TrainingOfficerDashboard />}
-            />
+           <Route
+             path="/officer-dashboard/:id/*"
+             element={<TrainingOfficerDashboard />}
+           />
           </Route>
 
           {/* Student */}

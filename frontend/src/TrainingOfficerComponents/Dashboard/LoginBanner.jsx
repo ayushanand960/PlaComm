@@ -6,12 +6,20 @@ const LoginBanner = ({ officerName }) => {
   return (
     <Box
       sx={{
-        p: 4,
-        mb: 4,
-        borderRadius: 3,
-        background: "linear-gradient(135deg, Goldenrod, #1046a8ff)",
-        color: "white",
-        textAlign: "center",
+           width: "100%",       // full width
+    maxWidth: "100%",
+    minHeight: "300px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    py: 4,
+    borderRadius: 2,
+    background: "linear-gradient(135deg, Goldenrod, #1046a8ff)",
+    color: "white",
+    textAlign: "center",
+    boxSizing: "border-box", // important
+
       }}
     >
       <Avatar
@@ -40,4 +48,3 @@ const LoginBanner = ({ officerName }) => {
 };
 
 export default LoginBanner;
-

@@ -2,13 +2,20 @@
 import React from "react";
 import Navbar from "../TrainingOfficerComponents/Navbar";
 import { Outlet } from "react-router-dom";
-import { Box } from "@mui/material";
+import { Box, Toolbar } from "@mui/material";
 
 const TrainingOfficerLayout = () => {
   return (
-    <Box>
+    <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh", width: "100%" }}>
+      
+      {/* Navbar at top */}
       <Navbar />
-      <Box sx={{ p: 3 }}>
+
+      {/* Spacer for AppBar */}
+      <Toolbar />
+
+      {/* Main content */}
+      <Box sx={{ flex: 1, display: "flex", flexDirection: "column", width: "100%" }}>
         <Outlet />
       </Box>
     </Box>
@@ -16,4 +23,3 @@ const TrainingOfficerLayout = () => {
 };
 
 export default TrainingOfficerLayout;
-
