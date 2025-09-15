@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404
 
 from users.authentication import CookieJWTAuthentication
 from .models import JobPosting, JobApplication
-from .serializers import JobPostingSerializer
+from .serializers import JobPostingSerializer,JobApplicationSerializer
 from users.models import User
 
 
@@ -20,8 +20,9 @@ class JobPostingListCreateAPIView(APIView):
     def get(self, request):
         """Return all job postings (visible to everyone)."""
         jobs = JobPosting.objects.all().order_by("-created_at")
-        serializer = JobPostingSerializer(jobs, many=True)
+        serializer = JobPostingSerializer(jobs, many=True, context={"request": request})
         return Response(serializer.data)
+
 
     def post(self, request):
         """Only Placement Coordinator can create job postings."""
@@ -48,7 +49,9 @@ class JobPostingDetailAPIView(APIView):
     def get(self, request, pk):
         """Anyone can view job details."""
         job = get_object_or_404(JobPosting, pk=pk)
-        serializer = JobPostingSerializer(job)
+        # serializer = JobPostingSerializer(job)
+        serializer = JobPostingSerializer(jobs, many=True, context={"request": request})
+
         return Response(serializer.data)
 
     def put(self, request, pk):
@@ -123,11 +126,12 @@ class JobApplicationAPIView(APIView):
             defaults={"status": status_choice},
         )
 
-        return Response(
-            {
-                "detail": f"Job {status_choice} successfully.",
-                "job": job.job_title,
-                "status": application.status,
-            },
-            status=status.HTTP_200_OK,
-        )
+        return Response(JobApplicationSerializer(application).data, status=status.HTTP_200_OK)
+
+    def get(self, request, pk):
+        """List all applications for a given job posting."""
+        job = get_object_or_404(JobPosting, pk=pk)
+        applications = JobApplication.objects.filter(job=job)
+        serializer = JobApplicationSerializer(applications, many=True)
+        return Response(serializer.data)
+

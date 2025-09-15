@@ -30,6 +30,8 @@ class JobApplication(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="applications")
     status = models.CharField(max_length=20, choices=STATUS_CHOICES,default="applied")
     applied_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
 
     class Meta:
         unique_together = ("job", "student")  # student can respond only once
