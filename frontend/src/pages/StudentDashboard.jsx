@@ -21,34 +21,10 @@ const StudentDashboard = () => {
 
   const uniqueId = user?.unique_id;
 
-
   const [studentData, setStudentData] = useState(null);
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
-  // Fetch student profile
-  // useEffect(() => {
-  //   const fetchStudentData = async () => {
-  //     if (!uniqueId) {
-  //       setError("User not logged in");
-  //       setLoading(false);
-  //       return;
-  //     }
-
-  //     try {
-  //       const res = await axiosInstance.get(
-  //         `/users/users/${encodeURIComponent(uniqueId)}/`
-  //       );
-  //       setStudentData(res.data);
-  //     } catch (err) {
-  //       console.error(err.response?.data || err.message);
-  //       setError("Failed to fetch student data.");
-  //     }
-  //   };
-
-  //   fetchStudentData();
-  // }, [uniqueId]);
 
   useEffect(() => {
     const fetchStudentData = async () => {
@@ -76,13 +52,28 @@ const StudentDashboard = () => {
     return () => window.removeEventListener("focus", handleFocus);
   }, [uniqueId]);
 
-
   // Fetch all job postings
+  // useEffect(() => {
+  //   const fetchJobs = async () => {
+  //     try {
+  //       const res = await axiosInstance.get("/placements/job-postings/");
+  //       setJobs(res.data);
+  //     } catch (err) {
+  //       console.error(err.response?.data || err.message);
+  //       setError("Failed to fetch job postings.");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchJobs();
+  // }, []);
+
   useEffect(() => {
     const fetchJobs = async () => {
       try {
         const res = await axiosInstance.get("/placements/job-postings/");
-        setJobs(res.data);
+        setJobs(res.data); // each job now has `application_status` from backend
       } catch (err) {
         console.error(err.response?.data || err.message);
         setError("Failed to fetch job postings.");
@@ -96,20 +87,84 @@ const StudentDashboard = () => {
 
   // Handle apply/not interested
   const handleApplication = async (jobId, status) => {
+    let confirmMessage = "";
+    if (status === "applied") {
+      confirmMessage = "Are you sure you want to apply for this job?";
+    } else if (status === "not_interested") {
+      confirmMessage =
+        "Are you sure you want to mark this job as Not Interested?";
+    }
+
+    if (!window.confirm(confirmMessage)) return;
+
     try {
-      await axiosInstance.post("/placements/job-applications/", {
-        job: jobId,
-        status: status,
-      });
-      alert(`✅ You have marked this job as ${status}`);
-      // Refresh jobs after apply
-      const res = await axiosInstance.get("/placements/job-postings/");
-      setJobs(res.data);
+      const res = await axiosInstance.post(
+        `/placements/job-postings/${jobId}/apply/`,
+        { status }
+      );
+
+      // Update UI
+      setJobs((prevJobs) =>
+        prevJobs.map((job) => {
+          if (job.id !== jobId) return job;
+
+          if (status === "applied") {
+            return {
+              ...job,
+              application_status: "applied",
+              disable_apply: true,
+              disable_not_interested: true,
+            };
+          } else if (status === "not_interested") {
+            return {
+              ...job,
+              application_status: "not_interested",
+              disable_apply: true,
+              disable_not_interested: false, // optional, keep text
+            };
+          }
+          return job;
+        })
+      );
     } catch (err) {
       console.error(err.response?.data || err.message);
       alert("❌ Failed to update application status.");
     }
   };
+
+  // const handleApplication = async (jobId, status) => {
+  //   let confirmMessage = "";
+  //   if (status === "applied") {
+  //     confirmMessage = "Are you sure you want to apply for this job?";
+  //   } else if (status === "not_interested") {
+  //     confirmMessage =
+  //       "Are you sure you want to mark this job as Not Interested?";
+  //   }
+
+  //   if (!window.confirm(confirmMessage)) return;
+
+  //   try {
+  //     const res = await axiosInstance.post(
+  //       `/placements/job-postings/${jobId}/apply/`,
+  //       { status }
+  //     );
+
+  //     // Update UI
+  //     setJobs((prevJobs) => {
+  //       if (status === "not_interested") {
+  //         // Remove this job from the list entirely
+  //         return prevJobs.filter((job) => job.id !== jobId);
+  //       }
+  //       // Otherwise, just mark as applied
+  //       return prevJobs.map((job) =>
+  //         job.id === jobId ? { ...job, application_status: status } : job
+  //       );
+  //     });
+  //   } catch (err) {
+  //     console.error(err.response?.data || err.message);
+  //     alert("❌ Failed to update application status.");
+  //   }
+  // };
 
   if (loading)
     return (
@@ -197,18 +252,144 @@ const StudentDashboard = () => {
               <CardActions>
                 <Button
                   variant="contained"
-                  color="success"
+                  disabled={
+                    job.application_status === "applied" ||
+                    job.application_status === "not_interested"
+                  }
                   onClick={() => handleApplication(job.id, "applied")}
+                  sx={{
+                    backgroundColor:
+                      job.application_status === "applied"
+                        ? "green"
+                        : job.application_status === "not_interested"
+                        ? "#ffffff" // white when Not Interested
+                        : undefined,
+                    color:
+                      job.application_status === "not_interested"
+                        ? "black"
+                        : undefined,
+                    "&.Mui-disabled": {
+                      backgroundColor:
+                        job.application_status === "applied"
+                          ? "green"
+                          : job.application_status === "not_interested"
+                          ? "#ffffff"
+                          : undefined,
+                      color:
+                        job.application_status === "not_interested"
+                          ? "black"
+                          : undefined,
+                    },
+                  }}
                 >
-                  Apply
+                  {job.application_status === "applied" ? "Applied" : "Apply"}
                 </Button>
+
                 <Button
-                  variant="outlined"
-                  color="error"
+                  variant={
+                    job.application_status === "not_interested"
+                      ? "contained"
+                      : "outlined"
+                  }
+                  disabled={
+                    job.application_status === "applied" ||
+                    job.application_status === "not_interested"
+                  }
                   onClick={() => handleApplication(job.id, "not_interested")}
+                  sx={{
+                    backgroundColor:
+                      job.application_status === "not_interested"
+                        ? "grey"
+                        : undefined,
+                    "&.Mui-disabled": {
+                      backgroundColor:
+                        job.application_status === "not_interested"
+                          ? "grey"
+                          : undefined,
+                    },
+                  }}
                 >
-                  Not Interested
+                  {job.application_status === "not_interested"
+                    ? "Not Interested"
+                    : "Not Interested"}
                 </Button>
+
+                {/* <Button
+                  variant="contained"
+                  disabled={
+                    job.application_status === "applied" ||
+                    job.application_status === "not_interested"
+                  }
+                  onClick={() => handleApplication(job.id, "applied")}
+                  sx={{
+                    backgroundColor:
+                      job.application_status === "applied"
+                        ? "green"
+                        : job.application_status === "not_interested"
+                        ? "#b0b0b0" // grey-ish to match Not Interested disabled
+                        : undefined,
+                    color:
+                      job.application_status === "not_interested"
+                        ? "white"
+                        : undefined,
+                    "&.Mui-disabled": {
+                      backgroundColor:
+                        job.application_status === "applied"
+                          ? "green"
+                          : job.application_status === "not_interested"
+                          ? "#b0b0b0"
+                          : undefined,
+                      color:
+                        job.application_status === "not_interested"
+                          ? "white"
+                          : undefined,
+                    },
+                  }}
+                >
+                  {job.application_status === "applied" ? "Applied" : "Apply"}
+                </Button>
+
+               
+                <Button
+                  variant={
+                    job.application_status === "not_interested"
+                      ? "contained"
+                      : "outlined"
+                  }
+                  disabled={
+                    job.application_status === "applied" ||
+                    job.application_status === "not_interested"
+                  }
+                  onClick={() => handleApplication(job.id, "not_interested")}
+                  sx={{
+                    backgroundColor:
+                      job.application_status === "not_interested"
+                        ? "#757575" // grey
+                        : job.application_status === "applied"
+                        ? "#b0b0b0" // grey-ish to match Apply disabled
+                        : undefined,
+                    color:
+                      job.application_status === "applied"
+                        ? "white"
+                        : undefined,
+                    "&.Mui-disabled": {
+                      backgroundColor:
+                        job.application_status === "not_interested"
+                          ? "#757575"
+                          : job.application_status === "applied"
+                          ? "#b0b0b0"
+                          : undefined,
+                      color:
+                        job.application_status === "applied"
+                          ? "white"
+                          : undefined,
+                    },
+                  }}
+                >
+                  {job.application_status === "not_interested"
+                    ? "Not Interested"
+                    : "Not Interested"}
+                </Button> */}
               </CardActions>
             </Card>
           </Grid>

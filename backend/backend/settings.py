@@ -102,6 +102,7 @@ INSTALLED_APPS = [
     'PlacementCoordinator',
     'users',
     'student_profile'
+    # 'training'
 ]
 
 MIDDLEWARE = [

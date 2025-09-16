@@ -1,0 +1,276 @@
+[
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$ZGaXIKY81SyUekhlCmHzEH$RKWCMaLoaqzPuUg579YWMAJnZyaGZq82ZLsk7IS3vxs=",
+        "last_login": null,
+        "is_superuser": true,
+        "unique_id": "admin",
+        "email": "admin@gmail.com",
+        "first_name": "Admin",
+        "last_name": "Admin",
+        "role": "admin",
+        "is_staff": true,
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$9Pqx1qqyRnZUQhchB2OpMK$i2mKI90STgPIK1fkYuO12YxmiiY41om5TD8znUHHZ14=",
+        "last_login": null,
+        "is_superuser": false,
+        "unique_id": "RUM2201146",
+        "email": "ayush@gmail.com",
+        "first_name": "Ayush",
+        "last_name": "Anand",
+        "role": "placement_coordinator",
+        "is_staff": false,
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$phqBkcmeRRV6ULc0BtCAAc$KcWODgP+5l35yhI5NdKmK3EOGNDj1va9wJiA9inFmlc=",
+        "last_login": null,
+        "is_superuser": false,
+        "unique_id": "RG-MNDE0000001",
+        "email": "niranjan@gmail.com",
+        "first_name": "Niranjan",
+        "last_name": "Chahuan",
+        "role": "authority",
+        "is_staff": false,
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$eUeep0dKb1Ag9pS8t92nBP$ipLRaUsY+MTEvBoxAaS7KD+z8/mK9FQx55I8T+W3fgU=",
+        "last_login": null,
+        "is_superuser": false,
+        "unique_id": "RG-MNDE0000002",
+        "email": "pawan@gmail.com",
+        "first_name": "Pawan",
+        "last_name": "Rathour",
+        "role": "placement_coordinator",
+        "is_staff": false,
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$OGlrlh2DMxOzZ5x2SBwUjn$AFItpKPAWXP6dshtIbc/AE6K4NYaRncTp6/8gXKzdX4=",
+        "last_login": null,
+        "is_superuser": false,
+        "unique_id": "RG-MNDE0011314",
+        "email": "sambhavi@gmail.com",
+        "first_name": "Sambhavi",
+        "last_name": "Dwivedi",
+        "role": "officer",
+        "is_staff": false,
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$lXOpj7z9z9E7JdQ5FJF9Yg$luErc/hBUCxbrtYcsWZmXqdpTXNl1FDguR0diiObaVg=",
+        "last_login": null,
+        "is_superuser": false,
+        "unique_id": "RUM2322389",
+        "email": "sneha@gmail.com",
+        "first_name": "Snehaa",
+        "last_name": "Gupta",
+        "role": "student",
+        "is_staff": false,
+        "is_active": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.student",
+    "pk": 2,
+    "fields": {
+        "rum_number": "RUM2201146",
+        "first_name": "Ayush",
+        "middle_name": null,
+        "last_name": "Anand",
+        "email": "ayush@gmail.com",
+        "phone": "9608591235",
+        "course": "B.Tech",
+        "branch": "CSE",
+        "year": "4th",
+        "gender": "Male",
+        "is_active": true,
+        "is_staff": false,
+        "is_coordinator": false
+    }
+},
+{
+    "model": "users.student",
+    "pk": 6,
+    "fields": {
+        "rum_number": "RUM2322389",
+        "first_name": "Snehaa",
+        "middle_name": null,
+        "last_name": "Gupta",
+        "email": "sneha@gmail.com",
+        "phone": "9514786032",
+        "course": "BCA",
+        "branch": "CSE",
+        "year": "3rd",
+        "gender": "Female",
+        "is_active": true,
+        "is_staff": false,
+        "is_coordinator": false
+    }
+},
+{
+    "model": "users.trainingofficer",
+    "pk": 3,
+    "fields": {
+        "employee_id": "RG-MNDE0000001",
+        "first_name": "Niranjan",
+        "middle_name": "",
+        "last_name": "Chahuan",
+        "email": "niranjan@gmail.com",
+        "department": "FET",
+        "designation": "Professor",
+        "phone": "9852014763",
+        "is_active": true,
+        "is_staff": false,
+        "is_coordinator": false,
+        "is_superuser": false,
+        "is_authority": false
+    }
+},
+{
+    "model": "users.trainingofficer",
+    "pk": 4,
+    "fields": {
+        "employee_id": "RG-MNDE0000002",
+        "first_name": "Pawan",
+        "middle_name": "",
+        "last_name": "Rathour",
+        "email": "pawan@gmail.com",
+        "department": "FET",
+        "designation": "Professor",
+        "phone": "9630125478",
+        "is_active": true,
+        "is_staff": false,
+        "is_coordinator": false,
+        "is_superuser": false,
+        "is_authority": false
+    }
+},
+{
+    "model": "users.trainingofficer",
+    "pk": 5,
+    "fields": {
+        "employee_id": "RG-MNDE0011314",
+        "first_name": "Sambhavi",
+        "middle_name": "",
+        "last_name": "Dwivedi",
+        "email": "sambhavi@gmail.com",
+        "department": "Trainning",
+        "designation": "Soft Skill Trainer`",
+        "phone": "9517530248",
+        "is_active": true,
+        "is_staff": false,
+        "is_coordinator": false,
+        "is_superuser": false,
+        "is_authority": false
+    }
+},
+
+{
+    "model": "PlacementCoordinator.jobposting",
+    "pk": 1,
+    "fields": {
+        "coordinator": [
+            "admin"
+        ],
+        "company_name": "Google",
+        "job_title": "",
+        "job_description": "abdwofwwfwfwf",
+        "positions": "Developer",
+        "number_of_candidates": 5,
+        "eligibility_criteria": "Btech",
+        "location": "india",
+        "package": "56",
+        "deadline": "2025-10-26",
+        "created_at": "2025-09-06T03:59:35.092Z"
+    }
+},
+{
+    "model": "PlacementCoordinator.jobposting",
+    "pk": 2,
+    "fields": {
+        "coordinator": [
+            "admin"
+        ],
+        "company_name": "MIcrosoft",
+        "job_title": "",
+        "job_description": "they egreheht",
+        "positions": "AI",
+        "number_of_candidates": 10,
+        "eligibility_criteria": "BCA",
+        "location": "Kanpur",
+        "package": "5",
+        "deadline": "2025-09-30",
+        "created_at": "2025-09-08T07:47:14.129Z"
+    }
+},
+{
+    "model": "PlacementCoordinator.jobposting",
+    "pk": 3,
+    "fields": {
+        "coordinator": [
+            "admin"
+        ],
+        "company_name": "datadog",
+        "job_title": "",
+        "job_description": "theoefheo",
+        "positions": "ML",
+        "number_of_candidates": 52,
+        "eligibility_criteria": "BCA",
+        "location": "India",
+        "package": "12",
+        "deadline": "2025-10-11",
+        "created_at": "2025-09-08T07:56:46.608Z"
+    }
+},
+{
+    "model": "PlacementCoordinator.jobposting",
+    "pk": 4,
+    "fields": {
+        "coordinator": [
+            "RG-MNDE0000002"
+        ],
+        "company_name": "Wipro",
+        "job_title": "",
+        "job_description": "wbrgfiubwurfbuoew",
+        "positions": "efuiew",
+        "number_of_candidates": 468,
+        "eligibility_criteria": "beibewu",
+        "location": "beufe",
+        "package": "465",
+        "deadline": "2026-12-22",
+        "created_at": "2025-09-08T08:40:45.244Z"
+    }
+}
+]
