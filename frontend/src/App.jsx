@@ -28,6 +28,10 @@ import CompanyRelations from "./pages/CompanyRelations";
 import Reports from "./pages/Reports";
 import Notifications from "./pages/Notifications";
 
+//imports for Training Officer
+import Navbar from "./TrainingOfficerComponents/Navbar";
+import TrainingOfficerRoutes from "./routes/TrainingOfficerRoutes";
+
 export default function App() {
   return (
     <Router>
@@ -75,10 +79,10 @@ export default function App() {
 
           {/* Training Officer */}
           <Route element={<PrivateRoute allowedRoles={["training_officer"]} />}>
-            <Route
-              path="/officer-dashboard/:id"
-              element={<TrainingOfficerDashboard />}
-            />
+           <Route
+             path="/officer-dashboard/:id/*"
+             element={<TrainingOfficerDashboard />}
+           />
           </Route>
 
           {/* Student */}
