@@ -27,6 +27,8 @@ import Applications from "./pages/Applications";
 import CompanyRelations from "./pages/CompanyRelations";
 import Reports from "./pages/Reports";
 import Notifications from "./pages/Notifications";
+import StudentResume from "./pages/StudentResume";
+
 
 //imports for Training Officer
 import Navbar from "./TrainingOfficerComponents/Navbar";
@@ -92,6 +94,7 @@ export default function App() {
               element={<StudentDashboard />}
             />
             <Route path="/student-profile/:id" element={<StudentProfile />} />
+            <Route path="/resume" element={<StudentResume />} />
           </Route>
 
           {/* Recruiter */}

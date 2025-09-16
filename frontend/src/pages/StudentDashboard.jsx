@@ -132,40 +132,6 @@ const StudentDashboard = () => {
     }
   };
 
-  // const handleApplication = async (jobId, status) => {
-  //   let confirmMessage = "";
-  //   if (status === "applied") {
-  //     confirmMessage = "Are you sure you want to apply for this job?";
-  //   } else if (status === "not_interested") {
-  //     confirmMessage =
-  //       "Are you sure you want to mark this job as Not Interested?";
-  //   }
-
-  //   if (!window.confirm(confirmMessage)) return;
-
-  //   try {
-  //     const res = await axiosInstance.post(
-  //       `/placements/job-postings/${jobId}/apply/`,
-  //       { status }
-  //     );
-
-  //     // Update UI
-  //     setJobs((prevJobs) => {
-  //       if (status === "not_interested") {
-  //         // Remove this job from the list entirely
-  //         return prevJobs.filter((job) => job.id !== jobId);
-  //       }
-  //       // Otherwise, just mark as applied
-  //       return prevJobs.map((job) =>
-  //         job.id === jobId ? { ...job, application_status: status } : job
-  //       );
-  //     });
-  //   } catch (err) {
-  //     console.error(err.response?.data || err.message);
-  //     alert("❌ Failed to update application status.");
-  //   }
-  // };
-
   if (loading)
     return (
       <Box sx={{ display: "flex", justifyContent: "center", mt: 6 }}>
@@ -216,6 +182,13 @@ const StudentDashboard = () => {
       >
         Edit / Complete Profile
       </Button>
+      <Button
+          variant="outlined"
+          color="secondary"
+          onClick={() => navigate("/resume")}
+        >
+          Review the Resume
+        </Button>
 
       <hr />
 
