@@ -16,6 +16,7 @@ import {
     CircularProgress,
     Alert,
 } from "@mui/material";
+import AdminNavbar from "../components/admin/AdminNavbar";
 
 const roles = [
     "student",
@@ -70,6 +71,11 @@ export default function AdminManageUsers() {
     if (loading) return <CircularProgress />;
 
     return (
+
+        <div>
+      {/* Navbar at top */}
+      <AdminNavbar />
+        
         <Container maxWidth="lg" sx={{ py: 5 }}>
             <Typography variant="h4" mb={4}>
                 Admin: Manage Users
@@ -135,5 +141,6 @@ export default function AdminManageUsers() {
                 </Table>
             </Paper>
         </Container>
-    );
+      </div>  
+);
 }
