@@ -27,6 +27,12 @@ import Applications from "./pages/Applications";
 import CompanyRelations from "./pages/CompanyRelations";
 import Reports from "./pages/Reports";
 import Notifications from "./pages/Notifications";
+//imports for Admin Navbar
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import UserManagement from "./pages/admin/UserManagement";
+//import RoleAssignment from "./pages/admin/RoleAssignment";
+import ReportAnalytics from "./pages/admin/ReportAnalytics";
+import SystemSettings from "./pages/admin/SystemSettings";
 
 export default function App() {
   return (
@@ -63,6 +69,12 @@ export default function App() {
           {/* Admin */}
           <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
             <Route path="/admin/manage-users" element={<AdminManageUsers />} />
+            {/*Routing for Admin Navbar */}
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/user-management" element={<UserManagement />} />
+            <Route path="/admin/role-assignment" element={<AdminManageUsers />} />
+            <Route path="/admin/reports-analytics" element={<ReportAnalytics />} />
+            <Route path="/admin/system-settings" element={<SystemSettings />} />
           </Route>
 
           {/* Authority */}

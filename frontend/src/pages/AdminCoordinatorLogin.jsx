@@ -66,7 +66,7 @@ const AdminCoordinatorLogin = () => {
             if (roleMap[role] === userRole) {
                 switch (userRole) {
                     case "admin":
-                        navigate(`/admin/manage-users`);
+                        navigate(`/admin/dashboard`);
                         break;
                     case "placement_coordinator":
                         navigate(`/coordinator-dashboard/${encodedId}`);
