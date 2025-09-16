@@ -101,7 +101,8 @@ INSTALLED_APPS = [
     'testAPI',
     'PlacementCoordinator',
     'users',
-    'student_profile'
+    'student_profile',
+    'resume_ai',
 ]
 
 MIDDLEWARE = [
