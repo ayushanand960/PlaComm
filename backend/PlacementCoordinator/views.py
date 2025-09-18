@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404
 
 from users.authentication import CookieJWTAuthentication
 from .models import JobPosting, JobApplication
-from .serializers import JobPostingSerializer,JobApplicationSerializer
+from .serializers import JobPostingSerializer,JobApplicationSerializer,MyJobApplicationSerializer
 from users.models import User
 
 
@@ -134,4 +134,23 @@ class JobApplicationAPIView(APIView):
         applications = JobApplication.objects.filter(job=job)
         serializer = JobApplicationSerializer(applications, many=True)
         return Response(serializer.data)
+
+# -------------------------------
+# Student’s Applied Jobs
+# -------------------------------
+class MyJobApplicationsAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [CookieJWTAuthentication]
+
+    def get(self, request):
+        """List all jobs the logged-in student has applied to or marked not interested."""
+        if request.user.role != "student":
+            return Response(
+                {"detail": "Only students can view their applications."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        applications = JobApplication.objects.filter(student=request.user).select_related("job")
+        serializer = MyJobApplicationSerializer(applications, many=True, context={"request": request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
 

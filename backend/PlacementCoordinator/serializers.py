@@ -31,3 +31,16 @@ class JobApplicationSerializer(serializers.ModelSerializer):
             "student_email", "status", "applied_at"
         ]
         read_only_fields = ["student", "applied_at"]
+
+class MyJobApplicationSerializer(serializers.ModelSerializer):
+    job = JobPostingSerializer(read_only=True)  # full job details inside
+
+    class Meta:
+        model = JobApplication
+        fields = [
+            "id",
+            "job",              # nested job info
+            "status",
+            "applied_at",
+            "updated_at",
+        ]

@@ -10,15 +10,20 @@ import AdminManageUsers from "./pages/AdminManageUsers";
 import PrivateRoute from "./pages/PrivateRoute";
 
 // Newly added dashboards
+//import StudentLayout from "./layouts/StudentLayout";
 import StudentDashboard from "./pages/StudentDashboard";
 import StudentProfile from "./pages/StudentProfile";
+import JobOpportunities from "./pages/JobOpportunities";
+
+import MyApplications from "./pages/MyApplications";
+// import StudentResume from "./pages/StudentResume";
 import RecruiterDashboard from "./pages/RecruiterDashboard";
 import AuthorityDashboard from "./pages/AuthorityDashboard";
 import TrainingOfficerDashboard from "./pages/TrainingOfficerDashboard";
 import Gallery from "./pages/Gallery";
 import About from "./pages/About";
 
-//Coordinator Layout + Pages
+// Coordinator Layout + Pages
 import CoordinatorLayout from "./layouts/CoordinatorLayout";
 import CoordinatorDashboard from "./pages/CoordinatorDashboard";
 // import JobManagement from "./pages/JobManagement";
@@ -36,21 +41,26 @@ export default function App() {
   return (
     <Router>
       <div>
+        {/* Navigation */}
+        {/* <nav style={{ padding: "1rem", borderBottom: "1px solid #ccc" }}>
+          <Link to="/" style={{ marginRight: "1rem" }}>Home</Link>
+          <Link to="/student-recruiter-login" style={{ marginRight: "1rem" }}>Student / Recruiter Login</Link>
+          <Link to="/admin-coordinator-login" style={{ marginRight: "1rem" }}>Admin / Coordinator Login</Link>
+          <Link to="/register">Register</Link>
+        </nav> */}
 
         <Routes>
           {/* Public Routes */}
-          {/* <Route element={<HomeLayout />}> */}
-            <Route path="/" element={<Home />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/student-recruiter-login" element={<StudentRecruiterLogin />} />
-            <Route path="/admin-coordinator-login" element={<AdminCoordinatorLogin />} />
-            <Route path="/gallery" element={<Gallery />} />
-            <Route path="/about" element={<About />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/student-recruiter-login" element={<StudentRecruiterLogin />} />
+          <Route path="/admin-coordinator-login" element={<AdminCoordinatorLogin />} />
 
-            {/* Protected Routes */}
+          {/* Protected Routes */}
+
+          {/* Coordinator Routes */}
           <Route element={<PrivateRoute allowedRoles={["placement_coordinator"]} />}>
-            <Route path="/coordinator-dashboard/:id/*" element={<CoordinatorLayout />}>
-              {/* <Route path="dashboard" element={<CoordinatorDashboard />} /> */}
+            <Route path="/dashboard/:id/*" element={<CoordinatorLayout />}>
               <Route index element={<CoordinatorDashboard />} />
               {/* <Route path="job-management" element={<JobManagement />} /> */}
               <Route path="placement-drives" element={<PlacementDrives />} />
@@ -61,23 +71,17 @@ export default function App() {
             </Route>
           </Route>
 
-
-
-
-          {/* Admin */}
+          {/* Admin Routes */}
           <Route element={<PrivateRoute allowedRoles={["admin"]} />}>
             <Route path="/admin/manage-users" element={<AdminManageUsers />} />
           </Route>
 
-          {/* Authority */}
+          {/* Authority Routes */}
           <Route element={<PrivateRoute allowedRoles={["authority"]} />}>
-            <Route
-              path="/authority-dashboard/:id"
-              element={<AuthorityDashboard />}
-            />
+            <Route path="/authority-dashboard/:id" element={<AuthorityDashboard />} />
           </Route>
 
-          {/* Training Officer */}
+          {/* Training Officer Routes */}
           <Route element={<PrivateRoute allowedRoles={["training_officer"]} />}>
            <Route
              path="/officer-dashboard/:id/*"
@@ -85,21 +89,17 @@ export default function App() {
            />
           </Route>
 
-          {/* Student */}
-          <Route element={<PrivateRoute allowedRoles={["student"]} />}>
-            <Route
-              path="/student-dashboard/:id"
-              element={<StudentDashboard />}
-            />
-            <Route path="/student-profile/:id" element={<StudentProfile />} />
-          </Route>
-
-          {/* Recruiter */}
+          {/* Student Routes */}
+         <Route element={<PrivateRoute allowedRoles={["student"]} />}>
+         <Route path="student-dashboard/:id" element={<StudentDashboard />} />
+         <Route path="student-profile/:id" element={<StudentProfile />} />
+         <Route path="/jobs" element={<JobOpportunities />} /> 
+         <Route path="/my-applications" element={<MyApplications />} />
+         {/* <Route path="/resume" element={<StudentResume />} /> */}
+         </Route>
+          {/* Recruiter Routes */}
           <Route element={<PrivateRoute allowedRoles={["recruiter"]} />}>
-            <Route
-              path="/recruiter-dashboard/:id"
-              element={<RecruiterDashboard />}
-            />
+            <Route path="/recruiter-dashboard/:id" element={<RecruiterDashboard />} />
           </Route>
         </Routes>
       </div>

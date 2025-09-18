@@ -37,9 +37,9 @@ export default function Register() {
         newErrors.rum_number = "RUM must be like RUM2201146";
       }
     } else {
-      const empRegex = /^[A-Z]{2}-[A-Z]{3}\/\d{7}$/;
+      const empRegex = /^[A-Z]{2}-[A-Z]{3,4}\d{7}$/;
       if (!empRegex.test(formData.employee_id || "")) {
-        newErrors.employee_id = "Employee ID must be like RG-MND/E0011314";
+        newErrors.employee_id = "Employee ID must be like RG-MNDE0011314";
       }
     }
 
