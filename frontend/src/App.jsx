@@ -21,12 +21,14 @@ import About from "./pages/About";
 //Coordinator Layout + Pages
 import CoordinatorLayout from "./layouts/CoordinatorLayout";
 import CoordinatorDashboard from "./pages/CoordinatorDashboard";
+// import Profile from "./pages/Profile"
 // import JobManagement from "./pages/JobManagement";
 import PlacementDrives from "./pages/PlacementDrives";
 import Applications from "./pages/Applications";
 import CompanyRelations from "./pages/CompanyRelations";
 import Reports from "./pages/Reports";
 import Notifications from "./pages/Notifications";
+
 
 export default function App() {
   return (
@@ -48,12 +50,16 @@ export default function App() {
             <Route path="/coordinator-dashboard/:id/*" element={<CoordinatorLayout />}>
               {/* <Route path="dashboard" element={<CoordinatorDashboard />} /> */}
               <Route index element={<CoordinatorDashboard />} />
-              {/* <Route path="job-management" element={<JobManagement />} /> */}
+              <Route path="placements/job-postings" element={<PostJob />} /> 
+               
+              {/* <Route path="post-job" element={<JobManagement />} /> */}
+
               <Route path="placement-drives" element={<PlacementDrives />} />
               <Route path="applications" element={<Applications />} />
               <Route path="company-relations" element={<CompanyRelations />} />
               <Route path="reports" element={<Reports />} />
               <Route path="notifications" element={<Notifications />} />
+              {/* <Route path="profile" element={<Profile />}></Route> */}
             </Route>
           </Route>
 

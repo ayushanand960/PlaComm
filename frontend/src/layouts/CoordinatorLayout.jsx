@@ -30,7 +30,7 @@ export default function CoordinatorLayout() {
      
         <Box 
         component="main" 
-        sx={{ flexGrow: 1, p: 3 , width: "100%", maxWidth: "100vw", 
+        sx={{ flexGrow: 1, p: 3 , width: "100%", maxWidth: "100vw",
         bgcolor: "white", color: "black"}}
       
       // overflowX: "hidden", // prevent accidental scroll

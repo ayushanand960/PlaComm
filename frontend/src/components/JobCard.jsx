@@ -86,9 +86,9 @@ export default function JobCard() {
                     <Chip key={skill} label={skill} size="small" sx={{ mr: 0.5 }} />
                   ))}
                 </Box>
-                <Box display="flex" justifyContent="flex-end" gap={1}>
+                <Box display="flex" justifyContent="center" gap={1}>
                   <Button variant="outlined" size="small">View Details</Button>
-                  <Button variant="contained" size="small">Apply Now</Button>
+                  {/* <Button variant="contained" size="small">Apply Now</Button> */}
                 </Box>
               </CardContent>
             </Card>
