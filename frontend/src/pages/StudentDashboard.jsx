@@ -1,126 +1,107 @@
 // src/pages/StudentDashboard.jsx
 import React, { useEffect, useState } from "react";
 import {
-  Container,
-  Typography,
-  CircularProgress,
-  Alert,
   Box,
+  Container,
+  Grid,
+  CircularProgress,
+  Typography,
   Card,
   CardContent,
   CardActions,
   Button,
-  Grid,
 } from "@mui/material";
-import axiosInstance from "../api/axiosInstance";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../api/axiosInstance";
+import StudentNavbar from "../components/StudentNavbar";
+import Footer from "../components/Footer";
+import StudentInfo from "../components/StudentInfo";
+import DashboardCards from "../components/DashboardCards";
+import RecentApplications from "../components/ApplicationStatus";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 const StudentDashboard = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  const navigate = useNavigate();
-
-  const uniqueId = user?.unique_id;
-
-  const [studentData, setStudentData] = useState(null);
-  const [jobs, setJobs] = useState([]);
+  const [student, setStudent] = useState(null);
+  const [trainingScore, setTrainingScore] = useState("N/A");
+  const [opportunities, setOpportunities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    const fetchStudentData = async () => {
-      if (!uniqueId) return;
+    const user = JSON.parse(localStorage.getItem("user"));
+    const uniqueId = user?.unique_id;
+
+    if (!uniqueId) {
+      setError("No student ID found. Please login again.");
+      setLoading(false);
+      return;
+    }
+
+    const fetchData = async () => {
       try {
-        // const res = await axiosInstance.get(`/users/users/${encodeURIComponent(uniqueId)}/`);
-        const res = await axiosInstance.get(`/users/student/data/${uniqueId}/`);
-        const userData = { ...res.data, role: "student" }; // add role
-        setStudentData(userData); // use userData, not res.data
-        localStorage.setItem("user", JSON.stringify(userData)); // store userData
+        // Fetch student info
+        const studentRes = await axiosInstance.get(`/users/student/data/${uniqueId}/`);
+        setStudent(studentRes.data);
+
+        // Fetch training score
+        try {
+          const trainingRes = await axiosInstance.get(`/trainings/student/${uniqueId}/`);
+          setTrainingScore(trainingRes.data.training_score || "N/A");
+        } catch (err) {
+          console.warn("Training API failed:", err.response?.data || err.message);
+        }
+
+        // Fetch job postings
+        const jobsRes = await axiosInstance.get(`/placements/job-postings/`);
+        const jobs = Array.isArray(jobsRes.data) ? jobsRes.data : jobsRes.data.results || [];
+        setOpportunities(jobs);
       } catch (err) {
         console.error(err.response?.data || err.message);
-        setError("Failed to fetch student data.");
+        setError("Failed to fetch dashboard data.");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchStudentData();
-
-    // Optional: refetch when tab/window gains focus
-    const handleFocus = () => fetchStudentData();
-    window.addEventListener("focus", handleFocus);
-
-    return () => window.removeEventListener("focus", handleFocus);
-  }, [uniqueId]);
-
-  // Fetch all job postings
-  // useEffect(() => {
-  //   const fetchJobs = async () => {
-  //     try {
-  //       const res = await axiosInstance.get("/placements/job-postings/");
-  //       setJobs(res.data);
-  //     } catch (err) {
-  //       console.error(err.response?.data || err.message);
-  //       setError("Failed to fetch job postings.");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchJobs();
-  // }, []);
-
-  useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        const res = await axiosInstance.get("/placements/job-postings/");
-        setJobs(res.data); // each job now has `application_status` from backend
-      } catch (err) {
-        console.error(err.response?.data || err.message);
-        setError("Failed to fetch job postings.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchJobs();
+    fetchData();
   }, []);
 
-  // Handle apply/not interested
+  // Apply / Not Interested logic
   const handleApplication = async (jobId, status) => {
     let confirmMessage = "";
     if (status === "applied") {
       confirmMessage = "Are you sure you want to apply for this job?";
     } else if (status === "not_interested") {
-      confirmMessage =
-        "Are you sure you want to mark this job as Not Interested?";
+      confirmMessage = "Are you sure you want to mark this job as Not Interested?";
     }
 
     if (!window.confirm(confirmMessage)) return;
 
     try {
-      const res = await axiosInstance.post(
-        `/placements/job-postings/${jobId}/apply/`,
-        { status }
-      );
+      const user = JSON.parse(localStorage.getItem("user"));
+      const uniqueId = user?.unique_id;
+      if (!uniqueId) throw new Error("User not logged in");
 
-      // Update UI
-      setJobs((prevJobs) =>
-        prevJobs.map((job) => {
+      await axiosInstance.post(`/placements/job-postings/${jobId}/apply/`, { status });
+
+      setOpportunities((prev) =>
+        prev.map((job) => {
           if (job.id !== jobId) return job;
 
           if (status === "applied") {
             return {
               ...job,
               application_status: "applied",
-              disable_apply: true,
-              disable_not_interested: true,
             };
           } else if (status === "not_interested") {
             return {
               ...job,
               application_status: "not_interested",
-              disable_apply: true,
-              disable_not_interested: false, // optional, keep text
             };
           }
           return job;
@@ -128,247 +109,115 @@ const StudentDashboard = () => {
       );
     } catch (err) {
       console.error(err.response?.data || err.message);
-      alert("❌ Failed to update application status.");
+      alert("Failed to update application status.");
     }
+  };
+
+  // Stats
+  const stats = {
+    applications: student?.applications_count || 0,
+    interviews: student?.interviews_count || 0,
+    atsScore: student?.ats_score || 0,
+    trainingScore: trainingScore,
+    network: student?.network_count || 0,
+    courses: student?.courses_count || 0,
   };
 
   if (loading)
     return (
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 6 }}>
+      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh" }}>
         <CircularProgress />
       </Box>
     );
 
   if (error)
     return (
-      <Container sx={{ mt: 6 }}>
-        <Alert severity="error">{error}</Alert>
-      </Container>
+      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh" }}>
+        <Typography color="error">{error}</Typography>
+      </Box>
     );
 
   return (
-    <Container sx={{ mt: 4 }}>
-      {/* Student Info */}
-      <Typography variant="h4" gutterBottom>
-        Student Dashboard
-      </Typography>
+    <Box sx={{ minHeight: "100vh", backgroundColor: "#fffbfbff", color: "#0e0d0dff", py: 4, width: "100%", pt: 12 }}>
+      {/* Navbar */}
+      <Box sx={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 1200 }}>
+        <StudentNavbar onEditProfile={() => navigate(`/student-profile/${student?.unique_id}`)} />
+      </Box>
 
-      <Typography variant="h6">
-        Welcome, {studentData?.first_name} {studentData?.last_name}
-      </Typography>
-      <Typography>
-        <strong>RUM Number:</strong> {studentData?.unique_id}
-      </Typography>
-      <Typography>
-        <strong>Course:</strong> {studentData?.course}
-      </Typography>
-      <Typography>
-        <strong>Branch:</strong> {studentData?.branch}
-      </Typography>
-      <Typography>
-        <strong>Year:</strong> {studentData?.year}
-      </Typography>
-      <Typography>
-        <strong>Email:</strong> {studentData?.email}
-      </Typography>
-      <Typography>
-        <strong>Phone:</strong> {studentData?.phone}
-      </Typography>
-      <Button
-        variant="contained"
-        color="primary"
-        sx={{ mt: 2, mb: 2 }}
-        onClick={() => navigate(`/student-profile/${uniqueId}`)}
-      >
-        Edit / Complete Profile
-      </Button>
-      <Button
-          variant="outlined"
-          color="secondary"
-          onClick={() => navigate("/resume")}
-        >
-          Review the Resume
-        </Button>
+      <Container maxWidth="lg" sx={{ mt: 8 }}>
+        {/* Student Info */}
+        <Box mb={4}>
+          <StudentInfo student={student} onEditProfile={() => navigate(`/student-profile/${student?.unique_id}`)} />
+        </Box>
 
-      <hr />
+        {/* Stats */}
+        <Box mb={6}>
+          <DashboardCards stats={stats} cardSx={{ minHeight: 140 }} />
+        </Box>
 
-      {/* Job Listings */}
-      <Typography variant="h5" gutterBottom sx={{ mt: 3 }}>
-        Available Jobs
-      </Typography>
+        {/* Job Opportunities */}
+        <Typography variant="h5" gutterBottom sx={{ mb: 2 }}>
+          Available Jobs
+        </Typography>
+        <Grid container spacing={3}>
+          {opportunities.map((job) => {
+            const isExpired = job.deadline && dayjs().isAfter(dayjs(job.deadline));
+            const postedAgo = dayjs(job.created_at).fromNow();
 
-      <Grid container spacing={3}>
-        {jobs.map((job) => (
-          <Grid item xs={12} md={6} key={job.id}>
-            <Card sx={{ borderRadius: 3, boxShadow: 4 }}>
-              <CardContent>
-                <Typography variant="h6">{job.company_name}</Typography>
-                <Typography variant="subtitle1" color="text.secondary">
-                  {job.job_title}
-                </Typography>
-                <Typography variant="body2" sx={{ mt: 1 }}>
-                  {job.job_description}
-                </Typography>
-                <Typography variant="body2">
-                  <strong>Positions:</strong> {job.positions}
-                </Typography>
-                <Typography variant="body2">
-                  <strong>Location:</strong> {job.location}
-                </Typography>
-                <Typography variant="body2">
-                  <strong>Package:</strong> {job.package}
-                </Typography>
-                <Typography variant="body2">
-                  <strong>Deadline:</strong> {job.deadline}
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button
-                  variant="contained"
-                  disabled={
-                    job.application_status === "applied" ||
-                    job.application_status === "not_interested"
-                  }
-                  onClick={() => handleApplication(job.id, "applied")}
-                  sx={{
-                    backgroundColor:
-                      job.application_status === "applied"
-                        ? "green"
-                        : job.application_status === "not_interested"
-                        ? "#ffffff" // white when Not Interested
-                        : undefined,
-                    color:
-                      job.application_status === "not_interested"
-                        ? "black"
-                        : undefined,
-                    "&.Mui-disabled": {
-                      backgroundColor:
-                        job.application_status === "applied"
-                          ? "green"
-                          : job.application_status === "not_interested"
-                          ? "#ffffff"
-                          : undefined,
-                      color:
-                        job.application_status === "not_interested"
-                          ? "black"
-                          : undefined,
-                    },
-                  }}
-                >
-                  {job.application_status === "applied" ? "Applied" : "Apply"}
-                </Button>
+            return (
+              <Grid item xs={12} sm={6} md={4} key={job.id}>
+                <Card sx={{ minHeight: 250, display: "flex", flexDirection: "column", justifyContent: "space-between", borderRadius: 3, boxShadow: 4, opacity: isExpired ? 0.6 : 1 }}>
+                  <CardContent>
+                    <Typography variant="h6">{job.job_title}</Typography>
+                    <Typography variant="body2" color="text.secondary">{job.company_name} • {job.location}</Typography>
+                    <Typography variant="body2" sx={{ mt: 1 }}>{job.job_description}</Typography>
+                    <Typography variant="caption" color={isExpired ? "error.main" : "text.secondary"}>
+                      {isExpired ? "Expired" : `Posted ${postedAgo}`}
+                    </Typography>
+                  </CardContent>
+                  {!isExpired && (
+                    <CardActions>
+                      <Button
+                        size="small"
+                        variant="contained"
+                        disabled={job.application_status === "applied" || job.application_status === "not_interested"}
+                        onClick={() => handleApplication(job.id, "applied")}
+                        sx={{
+                          backgroundColor: job.application_status === "applied" ? "green" : undefined,
+                          color: job.application_status === "applied" ? "white" : undefined,
+                          "&.Mui-disabled": {
+                            backgroundColor: job.application_status === "applied" ? "green" : undefined,
+                            color: job.application_status === "applied" ? "white" : undefined,
+                          },
+                        }}
+                      >
+                        {job.application_status === "applied" ? "Applied" : "Apply"}
+                      </Button>
+                      <Button
+                        size="small"
+                        variant={job.application_status === "not_interested" ? "contained" : "outlined"}
+                        disabled={job.application_status === "applied" || job.application_status === "not_interested"}
+                        onClick={() => handleApplication(job.id, "not_interested")}
+                        sx={{
+                          backgroundColor: job.application_status === "not_interested" ? "grey" : undefined,
+                          "&.Mui-disabled": {
+                            backgroundColor: job.application_status === "not_interested" ? "grey" : undefined,
+                          },
+                        }}
+                      >
+                        Not Interested
+                      </Button>
+                    </CardActions>
+                  )}
+                </Card>
+              </Grid>
+            );
+          })}
+        </Grid>
+      </Container>
 
-                <Button
-                  variant={
-                    job.application_status === "not_interested"
-                      ? "contained"
-                      : "outlined"
-                  }
-                  disabled={
-                    job.application_status === "applied" ||
-                    job.application_status === "not_interested"
-                  }
-                  onClick={() => handleApplication(job.id, "not_interested")}
-                  sx={{
-                    backgroundColor:
-                      job.application_status === "not_interested"
-                        ? "grey"
-                        : undefined,
-                    "&.Mui-disabled": {
-                      backgroundColor:
-                        job.application_status === "not_interested"
-                          ? "grey"
-                          : undefined,
-                    },
-                  }}
-                >
-                  {job.application_status === "not_interested"
-                    ? "Not Interested"
-                    : "Not Interested"}
-                </Button>
-
-                {/* <Button
-                  variant="contained"
-                  disabled={
-                    job.application_status === "applied" ||
-                    job.application_status === "not_interested"
-                  }
-                  onClick={() => handleApplication(job.id, "applied")}
-                  sx={{
-                    backgroundColor:
-                      job.application_status === "applied"
-                        ? "green"
-                        : job.application_status === "not_interested"
-                        ? "#b0b0b0" // grey-ish to match Not Interested disabled
-                        : undefined,
-                    color:
-                      job.application_status === "not_interested"
-                        ? "white"
-                        : undefined,
-                    "&.Mui-disabled": {
-                      backgroundColor:
-                        job.application_status === "applied"
-                          ? "green"
-                          : job.application_status === "not_interested"
-                          ? "#b0b0b0"
-                          : undefined,
-                      color:
-                        job.application_status === "not_interested"
-                          ? "white"
-                          : undefined,
-                    },
-                  }}
-                >
-                  {job.application_status === "applied" ? "Applied" : "Apply"}
-                </Button>
-
-               
-                <Button
-                  variant={
-                    job.application_status === "not_interested"
-                      ? "contained"
-                      : "outlined"
-                  }
-                  disabled={
-                    job.application_status === "applied" ||
-                    job.application_status === "not_interested"
-                  }
-                  onClick={() => handleApplication(job.id, "not_interested")}
-                  sx={{
-                    backgroundColor:
-                      job.application_status === "not_interested"
-                        ? "#757575" // grey
-                        : job.application_status === "applied"
-                        ? "#b0b0b0" // grey-ish to match Apply disabled
-                        : undefined,
-                    color:
-                      job.application_status === "applied"
-                        ? "white"
-                        : undefined,
-                    "&.Mui-disabled": {
-                      backgroundColor:
-                        job.application_status === "not_interested"
-                          ? "#757575"
-                          : job.application_status === "applied"
-                          ? "#b0b0b0"
-                          : undefined,
-                      color:
-                        job.application_status === "applied"
-                          ? "white"
-                          : undefined,
-                    },
-                  }}
-                >
-                  {job.application_status === "not_interested"
-                    ? "Not Interested"
-                    : "Not Interested"}
-                </Button> */}
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </Container>
+      <Footer />
+    </Box>
   );
 };
 

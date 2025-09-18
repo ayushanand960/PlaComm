@@ -3,7 +3,7 @@ import { Outlet, Link } from "react-router-dom";
 
 export default function HomeLayout() {
   return (
-    <div>
+    <div style={{ width: "100vw", minHeight: "100vh", backgroundColor: "#f3efefff" }}>
       <nav style={{ padding: "1rem", borderBottom: "1px solid #ccc" }}>
         <Link to="/" style={{ marginRight: "1rem" }}>Home</Link>
         <Link to="/student-recruiter-login" style={{ marginRight: "1rem" }}>
