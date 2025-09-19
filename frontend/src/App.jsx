@@ -69,7 +69,7 @@ export default function App() {
 
           {/* Coordinator Routes */}
           <Route element={<PrivateRoute allowedRoles={["placement_coordinator"]} />}>
-            <Route path="/dashboard/:id/*" element={<CoordinatorLayout />}>
+            <Route path="/coordinator-dashboard/:id/*" element={<CoordinatorLayout />}>
               <Route index element={<CoordinatorDashboard />} />
               <Route path="placements/job-postings" element={<PostJob />} /> 
                
