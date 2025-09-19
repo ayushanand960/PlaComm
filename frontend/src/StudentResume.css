@@ -1,0 +1,250 @@
+/* Page background */
+.resume-page {
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, #f0f7ff, #ffffff);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Container under navbar */
+.resume-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    /* center horizontally */
+    align-items: flex-start;
+    /* start below navbar */
+    padding: 40px 20px;
+    margin-top: 20px;
+    /* give gap below navbar */
+}
+
+/* Resume box */
+.resume-box {
+    width: 100%;
+    max-width: 700px;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* Title */
+.resume-title {
+    font-size: 2rem;
+    font-weight: 800;
+    text-align: center;
+    color: #222;
+}
+
+.resume-title span {
+    color: #2563eb;
+    /* blue accent */
+}
+
+/* Subtitle */
+.resume-subtitle {
+    text-align: center;
+    color: #555;
+    margin-top: 10px;
+    font-size: 1.1rem;
+}
+
+/* Form */
+.resume-form {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.resume-form label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: block;
+    color: #333;
+}
+
+.resume-form input,
+.resume-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: #f9fafb;
+    font-size: 1rem;
+    color: #111;
+    /* ✅ Dark text for inputs */
+}
+
+.resume-form input:focus,
+.resume-form textarea:focus {
+    border-color: #2563eb;
+    outline: none;
+    box-shadow: 0 0 0 3px #2563eb33;
+}
+
+/* File input customization */
+.resume-form input[type="file"] {
+    padding: 8px;
+    color: #111;
+    /* ✅ Uploaded file name visible */
+    background: #fff;
+}
+
+.resume-form input::file-selector-button {
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-right: 10px;
+    font-weight: 600;
+}
+
+.resume-form input::file-selector-button:hover {
+    background: #1d4ed8;
+}
+
+/* Button */
+.resume-form button {
+    padding: 14px;
+    border-radius: 10px;
+    background: linear-gradient(to right, #2563eb, #4f46e5);
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.resume-form button:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+.resume-form button:disabled {
+    background: #93c5fd;
+    cursor: not-allowed;
+}
+
+/* Suggestions box */
+.resume-suggestions {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f9fafb;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+.resume-suggestions h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.resume-suggestions pre {
+    white-space: pre-wrap;
+    font-size: 1rem;
+    color: #444;
+}
+
+/* 
+.ats-score-box {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #eef6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 10px;
+}
+
+.ats-score-box h3 {
+  color: #1d4ed8;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.ats-score-box p {
+  margin-top: 8px;
+  font-size: 1rem;
+  color: #333;
+} */
+
+/* ATS Score Box */
+.ats-score-box {
+    margin-bottom: 20px;
+    padding: 20px;
+    background: #eef6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 12px;
+}
+
+/* Header with inline value */
+.ats-score-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* spacing between text and value */
+}
+
+.ats-score-header h3 {
+    color: #1d4ed8;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.ats-score-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #111;
+}
+
+/* Circle progress */
+.ats-score-circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #111;
+    background: conic-gradient(#22c55e 0%, #e5e7eb 0%);
+    position: relative;
+    transition: background 1s ease;
+}
+
+.circle span {
+    position: absolute;
+}
+
+/* Explanation text */
+.ats-explanation {
+    text-align: center;
+    font-size: 1rem;
+    color: #333;
+    margin-top: 10px;
+}
+
+/* Suggestions box */
+.ai-suggestions {
+    margin-top: 20px;
+}
+
+.ai-suggestions h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #333;
+}
