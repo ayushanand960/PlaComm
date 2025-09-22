@@ -151,100 +151,23 @@
     color: #444;
 }
 
-/* 
+/* ATS Score box */
 .ats-score-box {
-  margin-bottom: 20px;
-  padding: 15px;
-  background: #eef6ff;
-  border: 1px solid #bfdbfe;
-  border-radius: 10px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #eef6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 10px;
 }
 
 .ats-score-box h3 {
-  color: #1d4ed8;
-  font-size: 1.5rem;
-  font-weight: 700;
+    color: #1d4ed8;
+    font-size: 1.5rem;
+    font-weight: 700;
 }
 
 .ats-score-box p {
-  margin-top: 8px;
-  font-size: 1rem;
-  color: #333;
-} */
-
-/* ATS Score Box */
-.ats-score-box {
-    margin-bottom: 20px;
-    padding: 20px;
-    background: #eef6ff;
-    border: 1px solid #bfdbfe;
-    border-radius: 12px;
-}
-
-/* Header with inline value */
-.ats-score-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    /* spacing between text and value */
-}
-
-.ats-score-header h3 {
-    color: #1d4ed8;
-    font-size: 1.4rem;
-    font-weight: 700;
-    margin: 0;
-}
-
-.ats-score-value {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #111;
-}
-
-/* Circle progress */
-.ats-score-circle {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px 0;
-}
-
-.circle {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: #111;
-    background: conic-gradient(#22c55e 0%, #e5e7eb 0%);
-    position: relative;
-    transition: background 1s ease;
-}
-
-.circle span {
-    position: absolute;
-}
-
-/* Explanation text */
-.ats-explanation {
-    text-align: center;
+    margin-top: 8px;
     font-size: 1rem;
-    color: #333;
-    margin-top: 10px;
-}
-
-/* Suggestions box */
-.ai-suggestions {
-    margin-top: 20px;
-}
-
-.ai-suggestions h3 {
-    font-size: 1.3rem;
-    font-weight: 700;
-    margin-bottom: 8px;
     color: #333;
 }

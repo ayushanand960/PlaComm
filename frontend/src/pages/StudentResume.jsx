@@ -2,6 +2,7 @@ import { useState } from "react";
 import axiosInstance from "../api/axiosInstance";
 import "../animations.css";
 import "../studentResume.css";
+import ReactMarkdown from "react-markdown";
 import StudentNavbar from "../components/StudentNavbar";
 
 export default function StudentResume() {
@@ -40,14 +41,6 @@ export default function StudentResume() {
       setLoading(false);
     }
   };
-  const getColor = (score) => {
-    const num = parseInt(score);
-    if (num >= 75) return "#22c55e"; // green
-    if (num >= 50) return "#eab308"; // yellow
-    return "#ef4444"; // red
-  };
-
-
 
   return (
     <div className="resume-page">
@@ -85,159 +78,22 @@ export default function StudentResume() {
             </button>
           </form>
 
-          {/* Results
+          {/* Results */}
           {result && (
             <div className="resume-suggestions slide-up">
               {result.ats_score && (
                 <div className="ats-score-box">
                   <h3>ATS Score: {result.ats_score}</h3>
-                  {result.explanation && <p>{result.explanation}</p>}
+
                 </div>
               )}
 
               <h3>AI Suggestions</h3>
               <pre>{result.suggestions}</pre>
             </div>
-          )} */}
-
-          {result && (
-            <div className="resume-suggestions slide-up">
-              {result.ats_score && (
-                <div className="ats-score-box">
-                  {/* Heading + Value inline */}
-                  <div className="ats-score-header">
-                    <h3>ATS Score</h3>
-                    <span className="ats-score-value">{result.ats_score}</span>
-                  </div>
-
-                  {/* Circular progress */}
-                  <div className="ats-score-circle">
-                    <div
-                      className="circle"
-                      style={{
-                        background: `conic-gradient(
-                ${getColor(result.ats_score)} ${parseInt(result.ats_score)}%, 
-                #e5e7eb ${parseInt(result.ats_score)}%
-              )`
-                      }}
-                    >
-                      <span>{result.ats_score}</span>
-                    </div>
-                  </div>
-
-
-                </div>
-              )}
-
-              {/* Suggestions ONLY (no explanation here) */}
-              {result.suggestions && (
-                <div className="ai-suggestions">
-                  <h3>AI Suggestions</h3>
-                  <pre>{result.suggestions}</pre>
-                </div>
-              )}
-            </div>
           )}
-
         </div>
       </div>
     </div>
   );
 }
-
-
-
-// // src/pages/StudentResume.jsx
-// import { useState } from "react";
-// import axiosInstance from "../api/axiosInstance";
-// import "../animations.css";
-// import "../studentResume.css"; // <-- new CSS file
-// import StudentNavbar from "../components/StudentNavbar";
-
-// export default function StudentResume() {
-//   const [resume, setResume] = useState(null);
-//   const [jobDescription, setJobDescription] = useState("");
-//   const [loading, setLoading] = useState(false);
-//   const [suggestions, setSuggestions] = useState("");
-
-//   const handleFileChange = (e) => setResume(e.target.files[0]);
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     if (!resume || !jobDescription.trim()) {
-//       alert("Please upload a resume and enter a job description.");
-//       return;
-//     }
-
-//     const formData = new FormData();
-//     formData.append("resume", resume);
-//     formData.append("job_description", jobDescription);
-
-//     setLoading(true);
-//     setSuggestions("");
-
-//     try {
-//       const res = await axiosInstance.post("/resume/analyze/", formData, {
-//         headers: { "Content-Type": "multipart/form-data" },
-//       });
-//       setSuggestions(res.data?.suggestions || "No suggestions returned.");
-//     } catch (err) {
-//       console.error("Resume analyze error:", err);
-//       setSuggestions("Error analyzing resume. Check the server logs.");
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   return (
-//     <div className="resume-page">
-//       {/* Navbar (static, not fixed) */}
-//       <StudentNavbar />
-
-//       {/* Page content */}
-//       <div className="resume-container">
-//         <div className="resume-box fade-in">
-//           {/* Header */}
-//           <h1 className="resume-title">
-//             AI <span>Resume</span> Analyzer
-//           </h1>
-//           <p className="resume-subtitle">
-//             Upload your resume & job description to get{" "}
-//             <strong>ATS-based insights</strong> and personalized suggestions.
-//           </p>
-
-//           {/* Form */}
-//           <form onSubmit={handleSubmit} className="resume-form">
-//             <div>
-//               <label>Upload Resume (PDF)</label>
-//               <input type="file" accept="application/pdf" onChange={handleFileChange} />
-//             </div>
-
-//             <div>
-//               <label>Job Description</label>
-//               <textarea
-//                 value={jobDescription}
-//                 onChange={(e) => setJobDescription(e.target.value)}
-//                 rows="5"
-//                 placeholder="Paste the job description here..."
-//               />
-//             </div>
-
-//             <button type="submit" disabled={loading}>
-//               {loading ? "Analyzing..." : "Analyze Resume"}
-//             </button>
-//           </form>
-
-//           {/* Suggestions */}
-//           {suggestions && (
-//             <div className="resume-suggestions slide-up">
-//               <h3>AI Suggestions</h3>
-//               <pre>{suggestions}</pre>
-//             </div>
-//           )}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
