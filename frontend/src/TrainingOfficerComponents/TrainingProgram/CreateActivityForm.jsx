@@ -1,3 +1,4 @@
+//src/TrainingOfficerComponents/TrainingProgram/CreateActivityForm
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -124,17 +125,19 @@ const CreateActivityForm = ({ activityType, editData, onUpdate }) => {
   };
 
   return (
-    <Box sx={{ maxWidth: 700, mx: "auto", mt: 1.5, p: 1.5, borderRadius: 2, boxShadow: 3, bgcolor: "white" }}>
+    <Box sx={{ maxWidth: 700, mx: "auto", mt: 1, p: 1, borderRadius: 2, boxShadow: 3, bgcolor: "white" }}>
       <Typography variant="h6" gutterBottom>
-        {editData ? "Edit Activity" : "Create Activity"}
+        {editData 
+    ? `Edit ${activityType} Activity` 
+    : `Create ${activityType} Activity`}
       </Typography>
       <form onSubmit={handleSubmit}>
-        <TextField select label="Job Listing" name="jobListing" fullWidth margin="normal"
+        <TextField select label="Job Listing" name="jobListing" fullWidth margin="dense"
           value={formData.jobListing} onChange={handleChange}>
           {jobListings.map((job, i) => <MenuItem key={i} value={job}>{job}</MenuItem>)}
         </TextField>
 
-        <TextField label="Topic" name="topic" fullWidth margin="dense" value={formData.topic} onChange={handleChange} />
+        <TextField label="Topic" name="topic" fullWidth margin="normal" value={formData.topic} onChange={handleChange} />
 
         <TextField select label="Session" name="session" fullWidth margin="normal" value={formData.session} onChange={handleChange}>
           {sessions.map((s, i) => <MenuItem key={i} value={s}>{s}</MenuItem>)}
@@ -146,14 +149,14 @@ const CreateActivityForm = ({ activityType, editData, onUpdate }) => {
           InputLabelProps={{ shrink: true }} value={formData.resultDate} onChange={handleChange} />
 
         {/* Max/Min Marks */}
-        <Box display="flex" alignItems="center" mt={1}>
+        <Box display="flex" alignItems="center" mt={2}>
           <Typography sx={{ minWidth: 100 }}>Max Marks</Typography>
           <IconButton onClick={() => handleMarksChange("maxMarks", -5)}><RemoveIcon /></IconButton>
           <TextField type="number" value={formData.maxMarks} onChange={(e) => handleChange({ target: { name: "maxMarks", value: parseInt(e.target.value) } })} sx={{ width: 80, mx: 1 }} />
           <IconButton onClick={() => handleMarksChange("maxMarks", 5)}><AddIcon /></IconButton>
         </Box>
 
-        <Box display="flex" alignItems="center" mt={1}>
+        <Box display="flex" alignItems="center" mt={2}>
           <Typography sx={{ minWidth: 100 }}>Min Marks</Typography>
           <IconButton onClick={() => handleMarksChange("minMarks", -5)}><RemoveIcon /></IconButton>
           <TextField type="number" value={formData.minMarks} onChange={(e) => handleChange({ target: { name: "minMarks", value: parseInt(e.target.value) } })} sx={{ width: 80, mx: 1 }} />
@@ -161,9 +164,9 @@ const CreateActivityForm = ({ activityType, editData, onUpdate }) => {
         </Box>
 
         <TextField label="Nominee" name="nominee" fullWidth margin="normal" value={formData.nominee} onChange={handleChange} />
-        <TextField label="Remark" name="remark" fullWidth margin="normal" multiline rows={1} value={formData.remark} onChange={handleChange} />
+        <TextField label="Remark" name="remark" fullWidth margin="normal" multiline rows={2} value={formData.remark} onChange={handleChange} />
 
-        <Typography variant="subtitle1" mt={1} mb={0.5}>Select Courses</Typography>
+        <Typography variant="subtitle1" mt={2}>Select Courses</Typography>
         <Grid container spacing={1}>
           {courses.map((course, i) => (
             <Grid item xs={6} sm={4} key={i}>

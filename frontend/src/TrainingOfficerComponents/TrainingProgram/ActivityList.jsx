@@ -1,30 +1,41 @@
+//src/TrainingOfficerComponents/TrainingProgram/ActivityList
 import React, { useEffect, useState } from "react";
 
 const ActivityList = ({ activityType, limit, onEdit, onDelete }) => {
   const [activities, setActivities] = useState([]);
 
   const loadActivities = () => {
-    const stored = JSON.parse(localStorage.getItem("activities")) || [];
-    let filtered = stored
-      .filter(a => (activityType ? a.type === activityType : true))
-      .sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
-    if (limit) filtered = filtered.slice(0, limit);
-    setActivities(filtered);
-  };
+  const stored = JSON.parse(localStorage.getItem("activities")) || [];
+  
+  let filtered = stored
+    // Exclude deleted activities
+    .filter(a => !a.deleted)
+    // Only the type if activityType is given
+    .filter(a => (activityType ? a.type === activityType : true))
+    // Optional: only show resultUploaded (for priority list)
+    // .filter(a => a.resultUploaded) // uncomment if needed
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  
+  if (limit) filtered = filtered.slice(0, limit);
+  setActivities(filtered);
+};
+
 
   useEffect(() => { loadActivities(); }, [activityType, limit]);
 
   // Internal delete if parent doesn't provide one
   const handleDelete = (id) => {
-    if (onDelete) {
-      onDelete(id); // call parent handler
-    } else {
-      const stored = JSON.parse(localStorage.getItem("activities")) || [];
-      const updated = stored.filter(a => a.id !== id);
-      localStorage.setItem("activities", JSON.stringify(updated));
-      loadActivities();
-    }
-  };
+  if (onDelete) {
+    onDelete(id); // call parent handler
+  } else {
+    const stored = JSON.parse(localStorage.getItem("activities")) || [];
+    const updated = stored.map(a => 
+      a.id === id ? { ...a, deleted: true } : a // mark as deleted instead of removing
+    );
+    localStorage.setItem("activities", JSON.stringify(updated));
+    loadActivities();
+  }
+};
 
   return (
     <div>

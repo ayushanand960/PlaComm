@@ -40,7 +40,7 @@ const StudentAssessment = () => {
             color: "black",
             "&:hover": { bgcolor: "goldenrod", color: "white" },
           }}
-          onClick={() => handleNavigate("mockinterview")}
+          onClick={() => handleNavigate("trainingprogram/mock/create")}
         >
           Conduct Mock Interviews
         </Button>
@@ -51,7 +51,18 @@ const StudentAssessment = () => {
             color: "black",
             "&:hover": { bgcolor: "goldenrod", color: "white" },
           }}
-          onClick={() => handleNavigate("trainingprogram")}
+          onClick={() => handleNavigate("trainingprogram/pi/create")}
+        >
+          Conduct Personal Interview 
+        </Button>
+        <Button
+          variant="contained"
+          sx={{
+            bgcolor: "white",
+            color: "black",
+            "&:hover": { bgcolor: "goldenrod", color: "white" },
+          }}
+          onClick={() => handleNavigate("trainingprogram/gd/create")}
         >
           Conduct Group Discussions
         </Button>
@@ -62,7 +73,7 @@ const StudentAssessment = () => {
             color: "black",
             "&:hover": { bgcolor: "goldenrod", color: "white" },
           }}
-          onClick={() => handleNavigate("trainingprogram")}
+          onClick={() => handleNavigate("trainingprogram/technical/create")}
         >
           Conduct Technical Assessment
         </Button>
@@ -73,7 +84,7 @@ const StudentAssessment = () => {
             color: "black",
             "&:hover": { bgcolor: "goldenrod", color: "white" },
           }}
-          onClick={() => handleNavigate("trainingprogram")}
+          onClick={() => handleNavigate("trainingprogram/aptitude/create")}
         >
           Conduct Aptitude Test
         </Button>

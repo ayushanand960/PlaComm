@@ -15,8 +15,8 @@ from datetime import timedelta
 import os
 from dotenv import load_dotenv
 
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 load_dotenv(os.path.join(BASE_DIR, '..', '.env'))
 
 AUTH_USER_MODEL = "users.User"
@@ -45,6 +45,9 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 CORS_ALLOWED_ORIGINS = [
 'http://localhost:5173',
 'http://127.0.0.1:5173',
+'http://127.0.0.1:5174',
+'http://localhost:5174',
+
 ]
 CORS_ALLOW_CREDENTIALS = True
 
@@ -55,6 +58,8 @@ CSRF_COOKIE_NAME = "csrftoken"
 CSRF_TRUSTED_ORIGINS = [
 'http://localhost:5173',
 'http://127.0.0.1:5173',
+'http://localhost:5174',
+'http://127.0.0.1:5174',
 ]
 
 REST_FRAMEWORK = {
@@ -96,6 +101,7 @@ INSTALLED_APPS = [
     'testAPI',
     'PlacementCoordinator',
     'users',
+    'student_profile'
 ]
 
 MIDDLEWARE = [
@@ -181,3 +187,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"

@@ -9,6 +9,7 @@ import PriorityList from "../pages/TrainingOfficerPages/PriorityList.jsx";
 import StudentEvaluation from "../pages/TrainingOfficerPages/StudentEvaluation.jsx";
 import MockInterview from "../pages/TrainingOfficerPages/MockInterview.jsx"
 import TrainingReport from "../pages/TrainingOfficerPages/TrainingReport.jsx";
+import FullSectionList from "../pages/TrainingOfficerPages/FullSectionList.jsx";
 
 // 🟡 GD Pages
 import GDCreate from "../pages/TrainingOfficerPages/GD/GDCreate.jsx";
@@ -42,7 +43,9 @@ const TrainingOfficerRoutes = () => {
         <Route index element={<Navigate to="dashboard" replace />} />
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="prioritylist" element={<PriorityList />} />
+        <Route path="/prioritylist/:section" element={<FullSectionList />} />
         <Route path="studentevaluation" element={<StudentEvaluation />} />
+        <Route path="/studentevaluation/:section" element={<FullSectionList />} />
         <Route path="trainingreport" element={<TrainingReport />} />
         <Route path="mockinterview" element={<MockInterview />} />
 

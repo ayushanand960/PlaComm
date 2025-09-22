@@ -8,8 +8,12 @@ from .views import (
     UserProfileView,
     ListUsersView,
     UpdateUserRoleView,
-    UserDetailView,
+    UserDetailView,StudentDetailView,PersonalDetailViewSet
 )
+personal_detail = PersonalDetailViewSet.as_view({
+    "get": "list",
+    "put": "update",
+})
 
 urlpatterns = [
     # Registration
@@ -23,9 +27,13 @@ urlpatterns = [
     
     # User profile
     path("profile/", UserProfileView.as_view(), name="user-profile"),
+    path("personal-details/", personal_detail, name="personal-details"),
     
     # Admin-only user management
     path("users/", ListUsersView.as_view(), name="list-users"),
-    path("users/<path:unique_id>/", UserDetailView.as_view(), name="user-detail"),
+    path("users/<path:unique_id>/", UserDetailView.as_view(), name="user-detail"),# Replace UserDetailView for student dashboard
+path("student/data/<path:unique_id>/", StudentDetailView.as_view(), name="user-detail"),
+
+    
     path("<path:unique_id>/role/", UpdateUserRoleView.as_view(), name="update-user-role"),
 ]

@@ -90,7 +90,8 @@ export default function Register() {
       setConfirmPassword("");
     } catch (err) {
       console.error(err.response?.data || err.message);
-      alert("Registration failed. Please check your details.");
+      //   alert("Registration failed. Please check your details.");
+      alert("Registration failed: " + JSON.stringify(err.response?.data));
     } finally {
       setLoading(false);
     }
