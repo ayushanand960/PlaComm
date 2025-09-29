@@ -1,4 +1,200 @@
-//src/TrainingOfficerComponents/TrainingProgram/CreateActivityForm
+// //src/TrainingOfficerComponents/TrainingProgram/CreateActivityForm
+// import React, { useState, useEffect } from "react";
+// import {
+//   Box,
+//   TextField,
+//   MenuItem,
+//   Button,
+//   Checkbox,
+//   FormControlLabel,
+//   Typography,
+//   IconButton,
+//   Snackbar,
+//   Alert,
+//   Grid,
+// } from "@mui/material";
+// import AddIcon from "@mui/icons-material/Add";
+// import RemoveIcon from "@mui/icons-material/Remove";
+
+// const CreateActivityForm = ({ activityType, editData, onUpdate }) => {
+//   const [formData, setFormData] = useState({
+//     jobListing: "",
+//     topic: "",
+//     session: "",
+//     date: "",
+//     resultDate: "",
+//     maxMarks: 50,
+//     minMarks: 20,
+//     nominee: "",
+//     remark: "",
+//     courses: [],
+//   });
+
+//   const [openSnackbar, setOpenSnackbar] = useState(false);
+
+//   // Generate sessions dynamically (5 years)
+//   const currentYear = new Date().getFullYear();
+//   const sessions = Array.from({ length: 5 }, (_, i) => `${currentYear + i}-${currentYear + i + 1}`);
+
+//   const jobListings = ["Software Engineer", "Data Analyst", "Backend Developer", "UI/UX Designer"];
+
+//   const courses = [
+//     "Computer Science", "Electronics", "Mechanical", "Civil", "IT", "AI & ML", "Data Science",
+//     "Cyber Security", "Networking", "Business Analytics", "Robotics", "Physics", "Chemistry",
+//     "Mathematics", "Biotechnology", "Economics", "Statistics", "Electrical", "Design", "Marketing",
+//   ];
+
+//   // Prefill form when editData changes
+//   useEffect(() => {
+//     if (editData) {
+//       setFormData({
+//         jobListing: editData.jobListing || "",
+//         topic: editData.topic || "",
+//         session: editData.session || "",
+//         date: editData.date || "",
+//         resultDate: editData.resultDate || "",
+//         maxMarks: editData.maxMarks || 50,
+//         minMarks: editData.minMarks || 20,
+//         nominee: editData.nominee || "",
+//         remark: editData.remark || "",
+//         courses: editData.courses || [],
+//       });
+//     }
+//   }, [editData]);
+
+//   // Handle input changes
+//   const handleChange = (e) => {
+//     setFormData({ ...formData, [e.target.name]: e.target.value });
+//   };
+
+//   const handleCheckboxChange = (course) => {
+//     const updatedCourses = formData.courses.includes(course)
+//       ? formData.courses.filter((c) => c !== course)
+//       : [...formData.courses, course];
+//     setFormData({ ...formData, courses: updatedCourses });
+//   };
+
+//   const handleMarksChange = (field, delta) => {
+//     setFormData({
+//       ...formData,
+//       [field]: Math.max(0, formData[field] + delta),
+//     });
+//   };
+
+//   // ✅ Handle submit (create or edit)
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+
+//     const newActivity = {
+//       id: editData ? editData.id : Date.now(),
+//       type: activityType,   // "GD" for GD activities
+//       ...formData,
+//       createdAt: editData ? editData.createdAt : new Date().toISOString(),
+//     };
+
+//     const existing = JSON.parse(localStorage.getItem("activities")) || [];
+
+//     if (editData) {
+//       // Update existing activity
+//       const updated = existing.map((a) => (a.id === editData.id ? newActivity : a));
+//       localStorage.setItem("activities", JSON.stringify(updated));
+//       onUpdate && onUpdate(); // refresh parent list
+//     } else {
+//       // Add new activity
+//       existing.push(newActivity);
+//       localStorage.setItem("activities", JSON.stringify(existing));
+//     }
+
+//     // Reset form only if creating new
+//     if (!editData) {
+//       setFormData({
+//         jobListing: "",
+//         topic: "",
+//         session: "",
+//         date: "",
+//         resultDate: "",
+//         maxMarks: 50,
+//         minMarks: 20,
+//         nominee: "",
+//         remark: "",
+//         courses: [],
+//       });
+//     }
+
+//     setOpenSnackbar(true);
+//   };
+
+//   return (
+//     <Box sx={{ maxWidth: 700, mx: "auto", mt: 1, p: 1, borderRadius: 2, boxShadow: 3, bgcolor: "white" }}>
+//       <Typography variant="h6" gutterBottom>
+//         {editData
+//     ? `Edit ${activityType} Activity`
+//     : `Create ${activityType} Activity`}
+//       </Typography>
+//       <form onSubmit={handleSubmit}>
+//         <TextField select label="Job Listing" name="jobListing" fullWidth margin="dense"
+//           value={formData.jobListing} onChange={handleChange}>
+//           {jobListings.map((job, i) => <MenuItem key={i} value={job}>{job}</MenuItem>)}
+//         </TextField>
+
+//         <TextField label="Topic" name="topic" fullWidth margin="normal" value={formData.topic} onChange={handleChange} />
+
+//         <TextField select label="Session" name="session" fullWidth margin="normal" value={formData.session} onChange={handleChange}>
+//           {sessions.map((s, i) => <MenuItem key={i} value={s}>{s}</MenuItem>)}
+//         </TextField>
+
+//         <TextField type="date" label="Date" name="date" fullWidth margin="normal"
+//           InputLabelProps={{ shrink: true }} value={formData.date} onChange={handleChange} />
+//         <TextField type="date" label="Result Date" name="resultDate" fullWidth margin="normal"
+//           InputLabelProps={{ shrink: true }} value={formData.resultDate} onChange={handleChange} />
+
+//         {/* Max/Min Marks */}
+//         <Box display="flex" alignItems="center" mt={2}>
+//           <Typography sx={{ minWidth: 100 }}>Max Marks</Typography>
+//           <IconButton onClick={() => handleMarksChange("maxMarks", -5)}><RemoveIcon /></IconButton>
+//           <TextField type="number" value={formData.maxMarks} onChange={(e) => handleChange({ target: { name: "maxMarks", value: parseInt(e.target.value) } })} sx={{ width: 80, mx: 1 }} />
+//           <IconButton onClick={() => handleMarksChange("maxMarks", 5)}><AddIcon /></IconButton>
+//         </Box>
+
+//         <Box display="flex" alignItems="center" mt={2}>
+//           <Typography sx={{ minWidth: 100 }}>Min Marks</Typography>
+//           <IconButton onClick={() => handleMarksChange("minMarks", -5)}><RemoveIcon /></IconButton>
+//           <TextField type="number" value={formData.minMarks} onChange={(e) => handleChange({ target: { name: "minMarks", value: parseInt(e.target.value) } })} sx={{ width: 80, mx: 1 }} />
+//           <IconButton onClick={() => handleMarksChange("minMarks", 5)}><AddIcon /></IconButton>
+//         </Box>
+
+//         <TextField label="Nominee" name="nominee" fullWidth margin="normal" value={formData.nominee} onChange={handleChange} />
+//         <TextField label="Remark" name="remark" fullWidth margin="normal" multiline rows={2} value={formData.remark} onChange={handleChange} />
+
+//         <Typography variant="subtitle1" mt={2}>Select Courses</Typography>
+//         <Grid container spacing={1}>
+//           {courses.map((course, i) => (
+//             <Grid item xs={6} sm={4} key={i}>
+//               <FormControlLabel control={
+//                 <Checkbox checked={formData.courses.includes(course)} onChange={() => handleCheckboxChange(course)} />
+//               } label={course} />
+//             </Grid>
+//           ))}
+//         </Grid>
+
+//         <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 3 }}>
+//           {editData ? "Update Activity" : "Create Activity"}
+//         </Button>
+//       </form>
+
+//       {/* Snackbar */}
+//       <Snackbar open={openSnackbar} autoHideDuration={4000} onClose={() => setOpenSnackbar(false)}
+//         anchorOrigin={{ vertical: "top", horizontal: "center" }}>
+//         <Alert severity="success" sx={{ width: "100%" }}>
+//           ✅ {editData ? "Activity updated!" : "Activity Created Successfully! Check In View Activity"}
+//         </Alert>
+//       </Snackbar>
+//     </Box>
+//   );
+// };
+
+// export default CreateActivityForm;
+// src/TrainingOfficerComponents/TrainingProgram/CreateActivityForm.jsx
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -15,6 +211,8 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import axiosInstance from "../../api/axiosInstance";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 
 const CreateActivityForm = ({ activityType, editData, onUpdate }) => {
   const [formData, setFormData] = useState({
@@ -30,31 +228,55 @@ const CreateActivityForm = ({ activityType, editData, onUpdate }) => {
     courses: [],
   });
 
+  const [jobListings, setJobListings] = useState([]);
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
-  // Generate sessions dynamically (5 years)
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Generate sessions dynamically (5 years ahead)
   const currentYear = new Date().getFullYear();
-  const sessions = Array.from({ length: 5 }, (_, i) => `${currentYear + i}-${currentYear + i + 1}`);
+  const sessions = Array.from(
+    { length: 5 },
+    (_, i) => `${currentYear + i}-${currentYear + i + 1}`
+  );
 
-  const jobListings = ["Software Engineer", "Data Analyst", "Backend Developer", "UI/UX Designer"];
-
+  // Static courses (since they’re chosen via checkboxes)
   const courses = [
-    "Computer Science", "Electronics", "Mechanical", "Civil", "IT", "AI & ML", "Data Science",
-    "Cyber Security", "Networking", "Business Analytics", "Robotics", "Physics", "Chemistry",
-    "Mathematics", "Biotechnology", "Economics", "Statistics", "Electrical", "Design", "Marketing",
+    "Computer Science",
+    "Electronics",
+    "Mechanical",
+    "Civil",
+    "IT",
+    "AI & ML",
+    "Data Science",
+    "Cyber Security",
+    "Networking",
+    "Business Analytics",
+    "Robotics",
+    "Physics",
+    "Chemistry",
+    "Mathematics",
+    "Biotechnology",
+    "Economics",
+    "Statistics",
+    "Electrical",
+    "Design",
+    "Marketing",
   ];
 
-  // Prefill form when editData changes
+  // Prefill edit form
   useEffect(() => {
     if (editData) {
       setFormData({
-        jobListing: editData.jobListing || "",
+        jobListing: editData.job?.id || "",
         topic: editData.topic || "",
         session: editData.session || "",
         date: editData.date || "",
-        resultDate: editData.resultDate || "",
-        maxMarks: editData.maxMarks || 50,
-        minMarks: editData.minMarks || 20,
+        resultDate: editData.result_date || "",
+        maxMarks: editData.max_marks || 50,
+        minMarks: editData.min_marks || 20,
         nominee: editData.nominee || "",
         remark: editData.remark || "",
         courses: editData.courses || [],
@@ -62,131 +284,266 @@ const CreateActivityForm = ({ activityType, editData, onUpdate }) => {
     }
   }, [editData]);
 
-  // Handle input changes
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  // Fetch job postings from PlacementOfficer backend
+  useEffect(() => {
+    axiosInstance
+      .get("/placements/job-postings/")
+      .then((res) => setJobListings(res.data))
+      .catch((err) => console.error(err));
+  }, []);
 
+  // Input handlers
+  const handleChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   const handleCheckboxChange = (course) => {
     const updatedCourses = formData.courses.includes(course)
       ? formData.courses.filter((c) => c !== course)
       : [...formData.courses, course];
     setFormData({ ...formData, courses: updatedCourses });
   };
-
-  const handleMarksChange = (field, delta) => {
+  const handleMarksChange = (field, delta) =>
     setFormData({
       ...formData,
       [field]: Math.max(0, formData[field] + delta),
     });
-  };
 
-  // ✅ Handle submit (create or edit)
-  const handleSubmit = (e) => {
+  // Submit
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const newActivity = {
-      id: editData ? editData.id : Date.now(),
-      type: activityType,   // "GD" for GD activities
-      ...formData,
-      createdAt: editData ? editData.createdAt : new Date().toISOString(),
+    const payload = {
+      type: activityType, // "GD", "APT", etc.
+      job_id: formData.jobListing, // backend FK id
+      topic: formData.topic,
+      session: formData.session,
+      date: formData.date,
+      result_date: formData.resultDate,
+      max_marks: formData.maxMarks,
+      min_marks: formData.minMarks,
+      nominee: formData.nominee,
+      remark: formData.remark,
+      courses: formData.courses,
     };
 
-    const existing = JSON.parse(localStorage.getItem("activities")) || [];
-
-    if (editData) {
-      // Update existing activity
-      const updated = existing.map((a) => (a.id === editData.id ? newActivity : a));
-      localStorage.setItem("activities", JSON.stringify(updated));
-      onUpdate && onUpdate(); // refresh parent list
-    } else {
-      // Add new activity
-      existing.push(newActivity);
-      localStorage.setItem("activities", JSON.stringify(existing));
+    try {
+      if (editData) {
+        await axiosInstance.put(
+          `/training/activities/${editData.id}/`,
+          payload
+        );
+      } else {
+        await axiosInstance.post(`/training/activities/`, payload);
+      }
+      setOpenSnackbar(true);
+      onUpdate && onUpdate();
+      navigate(
+        `/officer-dashboard/${id}/trainingprogram/${activityType.toLowerCase()}/view`,
+        {
+          state: { backPath: `/officer-dashboard/${id}/trainingprogram` },
+        }
+      );
+      if (!editData) {
+        // Reset after new create
+        setFormData({
+          jobListing: "",
+          topic: "",
+          session: "",
+          date: "",
+          resultDate: "",
+          maxMarks: 50,
+          minMarks: 20,
+          nominee: "",
+          remark: "",
+          courses: [],
+        });
+      }
+    } catch (err) {
+      console.error("Error saving activity:", err);
     }
-
-    // Reset form only if creating new
-    if (!editData) {
-      setFormData({
-        jobListing: "",
-        topic: "",
-        session: "",
-        date: "",
-        resultDate: "",
-        maxMarks: 50,
-        minMarks: 20,
-        nominee: "",
-        remark: "",
-        courses: [],
-      });
-    }
-
-    setOpenSnackbar(true);
   };
 
   return (
-    <Box sx={{ maxWidth: 700, mx: "auto", mt: 1, p: 1, borderRadius: 2, boxShadow: 3, bgcolor: "white" }}>
+    <Box
+      sx={{
+        maxWidth: 700,
+        mx: "auto",
+        mt: 1,
+        p: 1,
+        borderRadius: 2,
+        boxShadow: 3,
+        bgcolor: "white",
+      }}
+    >
       <Typography variant="h6" gutterBottom>
-        {editData 
-    ? `Edit ${activityType} Activity` 
-    : `Create ${activityType} Activity`}
+        {editData
+          ? `Edit ${activityType} Activity`
+          : `Create ${activityType} Activity`}
       </Typography>
+
       <form onSubmit={handleSubmit}>
-        <TextField select label="Job Listing" name="jobListing" fullWidth margin="dense"
-          value={formData.jobListing} onChange={handleChange}>
-          {jobListings.map((job, i) => <MenuItem key={i} value={job}>{job}</MenuItem>)}
+        {/* Job Listing Dropdown */}
+        <TextField
+          select
+          label="Job Listing"
+          name="jobListing"
+          fullWidth
+          margin="dense"
+          value={formData.jobListing}
+          onChange={handleChange}
+        >
+          {jobListings.map((job) => (
+            <MenuItem key={job.id} value={job.id}>
+              {job.company_name} - {job.job_title}
+            </MenuItem>
+          ))}
         </TextField>
 
-        <TextField label="Topic" name="topic" fullWidth margin="normal" value={formData.topic} onChange={handleChange} />
-
-        <TextField select label="Session" name="session" fullWidth margin="normal" value={formData.session} onChange={handleChange}>
-          {sessions.map((s, i) => <MenuItem key={i} value={s}>{s}</MenuItem>)}
+        {/* Normal fields */}
+        <TextField
+          label="Topic"
+          name="topic"
+          fullWidth
+          margin="normal"
+          value={formData.topic}
+          onChange={handleChange}
+        />
+        <TextField
+          select
+          label="Session"
+          name="session"
+          fullWidth
+          margin="normal"
+          value={formData.session}
+          onChange={handleChange}
+        >
+          {sessions.map((s, i) => (
+            <MenuItem key={i} value={s}>
+              {s}
+            </MenuItem>
+          ))}
         </TextField>
-
-        <TextField type="date" label="Date" name="date" fullWidth margin="normal"
-          InputLabelProps={{ shrink: true }} value={formData.date} onChange={handleChange} />
-        <TextField type="date" label="Result Date" name="resultDate" fullWidth margin="normal"
-          InputLabelProps={{ shrink: true }} value={formData.resultDate} onChange={handleChange} />
+        <TextField
+          type="date"
+          label="Date"
+          name="date"
+          fullWidth
+          margin="normal"
+          InputLabelProps={{ shrink: true }}
+          value={formData.date}
+          onChange={handleChange}
+        />
+        <TextField
+          type="date"
+          label="Result Date"
+          name="resultDate"
+          fullWidth
+          margin="normal"
+          InputLabelProps={{ shrink: true }}
+          value={formData.resultDate}
+          onChange={handleChange}
+        />
 
         {/* Max/Min Marks */}
         <Box display="flex" alignItems="center" mt={2}>
           <Typography sx={{ minWidth: 100 }}>Max Marks</Typography>
-          <IconButton onClick={() => handleMarksChange("maxMarks", -5)}><RemoveIcon /></IconButton>
-          <TextField type="number" value={formData.maxMarks} onChange={(e) => handleChange({ target: { name: "maxMarks", value: parseInt(e.target.value) } })} sx={{ width: 80, mx: 1 }} />
-          <IconButton onClick={() => handleMarksChange("maxMarks", 5)}><AddIcon /></IconButton>
+          <IconButton onClick={() => handleMarksChange("maxMarks", -5)}>
+            <RemoveIcon />
+          </IconButton>
+          <TextField
+            type="number"
+            value={formData.maxMarks}
+            onChange={(e) =>
+              handleChange({
+                target: { name: "maxMarks", value: parseInt(e.target.value) },
+              })
+            }
+            sx={{ width: 80, mx: 1 }}
+          />
+          <IconButton onClick={() => handleMarksChange("maxMarks", 5)}>
+            <AddIcon />
+          </IconButton>
         </Box>
 
         <Box display="flex" alignItems="center" mt={2}>
           <Typography sx={{ minWidth: 100 }}>Min Marks</Typography>
-          <IconButton onClick={() => handleMarksChange("minMarks", -5)}><RemoveIcon /></IconButton>
-          <TextField type="number" value={formData.minMarks} onChange={(e) => handleChange({ target: { name: "minMarks", value: parseInt(e.target.value) } })} sx={{ width: 80, mx: 1 }} />
-          <IconButton onClick={() => handleMarksChange("minMarks", 5)}><AddIcon /></IconButton>
+          <IconButton onClick={() => handleMarksChange("minMarks", -5)}>
+            <RemoveIcon />
+          </IconButton>
+          <TextField
+            type="number"
+            value={formData.minMarks}
+            onChange={(e) =>
+              handleChange({
+                target: { name: "minMarks", value: parseInt(e.target.value) },
+              })
+            }
+            sx={{ width: 80, mx: 1 }}
+          />
+          <IconButton onClick={() => handleMarksChange("minMarks", 5)}>
+            <AddIcon />
+          </IconButton>
         </Box>
 
-        <TextField label="Nominee" name="nominee" fullWidth margin="normal" value={formData.nominee} onChange={handleChange} />
-        <TextField label="Remark" name="remark" fullWidth margin="normal" multiline rows={2} value={formData.remark} onChange={handleChange} />
+        <TextField
+          label="Nominee"
+          name="nominee"
+          fullWidth
+          margin="normal"
+          value={formData.nominee}
+          onChange={handleChange}
+        />
+        <TextField
+          label="Remark"
+          name="remark"
+          fullWidth
+          margin="normal"
+          multiline
+          rows={2}
+          value={formData.remark}
+          onChange={handleChange}
+        />
 
-        <Typography variant="subtitle1" mt={2}>Select Courses</Typography>
+        <Typography variant="subtitle1" mt={2}>
+          Select Courses
+        </Typography>
         <Grid container spacing={1}>
           {courses.map((course, i) => (
             <Grid item xs={6} sm={4} key={i}>
-              <FormControlLabel control={
-                <Checkbox checked={formData.courses.includes(course)} onChange={() => handleCheckboxChange(course)} />
-              } label={course} />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={formData.courses.includes(course)}
+                    onChange={() => handleCheckboxChange(course)}
+                  />
+                }
+                label={course}
+              />
             </Grid>
           ))}
         </Grid>
 
-        <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 3 }}>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          fullWidth
+          sx={{ mt: 3 }}
+        >
           {editData ? "Update Activity" : "Create Activity"}
         </Button>
       </form>
 
       {/* Snackbar */}
-      <Snackbar open={openSnackbar} autoHideDuration={4000} onClose={() => setOpenSnackbar(false)}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={4000}
+        onClose={() => setOpenSnackbar(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
         <Alert severity="success" sx={{ width: "100%" }}>
-          ✅ {editData ? "Activity updated!" : "Activity Created Successfully! Check In View Activity"}
+          ✅{" "}
+          {editData
+            ? "Activity updated!"
+            : "Activity Created Successfully! Check In View Activity"}
         </Alert>
       </Snackbar>
     </Box>
