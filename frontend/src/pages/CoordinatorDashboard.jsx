@@ -40,6 +40,7 @@ export default function CoordinatorDashboard() {
   ];    
 
 
+
    const navigate = useNavigate();
   const { id } = useParams(); // Only id
   const decodedId = decodeURIComponent(id);
@@ -89,6 +90,37 @@ return (
           </Grid>
         ))}
       </Grid>
+
+
+
+      
+              {/* Discussion Forum Card */}
+              <Box mb={4}>
+                <Card
+                  sx={{
+                    cursor: "pointer",
+                    transition: "0.3s",
+                    "&:hover": { boxShadow: 6 },
+                    height: 120,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: 2,
+                    backgroundColor: "#e3f2fd"
+                  }}
+                  onClick={() => navigate("/discussion-forum")}
+                >
+                  <CardContent>
+                    <Typography variant="h6">Discussion Forum</Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Explore categories, threads, and participate in discussions.
+                    </Typography>
+                  </CardContent>
+                  <Button variant="contained" onClick={() => navigate("/discussion-forum")}>
+                    Go
+                  </Button>
+                </Card>
+              </Box>
 
       {/* Student Applications */}
       <Box mt={4}>

@@ -103,6 +103,7 @@ INSTALLED_APPS = [
     'users',
     'student_profile',
     'resume_ai',
+    'forum',
 
 ]
 
