@@ -15,11 +15,11 @@ from datetime import timedelta
 import os
 from dotenv import load_dotenv
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 load_dotenv(os.path.join(BASE_DIR, '..', '.env'))
 
-AUTH_USER_MODEL = "users.User"
+AUTH_USER_MODEL = "yourappname.CustomUser"
 
 
 DEBUG = os.getenv('DJANGO_DEBUG', '0') == '1'
@@ -45,9 +45,6 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 CORS_ALLOWED_ORIGINS = [
 'http://localhost:5173',
 'http://127.0.0.1:5173',
-'http://127.0.0.1:5174',
-'http://localhost:5174',
-
 ]
 CORS_ALLOW_CREDENTIALS = True
 
@@ -58,13 +55,11 @@ CSRF_COOKIE_NAME = "csrftoken"
 CSRF_TRUSTED_ORIGINS = [
 'http://localhost:5173',
 'http://127.0.0.1:5173',
-'http://localhost:5174',
-'http://127.0.0.1:5174',
 ]
 
 REST_FRAMEWORK = {
 'DEFAULT_AUTHENTICATION_CLASSES': (
- "users.authentication.CookieJWTAuthentication",
+ "testAPI.authentication.CookieJWTAuthentication",
 # 'rest_framework_simplejwt.authentication.JWTAuthentication',
 ),
 "DEFAULT_PERMISSION_CLASSES": [
@@ -77,11 +72,6 @@ SIMPLE_JWT = {
 'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
 "AUTH_COOKIE_ACCESS": "access_token",  # cookie names
 "AUTH_COOKIE_REFRESH": "refresh_token",
-"AUTH_COOKIE_SECURE": False,    # True if HTTPS
-"AUTH_COOKIE_HTTP_ONLY": True,
-"ROTATE_REFRESH_TOKENS": True,
-"BLACKLIST_AFTER_ROTATION": True,
-"AUTH_COOKIE_SAMESITE": "None",
 }
 
 # Application definition
@@ -103,7 +93,8 @@ INSTALLED_APPS = [
     'users',
     'student_profile',
     'resume_ai',
-    'training_officer'
+    'training_officer',
+    'forum',
 
 ]
 
@@ -190,6 +181,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"

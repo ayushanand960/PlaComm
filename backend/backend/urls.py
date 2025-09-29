@@ -25,8 +25,8 @@ urlpatterns = [
     path("placements/", include("PlacementCoordinator.urls")),
     path("students/", include("student_profile.urls")),
     path("resume/", include("resume_ai.urls")),
-    path("", include("training_officer.urls")), 
-
+    path("forum/", include("forum.urls")),
+    path("", include("training_officer.urls")),
 
     # Cookie-based auth endpoints
     # path("auth/login/", CookieLoginView.as_view(), name="cookie_login"),
