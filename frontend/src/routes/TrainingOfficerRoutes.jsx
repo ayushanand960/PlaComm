@@ -3,11 +3,15 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import TrainingOfficerLayout from "../Layouts/TrainingOfficerLayout";
 
+import ViewActivity from "../TrainingOfficerComponents/TrainingProgram/ViewActivity";
+import PastActivities from "../TrainingOfficerComponents/TrainingProgram/PastActivities";
+import CreateActivityForm from "../TrainingOfficerComponents/TrainingProgram/CreateActivityForm";
+
 import Dashboard from "../pages/TrainingOfficerPages/Dashboard.jsx";
 import TrainingProgram from "../pages/TrainingOfficerPages/TrainingProgram.jsx";
 import PriorityList from "../pages/TrainingOfficerPages/PriorityList.jsx";
 import StudentEvaluation from "../pages/TrainingOfficerPages/StudentEvaluation.jsx";
-import MockInterview from "../pages/TrainingOfficerPages/MockInterview.jsx"
+import MockInterview from "../pages/TrainingOfficerPages/MockInterview.jsx";
 import TrainingReport from "../pages/TrainingOfficerPages/TrainingReport.jsx";
 import FullSectionList from "../pages/TrainingOfficerPages/FullSectionList.jsx";
 
@@ -45,41 +49,98 @@ const TrainingOfficerRoutes = () => {
         <Route path="prioritylist" element={<PriorityList />} />
         <Route path="/prioritylist/:section" element={<FullSectionList />} />
         <Route path="studentevaluation" element={<StudentEvaluation />} />
-        <Route path="/studentevaluation/:section" element={<FullSectionList />} />
+        <Route
+          path="/studentevaluation/:section"
+          element={<FullSectionList />}
+        />
         <Route path="trainingreport" element={<TrainingReport />} />
         <Route path="mockinterview" element={<MockInterview />} />
 
-      {/* Training Program main page */}
-  <Route path="trainingprogram" element={<TrainingProgram />} />
+        {/* Training Program main page */}
+        <Route path="trainingprogram" element={<TrainingProgram />} />
+        <Route
+          path="trainingprogram/gd/view"
+          element={<ViewActivity activityType="GD" title="Group Discussion" />}
+        />
+        <Route
+          path="trainingprogram/gd/create"
+          element={<CreateActivityForm activityType="GD" />}
+        />
+        <Route
+          path="trainingprogram/gd/past"
+          element={
+            <PastActivities activityType="GD" title="Group Discussion" />
+          }
+        />
 
-  {/* GD routes */}
-  <Route path="trainingprogram/gd/create" element={<GDCreate />} />
-  <Route path="trainingprogram/gd/view" element={<GDView />} />
-  <Route path="trainingprogram/gd/past" element={<GDPast />} />
+        {/* Aptitude */}
+        <Route
+          path="trainingprogram/apt/view"
+          element={<ViewActivity activityType="APT" title="Aptitude Test" />}
+        />
+        <Route
+          path="trainingprogram/apt/create"
+          element={<CreateActivityForm activityType="APT" />}
+        />
+        <Route
+          path="trainingprogram/apt/past"
+          element={<PastActivities activityType="APT" title="Aptitude Test" />}
+        />
 
-  {/* Aptitude routes */}
-  <Route path="trainingprogram/aptitude/create" element={<AptitudeCreate />} />
-  <Route path="trainingprogram/aptitude/view" element={<AptitudeView />} />
-  <Route path="trainingprogram/aptitude/past" element={<AptitudePast />} />
+        {/* Technical */}
+        <Route
+          path="trainingprogram/tech/view"
+          element={
+            <ViewActivity activityType="TECH" title="Technical Assessment" />
+          }
+        />
+        <Route
+          path="trainingprogram/tech/create"
+          element={<CreateActivityForm activityType="TECH" />}
+        />
+        <Route
+          path="trainingprogram/tech/past"
+          element={
+            <PastActivities activityType="TECH" title="Technical Assessment" />
+          }
+        />
 
-  {/* Technical routes */}
-  <Route path="trainingprogram/technical/create" element={<TechnicalCreate />} />
-  <Route path="trainingprogram/technical/view" element={<TechnicalView />} />
-  <Route path="trainingprogram/technical/past" element={<TechnicalPast />} />
+        {/* Mock */}
+        <Route
+          path="trainingprogram/mock/view"
+          element={<ViewActivity activityType="MOCK" title="Mock Interview" />}
+        />
+        <Route
+          path="trainingprogram/mock/create"
+          element={<CreateActivityForm activityType="MOCK" />}
+        />
+        <Route
+          path="trainingprogram/mock/past"
+          element={
+            <PastActivities activityType="MOCK" title="Mock Interview" />
+          }
+        />
 
-  {/* Mock routes */}
-  <Route path="trainingprogram/mock/create" element={<MockCreate />} />
-  <Route path="trainingprogram/mock/view" element={<MockView />} />
-  <Route path="trainingprogram/mock/past" element={<MockPast />} />
-
-  {/* PI routes */}
-  <Route path="trainingprogram/pi/create" element={<PICreate />} />
-  <Route path="trainingprogram/pi/view" element={<PIView />} />
-  <Route path="trainingprogram/pi/past" element={<PIPast />} />
-  </Route>
+        {/* Personal */}
+        <Route
+          path="trainingprogram/pi/view"
+          element={
+            <ViewActivity activityType="PI" title="Personal Interview" />
+          }
+        />
+        <Route
+          path="trainingprogram/pi/create"
+          element={<CreateActivityForm activityType="PI" />}
+        />
+        <Route
+          path="trainingprogram/pi/past"
+          element={
+            <PastActivities activityType="PI" title="Personal Interview" />
+          }
+        />
+      </Route>
     </Routes>
   );
 };
 
 export default TrainingOfficerRoutes;
-

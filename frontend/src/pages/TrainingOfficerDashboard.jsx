@@ -81,9 +81,7 @@ const TrainingOfficerDashboard = () => {
       </Container>
     );
 
-  return (
-    <TrainingOfficerRoutes />
-  );
+  return <TrainingOfficerRoutes />;
 };
 
 export default TrainingOfficerDashboard;

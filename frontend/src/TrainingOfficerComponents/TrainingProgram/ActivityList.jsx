@@ -1,60 +1,143 @@
-//src/TrainingOfficerComponents/TrainingProgram/ActivityList
+// //src/TrainingOfficerComponents/TrainingProgram/ActivityList
+// import React, { useEffect, useState } from "react";
+
+// const ActivityList = ({ activityType, limit, onEdit, onDelete }) => {
+//   const [activities, setActivities] = useState([]);
+
+//   const loadActivities = () => {
+//   const stored = JSON.parse(localStorage.getItem("activities")) || [];
+
+//   let filtered = stored
+//     // Exclude deleted activities
+//     .filter(a => !a.deleted)
+//     // Only the type if activityType is given
+//     .filter(a => (activityType ? a.type === activityType : true))
+//     // Optional: only show resultUploaded (for priority list)
+//     // .filter(a => a.resultUploaded) // uncomment if needed
+//     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+//   if (limit) filtered = filtered.slice(0, limit);
+//   setActivities(filtered);
+// };
+
+//   useEffect(() => { loadActivities(); }, [activityType, limit]);
+
+//   // Internal delete if parent doesn't provide one
+//   const handleDelete = (id) => {
+//   if (onDelete) {
+//     onDelete(id); // call parent handler
+//   } else {
+//     const stored = JSON.parse(localStorage.getItem("activities")) || [];
+//     const updated = stored.map(a =>
+//       a.id === id ? { ...a, deleted: true } : a // mark as deleted instead of removing
+//     );
+//     localStorage.setItem("activities", JSON.stringify(updated));
+//     loadActivities();
+//   }
+// };
+
+//   return (
+//     <div>
+//       {activities.length === 0 ? <p>No activities found.</p> : (
+//         <div>
+//           {activities.map(a => (
+//             <div key={a.id} style={{ border: "1px solid #ccc", padding: "8px", marginBottom: "8px", borderRadius: "6px", fontSize: "14px", lineHeight: "1.4" }}>
+//               <strong>{a.topic}</strong> <br/>
+//               Job: {a.jobListing} | Session: {a.session} <br/>
+//               Date: {a.date} | Result Date: {a.resultDate} <br/>
+//               Max Marks: {a.maxMarks} | Min Marks: {a.minMarks} <br/>
+//               Courses: {a.courses.join(", ") || "-"} <br/>
+//               Nominee: {a.nominee || "-"} | Remark: {a.remark || "-"} <br/>
+//               {onEdit && (
+//   <button onClick={() => onEdit(a)} style={{ marginRight: "5px" }}>
+//     Edit
+//   </button>
+// )}
+
+//               <button onClick={() => handleDelete(a.id)}>Delete</button>
+//             </div>
+//           ))}
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default ActivityList;
+
+// src/TrainingOfficerComponents/TrainingProgram/ActivityList.jsx
 import React, { useEffect, useState } from "react";
+import axiosInstance from "../../api/axiosInstance";
 
 const ActivityList = ({ activityType, limit, onEdit, onDelete }) => {
   const [activities, setActivities] = useState([]);
 
-  const loadActivities = () => {
-  const stored = JSON.parse(localStorage.getItem("activities")) || [];
-  
-  let filtered = stored
-    // Exclude deleted activities
-    .filter(a => !a.deleted)
-    // Only the type if activityType is given
-    .filter(a => (activityType ? a.type === activityType : true))
-    // Optional: only show resultUploaded (for priority list)
-    // .filter(a => a.resultUploaded) // uncomment if needed
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-  
-  if (limit) filtered = filtered.slice(0, limit);
-  setActivities(filtered);
-};
+  const loadActivities = async () => {
+    try {
+      // Fetch from API and filter by type
+      const res = await axiosInstance.get("/training/activities/", {
+        params: { type: activityType?.toUpperCase() }, // backend expects uppercase type codes
+      });
 
+      let data = res.data;
 
-  useEffect(() => { loadActivities(); }, [activityType, limit]);
+      // optional limit
+      if (limit) data = data.slice(0, limit);
 
-  // Internal delete if parent doesn't provide one
-  const handleDelete = (id) => {
-  if (onDelete) {
-    onDelete(id); // call parent handler
-  } else {
-    const stored = JSON.parse(localStorage.getItem("activities")) || [];
-    const updated = stored.map(a => 
-      a.id === id ? { ...a, deleted: true } : a // mark as deleted instead of removing
-    );
-    localStorage.setItem("activities", JSON.stringify(updated));
+      setActivities(data);
+    } catch (err) {
+      console.error("Error loading activities:", err);
+    }
+  };
+
+  useEffect(() => {
     loadActivities();
-  }
-};
+  }, [activityType, limit]);
+
+  const handleDelete = async (id) => {
+    try {
+      await axiosInstance.delete(`/training/activities/${id}/`);
+      // Refresh list after delete
+      loadActivities();
+      if (onDelete) onDelete(id);
+    } catch (err) {
+      console.error("Error deleting activity:", err);
+    }
+  };
 
   return (
     <div>
-      {activities.length === 0 ? <p>No activities found.</p> : (
+      {activities.length === 0 ? (
+        <p>No activities found.</p>
+      ) : (
         <div>
-          {activities.map(a => (
-            <div key={a.id} style={{ border: "1px solid #ccc", padding: "8px", marginBottom: "8px", borderRadius: "6px", fontSize: "14px", lineHeight: "1.4" }}>
-              <strong>{a.topic}</strong> <br/>
-              Job: {a.jobListing} | Session: {a.session} <br/>
-              Date: {a.date} | Result Date: {a.resultDate} <br/>
-              Max Marks: {a.maxMarks} | Min Marks: {a.minMarks} <br/>
-              Courses: {a.courses.join(", ") || "-"} <br/>
-              Nominee: {a.nominee || "-"} | Remark: {a.remark || "-"} <br/>
+          {activities.map((a) => (
+            <div
+              key={a.id}
+              style={{
+                border: "1px solid #ccc",
+                padding: "8px",
+                marginBottom: "8px",
+                borderRadius: "6px",
+                fontSize: "14px",
+                lineHeight: "1.4",
+              }}
+            >
+              <strong>{a.topic}</strong> <br />
+              Job: {a.job.company_name} - {a.job.job_title} | Session:{" "}
+              {a.session} <br />
+              Date: {a.date} | Result Date: {a.result_date} <br />
+              Max Marks: {a.max_marks} | Min Marks: {a.min_marks} <br />
+              Courses: {a.courses?.join(", ") || "-"} <br />
+              Nominee: {a.nominee || "-"} | Remark: {a.remark || "-"} <br />
               {onEdit && (
-  <button onClick={() => onEdit(a)} style={{ marginRight: "5px" }}>
-    Edit
-  </button>
-)}
-
+                <button
+                  onClick={() => onEdit(a)}
+                  style={{ marginRight: "5px" }}
+                >
+                  Edit
+                </button>
+              )}
               <button onClick={() => handleDelete(a.id)}>Delete</button>
             </div>
           ))}
