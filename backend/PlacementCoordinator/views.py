@@ -50,7 +50,7 @@ class JobPostingDetailAPIView(APIView):
         """Anyone can view job details."""
         job = get_object_or_404(JobPosting, pk=pk)
         # serializer = JobPostingSerializer(job)
-        serializer = JobPostingSerializer(jobs, many=True, context={"request": request})
+        serializer = JobPostingSerializer(job, context={"request": request})
 
         return Response(serializer.data)
 

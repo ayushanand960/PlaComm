@@ -4,6 +4,7 @@ from .models import JobPosting, JobApplication
 class JobPostingSerializer(serializers.ModelSerializer):
     coordinator = serializers.ReadOnlyField(source="coordinator.username")
     application_status = serializers.SerializerMethodField()
+    job_id = serializers.CharField(read_only=True)
 
     class Meta:
         model = JobPosting
