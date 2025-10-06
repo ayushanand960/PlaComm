@@ -33,3 +33,17 @@ class Activity(models.Model):
 
     def __str__(self):
         return f"{self.get_type_display()} | {self.job.company_name} - {self.topic or ''}"
+
+
+class EvaluationResult(models.Model):
+    activity = models.ForeignKey(Activity, on_delete=models.CASCADE, related_name="evaluations")
+    job = models.ForeignKey(JobPosting, on_delete=models.CASCADE, related_name="evaluations")
+    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="evaluations")  # student reference
+
+    marks = models.DecimalField(max_digits=5, decimal_places=2)
+    eligible = models.BooleanField(default=False)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.student.username} → {self.activity.type} ({'Eligible' if self.eligible else 'Not Eligible'})"

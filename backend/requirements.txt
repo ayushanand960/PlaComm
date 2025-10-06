@@ -21,3 +21,5 @@ gunicorn>=21.2
 
 pdf2image
 google-generativeai
+pandas
+openpyxl
