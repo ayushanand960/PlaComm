@@ -15,31 +15,6 @@ import MockInterview from "../pages/TrainingOfficerPages/MockInterview.jsx";
 import TrainingReport from "../pages/TrainingOfficerPages/TrainingReport.jsx";
 import FullSectionList from "../pages/TrainingOfficerPages/FullSectionList.jsx";
 
-// 🟡 GD Pages
-import GDCreate from "../pages/TrainingOfficerPages/GD/GDCreate.jsx";
-import GDView from "../pages/TrainingOfficerPages/GD/GDView.jsx";
-import GDPast from "../pages/TrainingOfficerPages/GD/GDPast.jsx";
-
-// 🟡 Aptitude Pages
-import AptitudeCreate from "../pages/TrainingOfficerPages/Aptitude/AptitudeCreate.jsx";
-import AptitudeView from "../pages/TrainingOfficerPages/Aptitude/AptitudeView.jsx";
-import AptitudePast from "../pages/TrainingOfficerPages/Aptitude/AptitudePast.jsx";
-
-// 🟡 Technical Pages
-import TechnicalCreate from "../pages/TrainingOfficerPages/Technical/TechnicalCreate.jsx";
-import TechnicalView from "../pages/TrainingOfficerPages/Technical/TechnicalView.jsx";
-import TechnicalPast from "../pages/TrainingOfficerPages/Technical/TechnicalPast.jsx";
-
-// 🟡 Mock Pages
-import MockCreate from "../pages/TrainingOfficerPages/Mock/MockCreate.jsx";
-import MockView from "../pages/TrainingOfficerPages/Mock/MockView.jsx";
-import MockPast from "../pages/TrainingOfficerPages/Mock/MockPast.jsx";
-
-// 🟡 PI Pages
-import PICreate from "../pages/TrainingOfficerPages/PI/PICreate.jsx";
-import PIView from "../pages/TrainingOfficerPages/PI/PIView.jsx";
-import PIPast from "../pages/TrainingOfficerPages/PI/PIPast.jsx";
-
 const TrainingOfficerRoutes = () => {
   return (
     <Routes>

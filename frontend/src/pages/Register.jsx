@@ -12,10 +12,15 @@ import {
   CircularProgress,
   IconButton,
   Paper,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { Home as HomeIcon } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import axiosInstance from "../api/axiosInstance";
+// import { MenuItem } from "@mui/material";
 
 export default function Register() {
   const [role, setRole] = useState("student");
@@ -268,13 +273,23 @@ export default function Register() {
                     />
                   </Grid>
                   <Grid item xs={12} sm={4}>
-                    <TextField
-                      required
-                      fullWidth
-                      label="Gender"
-                      name="gender"
-                      onChange={handleChange}
-                    />
+                    <FormControl fullWidth required sx={{ minWidth: 120 }}>
+                      <InputLabel>Gender</InputLabel>
+                      <Select
+                        label="Gender"
+                        name="gender"
+                        value={formData.gender || ""}
+                        onChange={handleChange}
+                        sx={{
+                          height: "56px", // ✅ Same height as TextField
+                          borderRadius: "4px",
+                        }}
+                      >
+                        <MenuItem value="Male">Male</MenuItem>
+                        <MenuItem value="Female">Female</MenuItem>
+                        <MenuItem value="Other">Other</MenuItem>
+                      </Select>
+                    </FormControl>
                   </Grid>
                 </>
               ) : (
@@ -422,4 +437,3 @@ export default function Register() {
     </Box>
   );
 }
- 
