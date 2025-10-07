@@ -270,7 +270,7 @@ const CreateActivityForm = ({ activityType, editData, onUpdate }) => {
   useEffect(() => {
     if (editData) {
       setFormData({
-        jobListing: editData.job?.id || "",
+        jobListing: editData.job?.job_id || "",
         topic: editData.topic || "",
         session: editData.session || "",
         date: editData.date || "",
@@ -391,7 +391,7 @@ const CreateActivityForm = ({ activityType, editData, onUpdate }) => {
           onChange={handleChange}
         >
           {jobListings.map((job) => (
-            <MenuItem key={job.id} value={job.id}>
+            <MenuItem key={job.job_id} value={job.job_id}>
               {job.company_name} - {job.job_title}
             </MenuItem>
           ))}

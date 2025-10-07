@@ -49,7 +49,7 @@ class JobPostingDetailAPIView(APIView):
     def get(self, request, pk):
         """Anyone can view job details."""
         job = get_object_or_404(JobPosting, pk=pk)
-        # serializer = JobPostingSerializer(job)
+        # job = get_object_or_404(JobPosting, job_id=pk)   # ✅
         serializer = JobPostingSerializer(job, context={"request": request})
 
         return Response(serializer.data)
@@ -57,6 +57,7 @@ class JobPostingDetailAPIView(APIView):
     def put(self, request, pk):
         """Coordinator (who posted it) OR Admin can update."""
         job = get_object_or_404(JobPosting, pk=pk)
+        # job = get_object_or_404(JobPosting, job_id=pk)   # ✅
 
         if request.user.role not in ["placement_coordinator", "admin"]:
             return Response(
@@ -79,6 +80,7 @@ class JobPostingDetailAPIView(APIView):
     def delete(self, request, pk):
         """Coordinator (who posted it) OR Admin can delete."""
         job = get_object_or_404(JobPosting, pk=pk)
+        job = get_object_or_404(JobPosting, job_id=pk)   # ✅
 
         if request.user.role not in ["placement_coordinator", "admin"]:
             return Response(
@@ -112,6 +114,7 @@ class JobApplicationAPIView(APIView):
             )
 
         job = get_object_or_404(JobPosting, pk=pk)
+        # job = get_object_or_404(JobPosting, job_id=pk)   # ✅
         status_choice = request.data.get("status")
 
         if status_choice not in ["applied", "not_interested"]:
@@ -131,6 +134,7 @@ class JobApplicationAPIView(APIView):
     def get(self, request, pk):
         """List all applications for a given job posting."""
         job = get_object_or_404(JobPosting, pk=pk)
+        # job = get_object_or_404(JobPosting, job_id=pk)   # ✅
         applications = JobApplication.objects.filter(job=job)
         serializer = JobApplicationSerializer(applications, many=True)
         return Response(serializer.data)

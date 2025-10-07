@@ -244,7 +244,7 @@ const StudentRecruiterLogin = () => {
         setError("Access denied: You selected the wrong role.");
       }
     } catch (err) {
-      if (err.response?.status === 401) setError("Invalid credentials");
+      if (err.response?.status === 400) setError("Invalid credentials");
       else setError("Something went wrong. Please try again later.");
     }
   };

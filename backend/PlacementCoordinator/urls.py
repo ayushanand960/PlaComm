@@ -6,9 +6,12 @@ from .views import (
 )
 
 urlpatterns = [
-     path("job-postings/", JobPostingListCreateAPIView.as_view(), name="jobposting-list-create"),
-    path("job-postings/<int:pk>/", JobPostingDetailAPIView.as_view(), name="jobposting-detail"),
-    path("job-postings/<int:pk>/apply/", JobApplicationAPIView.as_view(), name="job-apply"),
-    path("my-applications/", MyJobApplicationsAPIView.as_view(), name="my-applications"),
-
+    path("job-postings/", JobPostingListCreateAPIView.as_view(),
+         name="jobposting-list-create"),
+    path("job-postings/<str:pk>/", JobPostingDetailAPIView.as_view(),
+         name="jobposting-detail"),                
+    path("job-postings/<str:pk>/apply/", JobApplicationAPIView.as_view(),
+         name="job-apply"),                        
+    path("my-applications/", MyJobApplicationsAPIView.as_view(),
+         name="my-applications"),
 ]

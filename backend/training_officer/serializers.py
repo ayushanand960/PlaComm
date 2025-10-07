@@ -7,11 +7,16 @@ from .models import EvaluationResult
 class JobPostingDropdownSerializer(serializers.ModelSerializer):
     class Meta:
         model = JobPosting
-        fields = ["id", "company_name", "job_title"]
+        fields = ["job_id", "company_name", "job_title"]
 
 class ActivitySerializer(serializers.ModelSerializer):
     job = JobPostingDropdownSerializer(read_only=True)       # nested job info
-    job_id = serializers.PrimaryKeyRelatedField(queryset=JobPosting.objects.all(), source="job", write_only=True)
+    job_id = serializers.SlugRelatedField(      
+        slug_field="job_id",
+        queryset=JobPosting.objects.all(),
+        source="job",
+        write_only=True,
+    )
 
     class Meta:
         model = Activity

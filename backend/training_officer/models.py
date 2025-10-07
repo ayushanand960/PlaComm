@@ -14,7 +14,12 @@ class Activity(models.Model):
     ]
 
     type = models.CharField(max_length=10, choices=ACTIVITY_TYPES)
-    job = models.ForeignKey(JobPosting, on_delete=models.CASCADE, related_name="activities")
+    job = models.ForeignKey(
+        JobPosting,
+        on_delete=models.CASCADE,
+        related_name="activities",
+        to_field="job_id",           
+    )
     topic = models.CharField(max_length=200, blank=True, null=True)
     session = models.CharField(max_length=50)
     date = models.DateField()
@@ -37,7 +42,12 @@ class Activity(models.Model):
 
 class EvaluationResult(models.Model):
     activity = models.ForeignKey(Activity, on_delete=models.CASCADE, related_name="evaluations")
-    job = models.ForeignKey(JobPosting, on_delete=models.CASCADE, related_name="evaluations")
+    job = models.ForeignKey(
+        JobPosting,
+        on_delete=models.CASCADE,
+        related_name="evaluations",
+        to_field="job_id",           
+    )
     student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="evaluations")  # student reference
 
     marks = models.DecimalField(max_digits=5, decimal_places=2)
