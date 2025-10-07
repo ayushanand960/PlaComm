@@ -47,7 +47,7 @@ import SystemSettings from "./pages/admin/SystemSettings";
 import CategoryList from "./pages/CategoryList";
 import ThreadList from "./pages/ThreadList";
 import ThreadDetail from "./pages/ThreadDetail";
-import AddCategory from "./pages/admin/AddCategory";
+import AddCategory from "./pages/AddCategory";
 
 
 export default function App() {
@@ -68,6 +68,8 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/student-recruiter-login" element={<StudentRecruiterLogin />} />
           <Route path="/admin-coordinator-login" element={<AdminCoordinatorLogin />} />
+          <Route path="/admin/add-category" element={<AddCategory />} />
+
 
           {/* Protected Routes */}
 
@@ -97,7 +99,7 @@ export default function App() {
             <Route path="/admin/role-assignment" element={<AdminManageUsers />} />
             <Route path="/admin/reports-analytics" element={<ReportAnalytics />} />
             <Route path="/admin/system-settings" element={<SystemSettings />} />
-            <Route path="/admin/add-category" element={<AddCategory />} />
+
 
 
 

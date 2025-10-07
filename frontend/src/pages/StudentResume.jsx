@@ -79,7 +79,7 @@ export default function StudentResume() {
           </form>
 
           {/* Results */}
-          {result && (
+          {/* {result && (
             <div className="resume-suggestions slide-up">
               {result.ats_score && (
                 <div className="ats-score-box">
@@ -90,6 +90,66 @@ export default function StudentResume() {
 
               <h3>AI Suggestions</h3>
               <pre>{result.suggestions}</pre>
+            </div>
+          )} */}
+
+
+          {/* Results */}
+          {result && (
+            <div className="resume-suggestions slide-up">
+              {result.ats_score && (
+                <div className="ats-score-box">
+                  <h3>ATS Score: {result.ats_score}%</h3>
+                </div>
+              )}
+
+              {/* Summary */}
+              {result.summary && (
+                <>
+                  <h3>Summary</h3>
+                  <ReactMarkdown>{result.summary}</ReactMarkdown>
+                </>
+              )}
+
+              {/* Key Matches */}
+              {result.key_matches && result.key_matches.length > 0 && (
+                <>
+                  <h3>Key Matches</h3>
+                  <ul>
+                    {result.key_matches.map((skill, i) => (
+                      <li key={i}>{skill}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+
+              {/* Missing Skills */}
+              {result.missing_skills && result.missing_skills.length > 0 && (
+                <>
+                  <h3>Missing Skills</h3>
+                  <ul>
+                    {result.missing_skills.map((skill, i) => (
+                      <li key={i}>{skill}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+
+              {/* Recommendations */}
+              {result.recommendations && (
+                <>
+                  <h3>Recommendations</h3>
+                  <ReactMarkdown>{result.recommendations}</ReactMarkdown>
+                </>
+              )}
+
+              {/* If Gemini didn't return structured data */}
+              {result.suggestions && !result.ats_score && (
+                <>
+                  <h3>AI Suggestions</h3>
+                  <ReactMarkdown>{result.suggestions}</ReactMarkdown>
+                </>
+              )}
             </div>
           )}
         </div>
