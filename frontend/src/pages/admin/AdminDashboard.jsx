@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Grid, Box, Typography, Card, CardContent, TextField, Button, Stack } from "@mui/material";
 import { Person, Work, TrendingUp, Group } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
-
 import AdminNavbar from "../../components/admin/AdminNavbar";
 import StatCard from "../../components/admin/StatCard";
 
@@ -12,8 +10,6 @@ const AdminDashboard = () => {
     { id: 2, staffName: "Jane Smith", action: "added new job postings", timestamp: "2025-09-15 09:45" },
     { id: 3, staffName: "Michael Johnson", action: "reviewed applications", timestamp: "2025-09-14 16:20" },
   ]);
-  const navigate = useNavigate();
-
 
   const [roles, setRoles] = useState([
     "Admin",
@@ -54,7 +50,7 @@ const AdminDashboard = () => {
       sx={{
         minHeight: "100vh",
         width: "100%",
-        background: "rgba(81, 178, 182, 1)",
+        backgroundColor: "hsla(184, 64%, 74%, 0.89)", // Dashboard background
         p: 3,
         boxSizing: "border-box",
         display: "flex",
@@ -63,90 +59,75 @@ const AdminDashboard = () => {
     >
       <AdminNavbar />
 
-      {/* Full width container with maxWidth removed */}
       <Box
         sx={{
           width: "100%",
-          maxWidth: "100%",     // Ensure no max-width restriction
+          maxWidth: "100%",
           padding: "40px",
           boxSizing: "border-box",
           flexGrow: 1,
         }}
       >
-        <Typography variant="h3" fontWeight="bold" color="white" mb={4}>
+        <Typography variant="h3" fontWeight="bold" color="primary" mb={4}>
           Dashboard
         </Typography>
 
+        {/* Stat Boxes with light blue & light pink combination */}
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={3}>
-            <StatCard
+            <StatCard 
               title="Total Students"
               value="1,234"
               description="+12% from last month"
               icon={<Person fontSize="large" />}
+              bgColor="#e1f5fe" // light blue
             />
           </Grid>
 
           <Grid item xs={12} md={6} lg={3}>
-            <StatCard
+            <StatCard 
               title="Active Jobs"
               value="89"
               description="+5 this week"
               icon={<Work fontSize="large" />}
+              bgColor="
+              hsla(0, 0%, 98%, 1.00)" // light pink
             />
           </Grid>
 
           <Grid item xs={12} md={6} lg={3}>
-            <StatCard
+            <StatCard 
               title="Placements"
               value="456"
               description="+23% from last year"
               icon={<TrendingUp fontSize="large" />}
+              bgColor="#faf9f9ff" // light blue
             />
           </Grid>
 
           <Grid item xs={12} md={6} lg={3}>
-            <StatCard
+            <StatCard 
               title="Staff Members"
               value="45"
               description="3 departments"
               icon={<Group fontSize="large" />}
+              bgColor="#efecf0ff" // light pink
             />
           </Grid>
         </Grid>
 
-
-        {/* Discussion Forum Card */}
-        <Box mb={4}>
+        <Box mt={5}>
+          {/* Recent Staff Activity Card */}
           <Card
             sx={{
-              cursor: "pointer",
-              transition: "0.3s",
-              "&:hover": { boxShadow: 6 },
-              height: 120,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              padding: 2,
-              backgroundColor: "#e3f2fd"
+              width: "100%",
+              p: 3,
+              boxSizing: "border-box",
+              boxShadow: "0px 4px 12px rgba(0, 0, 0, 0)",
+              borderRadius: "12px",
+              backgroundColor: "hsla(0, 4%, 95%, 1.00)",
             }}
-            onClick={() => navigate("/discussion-forum")}
           >
-            <CardContent>
-              <Typography variant="h6">Discussion Forum</Typography>
-              <Typography variant="body2" color="text.secondary">
-                Explore categories, threads, and participate in discussions.
-              </Typography>
-            </CardContent>
-            <Button variant="contained" onClick={() => navigate("/discussion-forum")}>
-              Go
-            </Button>
-          </Card>
-        </Box>
-
-        <Box mt={5}>
-          {/* Recent Staff Activity Card Full Width */}
-          <Card sx={{ width: "100%", p: 3, boxSizing: "border-box" }}>
             <CardContent>
               <Typography variant="h5" fontWeight="bold">Recent Staff Activity</Typography>
               <Typography color="textSecondary" mb={2}>
@@ -171,8 +152,18 @@ const AdminDashboard = () => {
             </CardContent>
           </Card>
 
-          {/* Role Management Card Full Width */}
-          <Card sx={{ width: "100%", p: 3, boxSizing: "border-box", mt: 3 }}>
+          {/* Role Management Card */}
+          <Card
+            sx={{
+              width: "100%",
+              p: 3,
+              boxSizing: "border-box",
+              mt: 3,
+              boxShadow: "0px 4px 12px rgba(0,0,0,0.2)",
+              borderRadius: "12px",
+              backgroundColor: "#fffcfcff",
+            }}
+          >
             <CardContent>
               <Typography variant="h5" fontWeight="bold">Role Management</Typography>
               <Typography color="textSecondary" mb={2}>
@@ -196,7 +187,6 @@ const AdminDashboard = () => {
         </Box>
       </Box>
     </Box>
-
   );
 };
 
