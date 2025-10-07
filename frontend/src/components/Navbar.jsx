@@ -24,32 +24,44 @@ export default function Navbar() {
   ];
 
   return (
-    <Box
-      sx={{
-        bgcolor: "primary.main",
-        display: "flex",
-        justifyContent: { xs: "flex-start", sm: "center" },
-        flexWrap: "nowrap", // prevent wrapping 
-        overflowX: "auto", // enable horizontal scroll 
-        whiteSpace: "nowrap", // keep items in one line //
-        px: 0,
-        py: 1,
-        boxShadow: 2, 
-        width: "100%", 
-        maxWidth: "100vw", 
-        left: 0, 
-        right: 0, 
-        "&::-webkit-scrollbar": { 
-          display: "none" 
-        }, // hide scrollbar 
-
-         // Hover styling
-    "&:hover": {
-
-      backgroundColor: "rgba(255, 255, 255, 0.1)", // light overlay
-      color: "#90caf9", // 👈 text hover color (light blue)
-      borderRadius: "8px", // optional rounded hover
+  
+<Box
+  sx={{
+    bgcolor: "primary.main",
+    display: "flex",
+    justifyContent: { xs: "flex-start", sm: "center" },
+    flexWrap: "nowrap",
+    overflowX: "auto",
+    whiteSpace: "nowrap",
+    px: 1,
+    py: 1,
+    boxShadow: 3,
+    width: "100%",
+    maxWidth: "100vw",
+    left: 0,
+    right: 0,
+    "&::-webkit-scrollbar": { display: "none" },
+    "& a, & button": {
+      color: "#ffffff", // white text
+      fontWeight: 500,
+      mx: 1,
+      px: 2,
+      py: 0.5,
+      borderRadius: 1,
+      textDecoration: "none",
+      transition: "all 0.3s ease",
+      "&:hover": {
+        bgcolor: "primary.light",
+        color: "#ffffff",
+        transform: "scale(1.05)",
+      },
+      "&.active": {
+        fontWeight: "bold",
+        bgcolor: "#ffffff", // active background white
+        color: "primary.main", // active text deep blue
+      },
     },
+
 
 
       }} > {links.map((link) => (
