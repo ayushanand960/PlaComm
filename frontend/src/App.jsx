@@ -68,6 +68,8 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/student-recruiter-login" element={<StudentRecruiterLogin />} />
           <Route path="/admin-coordinator-login" element={<AdminCoordinatorLogin />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/gallery" element={<Gallery />} />
 
           {/* Protected Routes */}
 
