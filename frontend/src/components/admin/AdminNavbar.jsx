@@ -3,9 +3,11 @@ import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
 import { Home, Person, AssignmentInd, BarChart, Settings } from "@mui/icons-material";
 import { NavLink } from "react-router-dom";
 
+// 👇 Import logo
+import ramaLogo from "../../assets/logo.png";
+
 const AdminNavbar = () => {
   const linkStyle = ({ isActive }) => ({
-    color: isActive ? "#0c7a96" : "#333333",
     textDecoration: "none",
     display: "flex",
     alignItems: "center",
@@ -14,54 +16,128 @@ const AdminNavbar = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      {/* First Row - Fixed */}
-      <AppBar position="fixed" sx={{ top: 0, backgroundColor: "#ffffff", color: "#333333", boxShadow: "0 2px 4px rgba(0,0,0,0.1)" }}>
+      {/* First Row - Header */}
+      <AppBar
+        position="fixed"
+        sx={{
+          top: 0,
+          backgroundColor: "#ffffff", // white
+          color: "#0d47a1", // dark blue text
+          boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+        }}
+      >
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography variant="h6" component="div" sx={{ color: "#333333" }}>
-            Rama University
-          </Typography>
-          <Typography variant="body1" sx={{ color: "#333333" }}>
+          {/* Logo + Title */}
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <img
+              src={ramaLogo}
+              alt="Rama University Logo"
+              style={{
+                height: "45px",
+                marginRight: "10px",
+              }}
+            />
+            <Typography variant="h6" component="div" sx={{ color: "#0d47a1", fontWeight: "bold" }}>
+              {/* Rama University */}
+            </Typography>
+          </Box>
+
+          {/* Right side text */}
+          <Typography variant="body1" sx={{ color: "#0d47a1" }}>
             Logged in as Admin
           </Typography>
         </Toolbar>
       </AppBar>
 
-      {/* Second Row - Fixed */}
-      <AppBar position="fixed" sx={{ top: '64px', backgroundColor: "#f8f8f8", color: "#333333", boxShadow: "0 1px 3px rgba(0,0,0,0.1)" }}>
+      {/* Second Row - Menu */}
+      <AppBar
+        position="fixed"
+        sx={{
+          top: "64px",
+          backgroundColor: "#ffffff", // white background
+          color: "#1976d2", // light blue text
+          boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+        }}
+      >
         <Toolbar>
           <NavLink to="/admin/dashboard" style={linkStyle}>
-            <Button startIcon={<Home />} color="inherit">
-              Dashboard
-            </Button>
+            {({ isActive }) => (
+              <Button
+                startIcon={<Home />}
+                sx={{
+                  color: isActive ? "#0d47a1" : "#1976d2",
+                  backgroundColor: isActive ? "#e3f2fd" : "transparent",
+                  "&:hover": { backgroundColor: "#bbdefb" },
+                }}
+              >
+                Dashboard
+              </Button>
+            )}
           </NavLink>
 
           <NavLink to="/admin/user-management" style={linkStyle}>
-            <Button startIcon={<Person />} color="inherit">
-              User Management
-            </Button>
+            {({ isActive }) => (
+              <Button
+                startIcon={<Person />}
+                sx={{
+                  color: isActive ? "#0d47a1" : "#1976d2",
+                  backgroundColor: isActive ? "#e3f2fd" : "transparent",
+                  "&:hover": { backgroundColor: "#bbdefb" },
+                }}
+              >
+                User Management
+              </Button>
+            )}
           </NavLink>
 
           <NavLink to="/admin/role-assignment" style={linkStyle}>
-            <Button startIcon={<AssignmentInd />} color="inherit">
-              Role Assignment
-            </Button>
+            {({ isActive }) => (
+              <Button
+                startIcon={<AssignmentInd />}
+                sx={{
+                  color: isActive ? "#0d47a1" : "#1976d2",
+                  backgroundColor: isActive ? "#e3f2fd" : "transparent",
+                  "&:hover": { backgroundColor: "#bbdefb" },
+                }}
+              >
+                Role Assignment
+              </Button>
+            )}
           </NavLink>
 
           <NavLink to="/admin/reports-analytics" style={linkStyle}>
-            <Button startIcon={<BarChart />} color="inherit">
-              Reports & Analytics
-            </Button>
+            {({ isActive }) => (
+              <Button
+                startIcon={<BarChart />}
+                sx={{
+                  color: isActive ? "#0d47a1" : "#1976d2",
+                  backgroundColor: isActive ? "#e3f2fd" : "transparent",
+                  "&:hover": { backgroundColor: "#bbdefb" },
+                }}
+              >
+                Reports & Analytics
+              </Button>
+            )}
           </NavLink>
 
           <NavLink to="/admin/system-settings" style={linkStyle}>
-            <Button startIcon={<Settings />} color="inherit">
-              System Settings
-            </Button>
+            {({ isActive }) => (
+              <Button
+                startIcon={<Settings />}
+                sx={{
+                  color: isActive ? "#0d47a1" : "#1976d2",
+                  backgroundColor: isActive ? "#e3f2fd" : "transparent",
+                  "&:hover": { backgroundColor: "#bbdefb" },
+                }}
+              >
+                System Settings
+              </Button>
+            )}
           </NavLink>
         </Toolbar>
       </AppBar>
 
-      {/* Spacer to prevent content from being hidden */}
+      {/* Spacer to prevent content overlap */}
       <Toolbar /> {/* First AppBar Spacer */}
       <Toolbar /> {/* Second AppBar Spacer */}
     </Box>
