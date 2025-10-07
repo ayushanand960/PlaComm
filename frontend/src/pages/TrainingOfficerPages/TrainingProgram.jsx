@@ -1,11 +1,31 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import Program from "../../TrainingOfficerComponents/TrainingProgram/Program";
+import { motion } from "framer-motion";
 
 const TrainingProgram = () => {
   return (
     <Box sx={{ p: 3 ,pt:3 , fontWeight: "bold", mb: 6, textAlign: "center"}}>
-      <Typography variant="h4" fontWeight="bold" mb={3} >
+      <motion.div
+  style={{
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "40px",
+    justifyContent: "center",
+    padding: "40px",
+    borderRadius: "12px",
+  }}
+  animate={{
+    background: [
+      "linear-gradient(135deg, #1046a8, #6495ED, #8D77D1)",
+      "linear-gradient(135deg, #DAA520, #FF8C42, #F87769)",
+      "linear-gradient(135deg, #18C381, #1046a8, #DAA520)",
+      "linear-gradient(135deg, #1046a8, #6495ED, #8D77D1)"
+    ],
+  }}
+  transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+>
+      <Typography variant="h4" fontWeight="bold" mb={3} color="white">
         Training Programs
       </Typography>
 
@@ -15,7 +35,7 @@ const TrainingProgram = () => {
         flexWrap: "wrap",
         gap: 5, // 🔥 increased gap between cards
         justifyContent: "center",
-        bgcolor: "#f5f5f5", // greyish background like dashboard
+        // bgcolor: "#f5f5f5" greyish background like dashboard
         py: 5,
   }}
       >
@@ -53,7 +73,9 @@ const TrainingProgram = () => {
           description="One-on-one assessment with personalized feedback."
           type="pi"
         />
+       
       </Box>
+      </motion.div>
     </Box>
   );
 };

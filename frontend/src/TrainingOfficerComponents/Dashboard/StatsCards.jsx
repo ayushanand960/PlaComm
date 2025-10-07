@@ -48,6 +48,8 @@ const StatsCards = ({ stats }) => {
     bgcolor: "white",
     borderRadius: 3,
     minHeight: 100,        // reduced height
+    transition: "transform 0.3s",
+    "&:hover": { transform: "translateY(-9px)" },
   }}
 >
   {card.icon}

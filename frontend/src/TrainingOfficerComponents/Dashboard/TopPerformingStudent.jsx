@@ -39,12 +39,12 @@ const TopPerformingStudents = ({ students = [] }) => {
               <Chip
                 label={`Rank #${index + 1}`}
                 sx={{
-                  bgcolor: "goldenrod",
-                  color: "white",
+                  background: "linear-gradient(90deg, #5A4FCF, #ffcf56ff)",
+                  color: "black",
                   fontWeight: "bold",
                   transition: "all 0.3s ease",
                   "&:hover": {
-                    bgcolor: "#1e90ff", // ✅ same hover blue as navbar
+                    background: "linear-gradient(90deg, #ffcf56ff, #5A4FCF)", color: "white" // ✅ same hover blue as navbar
                   },
                 }}
               />

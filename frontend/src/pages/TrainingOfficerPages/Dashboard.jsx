@@ -34,6 +34,7 @@ const Dashboard = () => {
         flexDirection: "column",
         width: "100%",
         overflowX: "hidden",
+        bgcolor: "linear-gradient(135deg, #18C381, #1046a8, #DAA520)"
       }}
     >
       {/* LoginBanner full width */}
@@ -46,7 +47,7 @@ const Dashboard = () => {
 
       {/* Dashboard content */}
       <Container maxWidth="xl">
-        <Box sx={{ bgcolor: "#f2f2f2", p: 3, borderRadius: 2, mt: 2 }}>
+        <Box sx={{ bgcolor: "#fffbea", p: 3, borderRadius: 2, mt: 2 }}>
           <Grid container spacing={3} alignItems="stretch">
             <Grid item xs={12} md={6} sx={{ display: "flex" }}>
               <StudentAssessment />

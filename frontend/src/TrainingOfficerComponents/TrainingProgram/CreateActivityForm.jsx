@@ -1,5 +1,5 @@
-//src/TrainingOfficerComponents/TrainingProgram/CreateActivityForm
-import React, { useState, useEffect } from "react";
+// src/TrainingOfficerComponents/TrainingProgram/CreateActivityForm
+import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
   TextField,
@@ -12,9 +12,11 @@ import {
   Snackbar,
   Alert,
   Grid,
+  InputAdornment,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 
 const CreateActivityForm = ({ activityType, editData, onUpdate }) => {
   const [formData, setFormData] = useState({
@@ -31,6 +33,10 @@ const CreateActivityForm = ({ activityType, editData, onUpdate }) => {
   });
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
+
+  // Refs for date inputs
+  const dateRef = useRef(null);
+  const resultDateRef = useRef(null);
 
   // Generate sessions dynamically (5 years)
   const currentYear = new Date().getFullYear();
@@ -128,8 +134,8 @@ const CreateActivityForm = ({ activityType, editData, onUpdate }) => {
     <Box sx={{ maxWidth: 700, mx: "auto", mt: 1, p: 1, borderRadius: 2, boxShadow: 3, bgcolor: "white" }}>
       <Typography variant="h6" gutterBottom>
         {editData 
-    ? `Edit ${activityType} Activity` 
-    : `Create ${activityType} Activity`}
+          ? `Edit ${activityType} Activity` 
+          : `Create ${activityType} Activity`}
       </Typography>
       <form onSubmit={handleSubmit}>
         <TextField select label="Job Listing" name="jobListing" fullWidth margin="dense"
@@ -143,10 +149,49 @@ const CreateActivityForm = ({ activityType, editData, onUpdate }) => {
           {sessions.map((s, i) => <MenuItem key={i} value={s}>{s}</MenuItem>)}
         </TextField>
 
-        <TextField type="date" label="Date" name="date" fullWidth margin="normal"
-          InputLabelProps={{ shrink: true }} value={formData.date} onChange={handleChange} />
-        <TextField type="date" label="Result Date" name="resultDate" fullWidth margin="normal"
-          InputLabelProps={{ shrink: true }} value={formData.resultDate} onChange={handleChange} />
+        {/* Date with calendar icon */}
+        <TextField
+          type="date"
+          label="Date"
+          name="date"
+          fullWidth
+          margin="normal"
+          inputRef={dateRef}
+          InputLabelProps={{ shrink: true }}
+          value={formData.date}
+          onChange={handleChange}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={() => dateRef.current.showPicker()}>
+                  <CalendarTodayIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+
+        {/* Result Date with calendar icon */}
+        <TextField
+          type="date"
+          label="Result Date"
+          name="resultDate"
+          fullWidth
+          margin="normal"
+          inputRef={resultDateRef}
+          InputLabelProps={{ shrink: true }}
+          value={formData.resultDate}
+          onChange={handleChange}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={() => resultDateRef.current.showPicker()}>
+                  <CalendarTodayIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
 
         {/* Max/Min Marks */}
         <Box display="flex" alignItems="center" mt={2}>

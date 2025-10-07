@@ -92,7 +92,7 @@ const confirmLogout = window.confirm("Are you sure you want to logout?");
 
   return (
     <>
-      <AppBar position="fixed" sx={{ bgcolor: "#fff", color: "black" ,width: "100%" }}>
+      <AppBar position="fixed" sx={{ background: "linear-gradient(90deg, #5A4FCF, #ffcf56ff)", color: "black" ,width: "100%" }}>
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
           {/* Left: Logo + Heading */}
           <Box sx={{ display: "flex", alignItems: "center" }}>

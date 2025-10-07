@@ -36,9 +36,9 @@ const StudentAssessment = () => {
         <Button
           variant="contained"
           sx={{
-            bgcolor: "white",
+            background: "linear-gradient(90deg, #5A4FCF, #ffcf56ff)",
             color: "black",
-            "&:hover": { bgcolor: "goldenrod", color: "white" },
+            "&:hover": { background: "linear-gradient(90deg, #ffcf56ff, #5A4FCF)", color: "white" },
           }}
           onClick={() => handleNavigate("trainingprogram/mock/create")}
         >
@@ -47,9 +47,9 @@ const StudentAssessment = () => {
         <Button
           variant="contained"
           sx={{
-            bgcolor: "white",
+            background: "linear-gradient(90deg, #5A4FCF, #ffcf56ff)",
             color: "black",
-            "&:hover": { bgcolor: "goldenrod", color: "white" },
+            "&:hover": { background: "linear-gradient(90deg, #ffcf56ff, #5A4FCF)", color: "white" },
           }}
           onClick={() => handleNavigate("trainingprogram/pi/create")}
         >
@@ -58,9 +58,9 @@ const StudentAssessment = () => {
         <Button
           variant="contained"
           sx={{
-            bgcolor: "white",
+            background: "linear-gradient(90deg, #5A4FCF, #ffcf56ff)",
             color: "black",
-            "&:hover": { bgcolor: "goldenrod", color: "white" },
+            "&:hover": { background: "linear-gradient(90deg, #ffcf56ff, #5A4FCF)", color: "white" },
           }}
           onClick={() => handleNavigate("trainingprogram/gd/create")}
         >
@@ -69,9 +69,9 @@ const StudentAssessment = () => {
         <Button
           variant="contained"
           sx={{
-            bgcolor: "white",
+            background: "linear-gradient(90deg, #5A4FCF, #ffcf56ff)",
             color: "black",
-            "&:hover": { bgcolor: "goldenrod", color: "white" },
+            "&:hover": { background: "linear-gradient(90deg, #ffcf56ff, #5A4FCF)", color: "white" },
           }}
           onClick={() => handleNavigate("trainingprogram/technical/create")}
         >
@@ -80,9 +80,9 @@ const StudentAssessment = () => {
         <Button
           variant="contained"
           sx={{
-            bgcolor: "white",
+            background: "linear-gradient(90deg, #5A4FCF, #ffcf56ff)",
             color: "black",
-            "&:hover": { bgcolor: "goldenrod", color: "white" },
+            "&:hover": {background: "linear-gradient(90deg, #ffcf56ff, #5A4FCF)", color: "white" },
           }}
           onClick={() => handleNavigate("trainingprogram/aptitude/create")}
         >
@@ -91,9 +91,9 @@ const StudentAssessment = () => {
         <Button
           variant="contained"
           sx={{
-            bgcolor: "white",
+            background: "linear-gradient(90deg, #5A4FCF, #ffcf56ff)",
             color: "black",
-            "&:hover": { bgcolor: "goldenrod", color: "white" },
+            "&:hover": { background: "linear-gradient(90deg, #ffcf56ff, #5A4FCF)", color: "white" },
           }}
           onClick={() => handleNavigate("prioritylist")}
         >
