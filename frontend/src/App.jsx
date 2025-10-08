@@ -14,9 +14,12 @@ import PrivateRoute from "./pages/PrivateRoute";
 import StudentDashboard from "./pages/StudentDashboard";
 import StudentProfile from "./pages/StudentProfile";
 import JobOpportunities from "./pages/JobOpportunities";
-
 import MyApplications from "./pages/MyApplications";
 import StudentResume from "./pages/StudentResume";
+import DiscussionForum from "./pages/DiscussionForum";
+import DriveQuestions from "./pages/DriveQuestions";
+
+
 import RecruiterDashboard from "./pages/RecruiterDashboard";
 import AuthorityDashboard from "./pages/AuthorityDashboard";
 import TrainingOfficerDashboard from "./pages/TrainingOfficerDashboard";
@@ -159,11 +162,12 @@ export default function App() {
             <Route path="/jobs" element={<JobOpportunities />} />
             <Route path="/my-applications" element={<MyApplications />} />
             <Route path="/resume" element={<StudentResume />} />
+            <Route path="/questions" element={<DriveQuestions />} />
 
             {/* Discussion Forum */}
-            {/* <Route path="/discussion-forum" element={<CategoryList />} />
+           <Route path="/forum" element={<DiscussionForum />} />
             <Route path="/categories/:categoryId/threads" element={<ThreadList />} />
-            <Route path="/threads/:id" element={<ThreadDetail />} />  ✅ ThreadDetail route */}
+            <Route path="/threads/:id" element={<ThreadDetail />} /> 
           </Route>
 
 

@@ -1,33 +1,141 @@
-import React from "react";
-import Navbar from "../components/Navbar";
-import "../animations.css";
+// src/pages/DriveReports.jsx
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Container,
+  Typography,
+  Grid,
+  Card,
+  CardContent,
+  CircularProgress,
+} from "@mui/material";
+import { PieChart, Pie, Cell, Tooltip, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
+import axios from "axios";
 
-const DriveQuestions = () => {
-  const questions = [
-    { company: "Google", question: "Explain the difference between stack and queue." },
-    { company: "Microsoft", question: "How do you optimize SQL queries?" },
-    { company: "TCS", question: "Write a program for Fibonacci series." },
-  ];
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+
+const DriveReports = () => {
+  const [loading, setLoading] = useState(true);
+  const [reports, setReports] = useState(null);
+
+  useEffect(() => {
+    const fetchReports = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/drives/reports");
+        setReports(res.data);
+      } catch (err) {
+        console.error("Error fetching reports", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchReports();
+  }, []);
+
+  if (loading) {
+    return (
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (!reports) {
+    return (
+      <Box sx={{ textAlign: "center", mt: 5 }}>
+        <Typography variant="h6" color="error">
+          Failed to load reports.
+        </Typography>
+      </Box>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <Navbar />
-      <main className="p-6 fade-in">
-        <h1 className="text-2xl font-bold mb-4">Placement Drive Questions</h1>
-        <div className="bg-white p-6 rounded-xl shadow-lg slide-up">
-          {questions.map((q, index) => (
-            <div
-              key={index}
-              className="mb-4 p-4 border rounded-lg hover:bg-gray-50 transition"
-            >
-              <h2 className="font-semibold">{q.company}</h2>
-              <p className="text-gray-700">{q.question}</p>
-            </div>
-          ))}
-        </div>
-      </main>
-    </div>
+    <Container sx={{ mt: 4, mb: 4 }}>
+      <Typography variant="h4" fontWeight="bold" gutterBottom>
+        Drive Reports & Analytics
+      </Typography>
+
+      <Grid container spacing={3}>
+        {/* Summary Cards */}
+        <Grid item xs={12} sm={4}>
+          <Card sx={{ p: 2 }}>
+            <CardContent>
+              <Typography variant="h6">Total Drives</Typography>
+              <Typography variant="h4">{reports.totalDrives}</Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        <Grid item xs={12} sm={4}>
+          <Card sx={{ p: 2 }}>
+            <CardContent>
+              <Typography variant="h6">Total Students Placed</Typography>
+              <Typography variant="h4">{reports.totalPlaced}</Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        <Grid item xs={12} sm={4}>
+          <Card sx={{ p: 2 }}>
+            <CardContent>
+              <Typography variant="h6">Average Package</Typography>
+              <Typography variant="h4">₹{reports.avgPackage} LPA</Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Charts */}
+        <Grid item xs={12} md={6}>
+          <Card sx={{ p: 2, height: 400 }}>
+            <CardContent>
+              <Typography variant="h6" gutterBottom>
+                Placement Status Distribution
+              </Typography>
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={reports.placementDistribution}
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={120}
+                    dataKey="value"
+                    label
+                  >
+                    {reports.placementDistribution.map((entry, index) => (
+                      <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <Card sx={{ p: 2, height: 400 }}>
+            <CardContent>
+              <Typography variant="h6" gutterBottom>
+                Company-wise Selections
+              </Typography>
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={reports.companyWise}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="company" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey="count" fill="#0088FE" />
+                </BarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 
-export default DriveQuestions;
+export default DriveReports;

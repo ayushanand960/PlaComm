@@ -170,6 +170,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { useNavigate } from "react-router-dom";
 import StudentNavbar from "../components/StudentNavbar";
 
+
 dayjs.extend(relativeTime);
 
 const JobsPage = () => {
@@ -327,6 +328,7 @@ const JobsPage = () => {
           })}
         </Grid>
       </Container>
+
     </Box>
   );
 };

@@ -19,7 +19,7 @@ from dotenv import load_dotenv
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 load_dotenv(os.path.join(BASE_DIR, '..', '.env'))
 
-AUTH_USER_MODEL = "yourappname.CustomUser"
+AUTH_USER_MODEL = "users.User"
 
 
 DEBUG = os.getenv('DJANGO_DEBUG', '0') == '1'
