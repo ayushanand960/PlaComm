@@ -158,3 +158,66 @@ class MyJobApplicationsAPIView(APIView):
         serializer = MyJobApplicationSerializer(applications, many=True, context={"request": request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+
+
+
+#----------------------------------------------------------------------------------------------------------------------
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAdminUser
+from django.db.models import Count
+from .models import JobPosting, JobApplication
+from users.models import Student
+from .serializers import CompanySummarySerializer, JobWithStudentsSerializer
+
+
+# 🏢 1. Company Summary API
+class CompanySummaryView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request):
+        companies = (
+            JobPosting.objects.values("company_name")
+            .annotate(
+                unique_jobs=Count("job_id", distinct=True),
+                total_applications=Count("applications")
+            )
+            .order_by("company_name")
+        )
+
+        serializer = CompanySummarySerializer(companies, many=True)
+        return Response(serializer.data)
+
+# 📄 2. Company Details API
+class CompanyDetailsView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request, company_name):
+        jobs = JobPosting.objects.filter(company_name=company_name)
+        job_data = []
+
+        for job in jobs:
+            # Fetch applications
+            applications = JobApplication.objects.filter(job=job).select_related("student")
+            
+            # Convert User -> Student
+            students = []
+            for app in applications:
+                try:
+                    students.append(app.student.student)  # 'student' is the Student model linked via OneToOne
+                except Student.DoesNotExist:
+                    continue  # skip if no student profile linked
+
+            job_info = {
+                "job_id": job.job_id,
+                "title": job.job_title,
+                "applications_count": applications.count(),
+                "students": students,
+            }
+            job_data.append(job_info)
+
+        serializer = JobWithStudentsSerializer(job_data, many=True)
+        return Response({
+            "company_name": company_name,
+            "jobs": serializer.data
+        })

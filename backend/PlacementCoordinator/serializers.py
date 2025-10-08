@@ -45,3 +45,29 @@ class MyJobApplicationSerializer(serializers.ModelSerializer):
             "applied_at",
             "updated_at",
         ]
+#--------------------------------------------------------------------------------------------------
+from rest_framework import serializers
+from .models import JobPosting, JobApplication
+from users.models import Student
+
+
+
+class StudentInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = ['rum_number', 'first_name', 'middle_name', 'last_name', 'email', 'phone']
+
+
+# 💼 Job details with student list
+class JobWithStudentsSerializer(serializers.Serializer):
+    job_id = serializers.CharField()
+    title = serializers.CharField()
+    applications_count = serializers.IntegerField()
+    students = StudentInfoSerializer(many=True)
+
+
+# 🏢 Company summary for dashboard
+class CompanySummarySerializer(serializers.Serializer):
+    company_name = serializers.CharField()
+    total_applications = serializers.IntegerField()
+    unique_jobs = serializers.IntegerField()
