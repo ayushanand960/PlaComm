@@ -247,6 +247,7 @@ const JobsPage = () => {
 
         <Grid container spacing={3}>
           {jobs.map((job) => {
+            console.log("JOB DATA:", job);
             const isExpired = job.deadline && dayjs().isAfter(dayjs(job.deadline));
             const postedAgo = dayjs(job.created_at).fromNow();
 
@@ -285,7 +286,7 @@ const JobsPage = () => {
                           job.application_status === "applied" ||
                           job.application_status === "not_interested"
                         }
-                        onClick={() => handleApplication(job.id, "applied")}
+                        onClick={() => handleApplication(job.job_id, "applied")}
                         sx={{
                           backgroundColor:
                             job.application_status === "applied" ? "green" : undefined,
@@ -307,7 +308,7 @@ const JobsPage = () => {
                           job.application_status === "applied" ||
                           job.application_status === "not_interested"
                         }
-                        onClick={() => handleApplication(job.id, "not_interested")}
+                        onClick={() => handleApplication(job.job_id, "not_interested")}
                         sx={{
                           backgroundColor:
                             job.application_status === "not_interested" ? "grey" : undefined,
