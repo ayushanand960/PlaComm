@@ -17,6 +17,10 @@ import JobOpportunities from "./pages/student/JobOpportunities";
 
 import MyApplications from "./pages/student/MyApplications";
 import StudentResume from "./pages/student/StudentResume";
+import DiscussionForum from "./pages/DiscussionForum";
+import DriveQuestions from "./pages/student/DriveQuestions";
+
+
 import RecruiterDashboard from "./pages/RecruiterDashboard";
 import AuthorityDashboard from "./pages/AuthorityDashboard";
 import TrainingOfficerDashboard from "./pages/TrainingOfficerPages/TrainingOfficerDashboard";
@@ -48,6 +52,7 @@ import CategoryList from "./pages/CategoryList";
 import ThreadList from "./pages/ThreadList";
 import ThreadDetail from "./pages/ThreadDetail";
 import AddCategory from "./pages/AddCategory";
+import DriveReports from "./pages/student/DriveReports";
 
 
 export default function App() {
@@ -173,11 +178,13 @@ export default function App() {
             <Route path="/jobs" element={<JobOpportunities />} />
             <Route path="/my-applications" element={<MyApplications />} />
             <Route path="/resume" element={<StudentResume />} />
+            <Route path="/questions" element={<DriveQuestions />} />
+            <Route path="/reports" element={<DriveReports />} />
 
             {/* Discussion Forum */}
-            {/* <Route path="/discussion-forum" element={<CategoryList />} />
+           {/* <Route path="/forum" element={<DiscussionForum />} />
             <Route path="/categories/:categoryId/threads" element={<ThreadList />} />
-            <Route path="/threads/:id" element={<ThreadDetail />} />  ✅ ThreadDetail route */}
+            <Route path="/threads/:id" element={<ThreadDetail />} />  */}
           </Route>
 
 

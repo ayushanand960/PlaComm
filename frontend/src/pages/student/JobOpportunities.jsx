@@ -170,6 +170,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { useNavigate } from "react-router-dom";
 import StudentNavbar from "../../components/student/StudentNavbar";
 
+
 dayjs.extend(relativeTime);
 
 const JobsPage = () => {
@@ -209,7 +210,7 @@ const JobsPage = () => {
       await axiosInstance.post(`/placements/job-postings/${jobId}/apply/`, { status });
 
       setJobs((prev) =>
-        prev.map((job) => (job.id === jobId ? { ...job, application_status: status } : job))
+        prev.map((job) => (job.job_id === jobId ? { ...job, application_status: status } : job))
       );
     } catch (err) {
       console.error(err.response?.data || err.message);
@@ -252,7 +253,7 @@ const JobsPage = () => {
             const postedAgo = dayjs(job.created_at).fromNow();
 
             return (
-              <Grid item xs={12} sm={6} md={4} key={job.id}>
+              <Grid item xs={12} sm={6} md={4} key={job.job_id}>
                 <Card
                   sx={{
                     minHeight: 250,
@@ -328,6 +329,7 @@ const JobsPage = () => {
           })}
         </Grid>
       </Container>
+
     </Box>
   );
 };

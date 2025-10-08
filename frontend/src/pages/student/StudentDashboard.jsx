@@ -225,17 +225,7 @@
 
 // src/pages/StudentDashboard.jsx
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Container,
-  Grid,
-  CircularProgress,
-  Typography,
-  Card,
-  CardContent,
-  CardActions,
-  Button,
-} from "@mui/material";
+import { Box, Container, Grid, CircularProgress, Typography, Card, CardContent, CardActions, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../api/axiosInstance";
 import StudentNavbar from "../../components/student/StudentNavbar";
@@ -244,7 +234,6 @@ import StudentInfo from "../../components/student/StudentInfo";
 import DashboardCards from "../../components/student/DashboardCards";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-
 dayjs.extend(relativeTime);
 
 const StudentDashboard = () => {
@@ -253,13 +242,11 @@ const StudentDashboard = () => {
   const [opportunities, setOpportunities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
   const navigate = useNavigate();
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     const uniqueId = user?.unique_id;
-
     if (!uniqueId) {
       setError("No student ID found. Please login again.");
       setLoading(false);
@@ -269,12 +256,9 @@ const StudentDashboard = () => {
     const fetchData = async () => {
       try {
         // Fetch student info
-        const studentRes = await axiosInstance.get(
-          `/users/student/data/${uniqueId}/`
-        );
+        const studentRes = await axiosInstance.get(`/users/student/data/${uniqueId}/`);
         setStudent(studentRes.data);
 
-        // Fetch training score
         try {
           const trainingRes = await axiosInstance.get(
             `/trainings/student/${uniqueId}/`
@@ -287,7 +271,6 @@ const StudentDashboard = () => {
           );
         }
 
-        // Fetch job postings
         const jobsRes = await axiosInstance.get(`/placements/job-postings/`);
         const jobs = Array.isArray(jobsRes.data)
           ? jobsRes.data
@@ -342,14 +325,7 @@ const StudentDashboard = () => {
 
   if (loading)
     return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: "100vh",
-        }}
-      >
+      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh" }}>
         <CircularProgress />
       </Box>
     );
@@ -390,13 +366,23 @@ const StudentDashboard = () => {
 
       <Container maxWidth="lg" sx={{ mt: 8 }}>
         {/* Student Info */}
-        <Box mb={4}>
-          <StudentInfo
-            student={student}
-            onEditProfile={() =>
-              navigate(`/student-profile/${student?.unique_id}`)
-            }
-          />
+        <Box mb={4}sx={{ animation: "fadeInUp 0.6s ease forwards", opacity: 0 }}>
+          <Card
+            sx={{
+              p: 3,
+              borderRadius: 3,
+              boxShadow: 6,
+              transition: "transform 0.4s, background-color 1s",
+              background: "linear-gradient(45deg, #6a11cb, #2575fc)",
+              color: "white",
+              "&:hover": {
+                transform: "scale(1.03)",
+                background: "linear-gradient(45deg, #ff512f, #dd2476)",
+              },
+            }}
+          >
+          <StudentInfo student={student} onEditProfile={() => navigate(`/student-profile/${student?.unique_id}`)} />
+            </Card>
         </Box>
 
         {/* Stats */}
@@ -436,13 +422,29 @@ const StudentDashboard = () => {
         </Box>
 
         {/* Job Opportunities */}
-        <Typography variant="h5" gutterBottom sx={{ mb: 2 }}>
+        <Typography
+          variant="h5"
+          gutterBottom
+          sx={{
+            mb: 2,
+            fontWeight: 700,
+            letterSpacing: 1,
+            background: "linear-gradient(90deg, #ff6a00, #ee0979)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            animation: "fadeInUp 0.5s ease forwards",
+            opacity: 0,
+          }}
+        >
           Available Jobs
         </Typography>
+
         <Grid container spacing={3}>
           {opportunities.map((job) => {
-            const isExpired =
-              job.deadline && dayjs().isAfter(dayjs(job.deadline));
+            const isExpired = job.deadline && dayjs().isAfter(dayjs(job.deadline));
+
+          // {opportunities.map((job, idx) => {
+            // const isExpired = job.deadline && dayjs().isAfter(dayjs(job.deadline));
             const postedAgo = dayjs(job.created_at).fromNow();
 
             return (
@@ -459,22 +461,16 @@ const StudentDashboard = () => {
                   }}
                 >
                   <CardContent>
-                    <Typography variant="h6">{job.job_title}</Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {job.company_name} • {job.location}
-                    </Typography>
-                    <Typography variant="body2" sx={{ mt: 1 }}>
-                      {job.job_description}
-                    </Typography>
-                    <Typography
-                      variant="caption"
-                      color={isExpired ? "error.main" : "text.secondary"}
-                    >
+                    <Typography variant="h6" sx={{ fontWeight: 600 }}>{job.job_title}</Typography>
+                    <Typography variant="body2" color="text.secondary">{job.company_name} • {job.location}</Typography>
+                    <Typography variant="body2" sx={{ mt: 1 }}>{job.job_description}</Typography>
+                    <Typography variant="caption" color={isExpired ? "error.main" : "text.secondary"}>
                       {isExpired ? "Expired" : `Posted ${postedAgo}`}
                     </Typography>
                   </CardContent>
+
                   {!isExpired && (
-                    <CardActions>
+                    <CardActions sx={{ pt: 0 }}>
                       <Button
                         size="small"
                         variant="contained"
@@ -523,15 +519,9 @@ const StudentDashboard = () => {
                           handleApplication(job.job_id, "not_interested")
                         }
                         sx={{
-                          backgroundColor:
-                            job.application_status === "not_interested"
-                              ? "grey"
-                              : undefined,
+                          backgroundColor: job.application_status === "not_interested" ? "grey" : undefined,
                           "&.Mui-disabled": {
-                            backgroundColor:
-                              job.application_status === "not_interested"
-                                ? "grey"
-                                : undefined,
+                            backgroundColor: job.application_status === "not_interested" ? "grey" : undefined,
                           },
                         }}
                       >
@@ -547,6 +537,16 @@ const StudentDashboard = () => {
       </Container>
 
       <Footer />
+
+      {/* Keyframe Animations */}
+      <style>
+        {`
+          @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+          }
+        `}
+      </style>
     </Box>
   );
 };

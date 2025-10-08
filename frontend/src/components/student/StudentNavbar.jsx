@@ -190,7 +190,7 @@ const StudentNavbar = () => {
     { label: "My Applications", icon: <AssignmentIcon />, path: "/my-applications" },
 
     { label: "Resume & ATS", icon: <DescriptionIcon />, path: "/resume" },
-    { label: "Discussion Forum", icon: <ForumIcon />, path: "/forum" },
+    { label: "Discussion Forum", icon: <ForumIcon />, path: "/discussion-forum" },
     { label: "Drive Questions", icon: <HelpIcon />, path: "/questions" },
     { label: "Drive Reports", icon: <BarChartIcon />, path: "/reports" },
   ];
