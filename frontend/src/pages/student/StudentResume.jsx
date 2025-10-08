@@ -1,9 +1,9 @@
 import { useState } from "react";
-import axiosInstance from "../api/axiosInstance";
-import "../animations.css";
-import "../studentResume.css";
+import axiosInstance from "../../api/axiosInstance";
+import "./animations.css";
+import "./studentResume.css";
 import ReactMarkdown from "react-markdown";
-import StudentNavbar from "../components/StudentNavbar";
+import StudentNavbar from "../../components/student/StudentNavbar";
 
 export default function StudentResume() {
   const [resume, setResume] = useState(null);

@@ -136,7 +136,7 @@ import {
   Box,
   Chip,
 } from "@mui/material";
-import axiosInstance from "../../api/axiosInstance"; // ✅ same axiosInstance used elsewhere
+import axiosInstance from "../../../api/axiosInstance"; // ✅ same axiosInstance used elsewhere
 
 export default function UploadResultDialog({
   open,

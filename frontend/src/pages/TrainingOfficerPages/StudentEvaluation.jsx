@@ -116,8 +116,8 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button, CircularProgress, Box } from "@mui/material";
-import ActivityCard from "../../TrainingOfficerComponents/StudentEvaluation/ActivityCard";
-import UploadResultDialog from "../../TrainingOfficerComponents/StudentEvaluation/UploadResultDialog";
+import ActivityCard from "../../components/trainingOfficer/studentEvaluation/ActivityCard";
+import UploadResultDialog from "../../components/trainingOfficer/studentEvaluation/UploadResultDialog";
 import axiosInstance from "../../api/axiosInstance";
 
 // Match exact backend activity codes

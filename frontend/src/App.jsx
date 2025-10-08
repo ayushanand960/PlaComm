@@ -1,8 +1,8 @@
 // src/App.jsx
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "./pages/Home";
-import PostJob from "./pages/PostJob";
-import JobList from "./pages/JobList";
+import PostJob from "./pages/placementCoordinator/PostJob";
+import JobList from "./pages/placementCoordinator/JobList";
 import Register from "./pages/Register";
 import StudentRecruiterLogin from "./pages/StudentRecruiterLogin";
 import AdminCoordinatorLogin from "./pages/AdminCoordinatorLogin";
@@ -11,34 +11,34 @@ import PrivateRoute from "./pages/PrivateRoute";
 
 // Newly added dashboards
 //import StudentLayout from "./layouts/StudentLayout";
-import StudentDashboard from "./pages/StudentDashboard";
-import StudentProfile from "./pages/StudentProfile";
-import JobOpportunities from "./pages/JobOpportunities";
+import StudentDashboard from "./pages/student/StudentDashboard";
+import StudentProfile from "./pages/student/StudentProfile";
+import JobOpportunities from "./pages/student/JobOpportunities";
 
-import MyApplications from "./pages/MyApplications";
-import StudentResume from "./pages/StudentResume";
+import MyApplications from "./pages/student/MyApplications";
+import StudentResume from "./pages/student/StudentResume";
 import RecruiterDashboard from "./pages/RecruiterDashboard";
 import AuthorityDashboard from "./pages/AuthorityDashboard";
-import TrainingOfficerDashboard from "./pages/TrainingOfficerDashboard";
+import TrainingOfficerDashboard from "./pages/TrainingOfficerPages/TrainingOfficerDashboard";
 import Gallery from "./pages/Gallery";
 import About from "./pages/About";
 
 // Coordinator Layout + Pages
 import CoordinatorLayout from "./layouts/CoordinatorLayout";
-import CoordinatorDashboard from "./pages/CoordinatorDashboard";
+import CoordinatorDashboard from "./pages/placementCoordinator/CoordinatorDashboard";
 // import Profile from "./pages/Profile"
 // import JobManagement from "./pages/JobManagement";
-import PlacementDrives from "./pages/PlacementDrives";
-import Applications from "./pages/Applications";
-import CompanyRelations from "./pages/CompanyRelations";
-import Reports from "./pages/Reports";
-import Notifications from "./pages/Notifications";
+import PlacementDrives from "./pages/placementCoordinator/PlacementDrives";
+import Applications from "./pages/placementCoordinator/Applications";
+import CompanyRelations from "./pages/placementCoordinator/CompanyRelations";
+import Reports from "./pages/placementCoordinator/Reports";
+import Notifications from "./pages/placementCoordinator/Notifications";
 // import StudentResume from "./pages/StudentResume";
 
 
 //imports for Training Officer
-import Navbar from "./TrainingOfficerComponents/Navbar";
-import TrainingOfficerRoutes from "./routes/TrainingOfficerRoutes";
+// import Navbar from "./components/trainingOfficer/Navbar";
+// import TrainingOfficerRoutes from "./routes/TrainingOfficerRoutes";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import UserManagement from "./pages/admin/UserManagement";
 //import RoleAssignment from "./pages/admin/RoleAssignment";

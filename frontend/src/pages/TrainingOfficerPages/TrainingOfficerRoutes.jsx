@@ -1,19 +1,18 @@
 // src/Routes/TrainingOfficerRoutes.jsx
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import TrainingOfficerLayout from "../Layouts/TrainingOfficerLayout";
+import TrainingOfficerLayout from "../../Layouts/TrainingOfficerLayout.jsx";
+import ViewActivity from "../../components/trainingOfficer/TrainingProgram/ViewActivity.jsx";
+import PastActivities from "../../components/trainingOfficer/TrainingProgram/PastActivities.jsx";
+import CreateActivityForm from "../../components/trainingOfficer/TrainingProgram/CreateActivityForm.jsx";
 
-import ViewActivity from "../TrainingOfficerComponents/TrainingProgram/ViewActivity";
-import PastActivities from "../TrainingOfficerComponents/TrainingProgram/PastActivities";
-import CreateActivityForm from "../TrainingOfficerComponents/TrainingProgram/CreateActivityForm";
-
-import Dashboard from "../pages/TrainingOfficerPages/Dashboard.jsx";
-import TrainingProgram from "../pages/TrainingOfficerPages/TrainingProgram.jsx";
-import PriorityList from "../pages/TrainingOfficerPages/PriorityList.jsx";
-import StudentEvaluation from "../pages/TrainingOfficerPages/StudentEvaluation.jsx";
-import MockInterview from "../pages/TrainingOfficerPages/MockInterview.jsx";
-import TrainingReport from "../pages/TrainingOfficerPages/TrainingReport.jsx";
-import FullSectionList from "../pages/TrainingOfficerPages/FullSectionList.jsx";
+import Dashboard from "./Dashboard.jsx";
+import TrainingProgram from "./TrainingProgram.jsx";
+import PriorityList from "./PriorityList.jsx";
+import StudentEvaluation from "./StudentEvaluation.jsx";
+import MockInterview from "./MockInterview.jsx";
+import TrainingReport from "./TrainingReport.jsx";
+import FullSectionList from "./FullSectionList.jsx";
 
 const TrainingOfficerRoutes = () => {
   return (

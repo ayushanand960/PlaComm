@@ -1,6 +1,6 @@
 // src/TrainingOfficerComponents/TrainingProgram/PastActivities.jsx
 import React, { useEffect, useState } from "react";
-import axiosInstance from "../../api/axiosInstance";
+import axiosInstance from "../../../api/axiosInstance";
 import HeaderBar from "./HeaderBar";
 import { useLocation, useParams } from "react-router-dom";
 

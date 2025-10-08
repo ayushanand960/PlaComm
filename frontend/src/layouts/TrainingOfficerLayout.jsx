@@ -1,6 +1,6 @@
 // src/Layouts/TrainingOfficerLayout.jsx
 import React from "react";
-import Navbar from "../TrainingOfficerComponents/Navbar";
+import Navbar from "../components/trainingOfficer/Navbar";
 import { Outlet } from "react-router-dom";
 import { Box, Toolbar } from "@mui/material";
 

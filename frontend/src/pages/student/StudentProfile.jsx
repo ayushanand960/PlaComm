@@ -55,14 +55,14 @@ import {
   Box,
   Paper,
 } from "@mui/material";
-import AcademicList from "../components/studentProfile/AcademicList";
-import ExperienceList from "../components/studentProfile/ExperienceList";
-import ProjectList from "../components/studentProfile/ProjectList";
-import SkillList from "../components/studentProfile/SkillList";
-import CertificationList from "../components/studentProfile/CertificationList";
-import DocumentList from "../components/studentProfile/DocumentList";
-import PersonalDetailList from "../components/studentProfile/PersonalDetailList";
-import StudentNavbar from "../components/StudentNavbar";
+import AcademicList from "../../components/studentProfile/AcademicList";
+import ExperienceList from "../../components/studentProfile/ExperienceList";
+import ProjectList from "../../components/studentProfile/ProjectList";
+import SkillList from "../../components/studentProfile/SkillList";
+import CertificationList from "../../components/studentProfile/CertificationList";
+import DocumentList from "../../components/studentProfile/DocumentList";
+import PersonalDetailList from "../../components/studentProfile/PersonalDetailList";
+import StudentNavbar from "../../components/student/StudentNavbar";
 
 export default function StudentProfile() {
   const [tab, setTab] = React.useState(0);

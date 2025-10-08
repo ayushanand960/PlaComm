@@ -12,9 +12,9 @@
 // }
 
 
-import Navbar from "../components/Navbar";
+import Navbar from "../components/PlacementCoordinator/Navbar";
 import { Outlet } from "react-router-dom";
-import TopNavbar from "../components/TopNavbar";
+import TopNavbar from "../components/PlacementCoordinator/TopNavbar";
 import {Box}  from "@mui/material"
 
 

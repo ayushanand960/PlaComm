@@ -4,16 +4,16 @@ import React, { useEffect, useState } from "react";
 import {Box, Container, Typography, Grid, Card, CardContent, Button, CircularProgress, Alert } from "@mui/material";
 import { Work, AddCircle } from "@mui/icons-material";
 import { useNavigate, useParams } from "react-router-dom";
-import axiosInstance from "../api/axiosInstance";
+import axiosInstance from "../../api/axiosInstance";
 
 
-import StatCard from "../components/StatCard";
-import JobCard from "../components/JobCard";
+import StatCard from "../../components/PlacementCoordinator/StatCard";
+import JobCard from "../../components/PlacementCoordinator/JobCard";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import WorkIcon from '@mui/icons-material/Work';
-import ActiveJobPosting from "../components/ActiveJobPosting"
+// import ActiveJobPosting from "../../components/ActiveJobPosting"
 
 
 export default function CoordinatorDashboard() {

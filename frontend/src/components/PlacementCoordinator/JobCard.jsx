@@ -40,7 +40,7 @@ import React, { useEffect, useState } from "react";
 import { Card, CardContent, Typography, Button, Box, Chip, Grid } from "@mui/material";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import WorkIcon from '@mui/icons-material/Work';
-import axiosInstance from "../api/axiosInstance";
+import axiosInstance from "../../api/axiosInstance";
 
 export default function JobCard() {
   const [jobs, setJobs] = useState([]);

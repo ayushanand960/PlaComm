@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import ActivityCard from "../../TrainingOfficerComponents/StudentEvaluation/ActivityCard";
+import ActivityCard from "../../components/trainingOfficer/studentEvaluation/ActivityCard";
 import { Box, Typography } from "@mui/material";
-import HeaderBar from "../../TrainingOfficerComponents/TrainingProgram/HeaderBar";
+import HeaderBar from "../../components/trainingOfficer/TrainingProgram/HeaderBar";
 
 export default function FullSectionList() {
   const { id, section } = useParams();

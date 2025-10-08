@@ -189,7 +189,7 @@ import {
   Grid,
   Paper,
 } from "@mui/material";
-import axiosInstance from "../api/axiosInstance";
+import axiosInstance from "../../api/axiosInstance";
 
 export default function PostJob() {
   const [formData, setFormData] = useState({

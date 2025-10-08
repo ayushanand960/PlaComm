@@ -9,9 +9,9 @@ import {
   CircularProgress,
   Box,
 } from "@mui/material";
-import axiosInstance from "../api/axiosInstance";
+import axiosInstance from "../../api/axiosInstance";
 import dayjs from "dayjs";
-import StudentNavbar from "../components/StudentNavbar";
+import StudentNavbar from "../../components/student/StudentNavbar";
 
 const MyApplications = () => {
   const [applications, setApplications] = useState([]);

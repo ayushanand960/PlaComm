@@ -98,9 +98,9 @@
 import React, { useEffect, useState } from "react";
 import { Container, Typography, Button, Tabs, Tab, Box } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
-import DriveCard from "../components/DriveCard";
+import DriveCard from "../../components/PlacementCoordinator/DriveCard";
 import JobList from "./JobList";
-import axiosInstance from "../api/axiosInstance";
+import axiosInstance from "../../api/axiosInstance";
 
 const PlacementDrives = () => {
   const navigate = useNavigate();

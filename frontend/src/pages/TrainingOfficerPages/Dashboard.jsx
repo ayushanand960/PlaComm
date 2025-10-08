@@ -71,10 +71,10 @@
 
 import React from "react";
 import { Grid, Box, Container, Card, CardContent, Button, Typography } from "@mui/material";
-import LoginBanner from "../../TrainingOfficerComponents/Dashboard/LoginBanner";
-import StatsCards from "../../TrainingOfficerComponents/Dashboard/StatsCards";
-import StudentAssessment from "../../TrainingOfficerComponents/Dashboard/StudentAssessment";
-import TopPerformingStudents from "../../TrainingOfficerComponents/Dashboard/TopPerformingStudent";
+import LoginBanner from "../../components/trainingOfficer/Dashboard/LoginBanner";
+import StatsCards from "../../components/trainingOfficer/Dashboard/StatsCards";
+import StudentAssessment from "../../components/trainingOfficer/Dashboard/StudentAssessment";
+import TopPerformingStudents from "../../components/trainingOfficer/Dashboard/TopPerformingStudent";
 import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {

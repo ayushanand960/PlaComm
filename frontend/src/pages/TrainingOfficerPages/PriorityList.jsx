@@ -1,8 +1,8 @@
 // src/pages/TrainingOfficerPages/PriorityList.jsx
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import PriorityActivityCard from "../../TrainingOfficerComponents/PriorityList/PriorityActivityCard";
-import ViewResultDialog from "../../TrainingOfficerComponents/PriorityList/ViewResultDialog";
+import PriorityActivityCard from "../../components/trainingOfficer/PriorityList/PriorityActivityCard";
+import ViewResultDialog from "../../components/trainingOfficer/PriorityList/ViewResultDialog";
 import { Button } from "@mui/material";
 
 const activityTypes = ["GD", "Technical", "Aptitude", "Mock", "PI"];

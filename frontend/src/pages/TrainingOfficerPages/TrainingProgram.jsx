@@ -63,7 +63,7 @@
 // src/pages/TrainingProgram.jsx
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import Program from "../../TrainingOfficerComponents/TrainingProgram/Program";
+import Program from "../../components/trainingOfficer/TrainingProgram/Program";
 
 const TrainingProgram = () => {
   return (

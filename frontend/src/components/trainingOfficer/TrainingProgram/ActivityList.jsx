@@ -1,6 +1,6 @@
 // src/TrainingOfficerComponents/TrainingProgram/ActivityList.jsx
 import React, { useEffect, useState } from "react";
-import axiosInstance from "../../api/axiosInstance";
+import axiosInstance from "../../../api/axiosInstance";
 
 const ActivityList = ({ activityType, limit, onEdit, onDelete }) => {
   const [activities, setActivities] = useState([]);

@@ -73,7 +73,7 @@ const StudentAssessment = () => {
             color: "black",
             "&:hover": { bgcolor: "goldenrod", color: "white" },
           }}
-          onClick={() => handleNavigate("trainingprogram/technical/create")}
+          onClick={() => handleNavigate("trainingprogram/tech/create")}
         >
           Conduct Technical Assessment
         </Button>
@@ -84,7 +84,7 @@ const StudentAssessment = () => {
             color: "black",
             "&:hover": { bgcolor: "goldenrod", color: "white" },
           }}
-          onClick={() => handleNavigate("trainingprogram/aptitude/create")}
+          onClick={() => handleNavigate("trainingprogram/apt/create")}
         >
           Conduct Aptitude Test
         </Button>

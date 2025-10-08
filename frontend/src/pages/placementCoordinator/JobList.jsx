@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { Edit, Delete } from "@mui/icons-material";
 // import axios from "axios";
-import axiosInstance from "../api/axiosInstance";
+import axiosInstance from "../../api/axiosInstance";
 
 export default function JobList() {
   const [jobs, setJobs] = useState([]);

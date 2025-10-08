@@ -237,11 +237,11 @@ import {
   Button,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from "../api/axiosInstance";
-import StudentNavbar from "../components/StudentNavbar";
-import Footer from "../components/Footer";
-import StudentInfo from "../components/StudentInfo";
-import DashboardCards from "../components/DashboardCards";
+import axiosInstance from "../../api/axiosInstance";
+import StudentNavbar from "../../components/student/StudentNavbar";
+import Footer from "../../components/student/Footer";
+import StudentInfo from "../../components/student/StudentInfo";
+import DashboardCards from "../../components/student/DashboardCards";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 

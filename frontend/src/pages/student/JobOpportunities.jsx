@@ -164,11 +164,11 @@ import {
   CircularProgress,
   Box,
 } from "@mui/material";
-import axiosInstance from "../api/axiosInstance";
+import axiosInstance from "../../api/axiosInstance";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useNavigate } from "react-router-dom";
-import StudentNavbar from "../components/StudentNavbar";
+import StudentNavbar from "../../components/student/StudentNavbar";
 
 dayjs.extend(relativeTime);
 

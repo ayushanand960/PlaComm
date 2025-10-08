@@ -14,10 +14,10 @@ import {
   Paper,
 } from "@mui/material";
 import { Email, Phone, Work, Business, Badge } from "@mui/icons-material";
-import axiosInstance from "../api/axiosInstance";
+import axiosInstance from "../../api/axiosInstance";
 
 //importing TrainingOfficerRoutes.jsx from TrainingOfficerPages
-import TrainingOfficerRoutes from "../routes/TrainingOfficerRoutes";
+import TrainingOfficerRoutes from "./TrainingOfficerRoutes";
 
 const TrainingOfficerDashboard = () => {
   const user = JSON.parse(localStorage.getItem("user"));
