@@ -1,7 +1,7 @@
-// src/pages/admin/AddCategory.jsx
+// src/pages/AddCategory.jsx
 import React, { useState } from "react";
 import { Box, Container, TextField, Button, Typography, Alert } from "@mui/material";
-import axiosInstance from "../../api/axiosInstance";
+import axiosInstance from "../api/axiosInstance";
 
 export default function AddCategory() {
     const [name, setName] = useState("");

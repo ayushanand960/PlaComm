@@ -2,6 +2,8 @@
 from rest_framework import generics, permissions
 from .models import Category, Thread, Reply
 from .serializers import CategorySerializer, ThreadSerializer, ReplySerializer
+from .permissions import CanCreateCategory
+
 
 
 # ----------------------
@@ -24,11 +26,12 @@ class IsAdminOrReadOnly(permissions.BasePermission):
 class CategoryListView(generics.ListCreateAPIView):
     """
     GET: List all categories → any authenticated user
-    POST: Create category → admin/staff only
+    POST: Create category → admin, placement coordinator, or training officer
     """
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = [IsAdminOrReadOnly]
+    permission_classes = [CanCreateCategory]  # Updated permission
+
 
 
 # =========================

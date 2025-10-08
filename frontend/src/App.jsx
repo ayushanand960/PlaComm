@@ -47,7 +47,7 @@ import SystemSettings from "./pages/admin/SystemSettings";
 import CategoryList from "./pages/CategoryList";
 import ThreadList from "./pages/ThreadList";
 import ThreadDetail from "./pages/ThreadDetail";
-import AddCategory from "./pages/admin/AddCategory";
+import AddCategory from "./pages/AddCategory";
 
 
 export default function App() {
@@ -70,6 +70,7 @@ export default function App() {
           <Route path="/admin-coordinator-login" element={<AdminCoordinatorLogin />} />
           <Route path="/about" element={<About />} />
           <Route path="/gallery" element={<Gallery />} />
+
 
           {/* Protected Routes */}
 
@@ -99,7 +100,7 @@ export default function App() {
             <Route path="/admin/role-assignment" element={<AdminManageUsers />} />
             <Route path="/admin/reports-analytics" element={<ReportAnalytics />} />
             <Route path="/admin/system-settings" element={<SystemSettings />} />
-            <Route path="/admin/add-category" element={<AddCategory />} />
+
 
 
 
@@ -120,6 +121,17 @@ export default function App() {
             <Route path="/discussion-forum" element={<CategoryList />} />
             <Route path="/categories/:categoryId/threads" element={<ThreadList />} />
             <Route path="/threads/:id" element={<ThreadDetail />} />
+          </Route>
+
+          <Route
+            element={
+              <PrivateRoute
+                allowedRoles={["admin", "placement_coordinator", "officer"]}
+              />
+            }
+          >
+          <Route path="/admin/add-category" element={<AddCategory />} />
+
           </Route>
 
 

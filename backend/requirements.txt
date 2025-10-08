@@ -20,6 +20,7 @@ psycopg2-binary>=2.9
 gunicorn>=21.2
 
 pdf2image
-google-generativeai
+google-genai
 pandas
 openpyxl
+PyMuPDF

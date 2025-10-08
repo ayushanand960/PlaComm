@@ -171,3 +171,12 @@
     font-size: 1rem;
     color: #333;
 }
+
+.resume-suggestions ul {
+    margin-left: 20px;
+    color: #333;
+}
+
+.resume-suggestions li {
+    margin-bottom: 5px;
+}
