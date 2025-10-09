@@ -123,41 +123,105 @@ class TrainingOfficerRegistrationView(APIView):
 # ------------------------------------
 # Cookie-based JWT Login
 # ------------------------------------
+
+
+# Original pawan code
+# class CookieLoginView(TokenObtainPairView):
+#     serializer_class = CustomTokenObtainPairSerializer
+
+#     def post(self, request, *args, **kwargs):
+#         response = super().post(request, *args, **kwargs)
+#         if response.status_code == 200:
+#             data = response.data
+#             refresh = data.get("refresh")
+#             access = data.get("access")
+
+#             samesite = "None" if SECURE_COOKIE else "Lax"
+
+#             # Set cookies for access + refresh
+#             response.set_cookie(
+#                 key=settings.SIMPLE_JWT['AUTH_COOKIE_ACCESS'],
+#                 value=access,
+#                 httponly=True,
+#                 secure=SECURE_COOKIE,
+#                 samesite=samesite,
+#             )
+#             response.set_cookie(
+#                 key=settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'],
+#                 value=refresh,
+#                 httponly=True,
+#                 secure=SECURE_COOKIE,
+#                 samesite=samesite,
+#             )
+#             response.set_cookie(
+#                 key="csrftoken",
+#                 value=csrf.get_token(request),
+#                 secure=SECURE_COOKIE,
+#                 samesite=samesite,
+#             )
+
+#             response.data = {"message": "Login successful"}
+#         return response
+
+
+
+
+
+
+
+
+
+
+
+# views.py
 class CookieLoginView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
 
     def post(self, request, *args, **kwargs):
-        response = super().post(request, *args, **kwargs)
-        if response.status_code == 200:
-            data = response.data
-            refresh = data.get("refresh")
-            access = data.get("access")
+        serializer = self.get_serializer(data=request.data)
 
-            samesite = "None" if SECURE_COOKIE else "Lax"
+        try:
+            serializer.is_valid(raise_exception=True)
+        except Exception:
+            return Response({"error": serializer.errors}, status=400)
 
-            # Set cookies for access + refresh
-            response.set_cookie(
-                key=settings.SIMPLE_JWT['AUTH_COOKIE_ACCESS'],
-                value=access,
-                httponly=True,
-                secure=SECURE_COOKIE,
-                samesite=samesite,
-            )
-            response.set_cookie(
-                key=settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'],
-                value=refresh,
-                httponly=True,
-                secure=SECURE_COOKIE,
-                samesite=samesite,
-            )
-            response.set_cookie(
-                key="csrftoken",
-                value=csrf.get_token(request),
-                secure=SECURE_COOKIE,
-                samesite=samesite,
+        user = serializer.user  # ab ye guaranteed hai
+
+        # Blocked check
+        if getattr(user, "is_blocked", False):
+            return Response(
+                {"error": "Your account has been blocked."},
+                status=403
             )
 
-            response.data = {"message": "Login successful"}
+        # Tokens
+        refresh = serializer.validated_data["refresh"]
+        access = serializer.validated_data["access"]
+
+        samesite = "None" if getattr(settings, "SECURE_COOKIE", False) else "Lax"
+
+        response = Response({"message": "Login successful"})
+        response.set_cookie(
+            key=settings.SIMPLE_JWT["AUTH_COOKIE_ACCESS"],
+            value=access,
+            httponly=True,
+            secure=getattr(settings, "SECURE_COOKIE", False),
+            samesite=samesite,
+        )
+        response.set_cookie(
+            key=settings.SIMPLE_JWT["AUTH_COOKIE_REFRESH"],
+            value=refresh,
+            httponly=True,
+            secure=getattr(settings, "SECURE_COOKIE", False),
+            samesite=samesite,
+        )
+        response.set_cookie(
+            key="csrftoken",
+            value=csrf.get_token(request),
+            secure=getattr(settings, "SECURE_COOKIE", False),
+            samesite=samesite,
+        )
+
         return response
 
 # ------------------------------------
@@ -260,6 +324,7 @@ class ListUsersView(APIView):
                 "last_name": u.last_name,
                 "email": u.email,
                 "role": u.role,
+                "is_blocked": u.is_blocked,
             }
             for u in users
         ]
@@ -296,3 +361,19 @@ class UserDetailView(RetrieveAPIView):
     lookup_field = "unique_id"       # lookup by unique_id instead of pk
     permission_classes = [IsAuthenticated]  # Require authentication
     authentication_classes = [CookieJWTAuthentication]
+
+
+
+class BlockUnblockUserView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def post(self, request, user_id):
+        try:
+            user = User.objects.get(unique_id=user_id)
+
+            user.is_blocked = not user.is_blocked
+            user.save()
+            status = "blocked" if user.is_blocked else "unblocked"
+            return Response({"message": f"User has been {status} successfully."})
+        except User.DoesNotExist:
+            return Response({"error": "User not found"}, status=404)
