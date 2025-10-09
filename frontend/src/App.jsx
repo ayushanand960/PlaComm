@@ -53,6 +53,8 @@ import ThreadList from "./pages/ThreadList";
 import ThreadDetail from "./pages/ThreadDetail";
 import AddCategory from "./pages/AddCategory";
 import DriveReports from "./pages/student/DriveReports";
+import AdminJobAnalysis from "./pages/admin/AdminJobAnalysis";
+
 
 
 export default function App() {
@@ -105,6 +107,7 @@ export default function App() {
             <Route path="/admin/role-assignment" element={<AdminManageUsers />} />
             <Route path="/admin/reports-analytics" element={<ReportAnalytics />} />
             <Route path="/admin/system-settings" element={<SystemSettings />} />
+<Route path="/admin/job-analysis" element={<AdminJobAnalysis />} />
 
 
 
