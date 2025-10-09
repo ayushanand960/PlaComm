@@ -8,7 +8,8 @@ from .views import (
     UserProfileView,
     ListUsersView,
     UpdateUserRoleView,
-    UserDetailView,StudentDetailView,PersonalDetailViewSet
+    UserDetailView,StudentDetailView,PersonalDetailViewSet,
+    BlockUnblockUserView
 )
 personal_detail = PersonalDetailViewSet.as_view({
     "get": "list",
@@ -36,4 +37,6 @@ path("student/data/<path:unique_id>/", StudentDetailView.as_view(), name="user-d
 
     
     path("<path:unique_id>/role/", UpdateUserRoleView.as_view(), name="update-user-role"),
+
+    path('block-unblock/<str:user_id>/', BlockUnblockUserView.as_view(), name='block-unblock-user'),
 ]

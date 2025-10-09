@@ -6,6 +6,40 @@ from .models import User, Student, TrainingOfficer
 # ------------------------------------
 # JWT Login Serializer
 # ------------------------------------
+# class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+#     username_field = "unique_id"
+
+#     def validate(self, attrs):
+#         unique_id = attrs.get("unique_id")
+#         password = attrs.get("password")
+#         role = self.initial_data.get("role")  # Frontend must send 'role'
+
+#         if not unique_id or not password or not role:
+#             raise serializers.ValidationError("Provide unique_id, password, and role")
+
+#         # Authenticate user
+#         user = authenticate(username=unique_id, password=password)
+#         if user is None:
+#             raise serializers.ValidationError("Invalid credentials")
+
+#         # Check role
+#         if user.role != role:
+#             raise serializers.ValidationError("Role mismatch")
+
+#         refresh = self.get_token(user)
+#         return {
+#             "refresh": str(refresh),
+#             "access": str(refresh.access_token),
+#             "role": user.role,
+#             "unique_id": user.unique_id
+#         }
+
+
+# serializers.py
+from django.contrib.auth import authenticate
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework import serializers
+
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     username_field = "unique_id"
 
@@ -17,7 +51,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         if not unique_id or not password or not role:
             raise serializers.ValidationError("Provide unique_id, password, and role")
 
-        # Authenticate user
+        # Authenticate user using custom backend
         user = authenticate(username=unique_id, password=password)
         if user is None:
             raise serializers.ValidationError("Invalid credentials")
@@ -26,6 +60,9 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         if user.role != role:
             raise serializers.ValidationError("Role mismatch")
 
+        # Save user for view
+        self.user = user
+
         refresh = self.get_token(user)
         return {
             "refresh": str(refresh),
@@ -33,6 +70,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             "role": user.role,
             "unique_id": user.unique_id
         }
+
 # ------------------------------------
 # Student Registration Serializer
 # ------------------------------------
@@ -168,4 +206,4 @@ class UserRoleUpdateSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["unique_id", "first_name", "last_name", "email", "role"]
+        fields = ["unique_id", "first_name", "last_name", "email", "role","is_blocked"]

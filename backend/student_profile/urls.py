@@ -77,3 +77,13 @@ urlpatterns = [
         "delete": "destroy"
     }), name="documents-detail"),
 ]
+
+
+#----------------------------------------------------------------------------
+
+from django.urls import path
+from .views import AdminStudentProfileView
+
+urlpatterns = [
+    path("students/<str:rum_number>/", AdminStudentProfileView.as_view(), name="admin-student-profile"),
+]
