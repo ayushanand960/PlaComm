@@ -84,8 +84,10 @@ class EvaluationResultViewSet(viewsets.ModelViewSet):
         """
         Handle Excel upload for an activity:
         - Columns expected: roll_no, name, marks
-        - Validates roll_no exists and marks >= min_marks
-        - Saves EvaluationResult rows
+        - Validates roll_no exists
+        - For each valid student creates or updates EvaluationResult
+        - Always keeps low-mark students (eligible=False)
+        - Reuploading overwrites previous results for that activity/job
         """
         file = request.FILES.get("file")
         activity_id = request.data.get("activity_id")
@@ -96,7 +98,7 @@ class EvaluationResultViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        # Validate activity
+        # ▶ Validate activity
         try:
             activity = Activity.objects.get(pk=activity_id)
         except Activity.DoesNotExist:
@@ -105,7 +107,7 @@ class EvaluationResultViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_404_NOT_FOUND,
             )
 
-        # Read Excel
+        # ▶ Read Excel
         try:
             df = pd.read_excel(file)
         except Exception as e:
@@ -114,26 +116,32 @@ class EvaluationResultViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        # Expected columns
+        # ▶ Normalize & validate columns
+        df.columns = [c.lower().strip() for c in df.columns]
         required_cols = {"roll_no", "name", "marks"}
-        if not required_cols.issubset(df.columns.str.lower()):
+        if not required_cols.issubset(set(df.columns)):
             return Response(
                 {"detail": "Excel must contain columns: roll_no, name, marks"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        results = []
-        invalid = []
         min_marks = activity.min_marks
-
-        # Normalize column names
-        df.columns = [c.lower() for c in df.columns]
+        results, invalid = [], []
 
         with transaction.atomic():
+            # 💥 delete previous results for this same Activity + Job
+            EvaluationResult.objects.filter(activity=activity, job=activity.job).delete()
+
             for _, row in df.iterrows():
-                roll = str(row["roll_no"]).strip()
-                marks = float(row["marks"])
+                roll = str(row.get("roll_no", "")).strip()
                 name = str(row.get("name", "")).strip()
+                marks_val = row.get("marks", "")
+
+                # skip empty marks
+                try:
+                    marks = float(marks_val)
+                except (ValueError, TypeError):
+                    continue
 
                 try:
                     student = User.objects.get(unique_id=roll, role="student")
@@ -146,21 +154,22 @@ class EvaluationResultViewSet(viewsets.ModelViewSet):
                     continue
 
                 eligible = marks >= min_marks
-                result, created = EvaluationResult.objects.update_or_create(
+
+                EvaluationResult.objects.update_or_create(
                     activity=activity,
                     job=activity.job,
                     student=student,
-                    defaults={
-                        "marks": marks,
-                        "eligible": eligible,
-                    },
+                    defaults={"marks": marks, "eligible": eligible},
                 )
+
                 results.append({
                     "roll_number": roll,
-                    "name": getattr(student, "name", None) 
-            or getattr(student, "username", None) 
-            or f"{getattr(student, 'first_name', '')} {getattr(student, 'last_name', '')}".strip() 
-            or name,
+                    "name": (
+                        getattr(student, "name", None)
+                        or getattr(student, "username", None)
+                        or f"{getattr(student, 'first_name', '')} {getattr(student, 'last_name', '')}".strip()
+                        or name
+                    ),
                     "marks": marks,
                     "eligible": eligible,
                 })
