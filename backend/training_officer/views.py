@@ -45,10 +45,13 @@
 # training/views.py
 import pandas as pd
 from rest_framework.decorators import action
+from django.db.models import Avg, F, FloatField,Q
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from django.db import transaction
-from users.models import User
+from users.models import User,Student
 from PlacementCoordinator.models import JobPosting
 from .models import Activity, EvaluationResult
 from .serializers import (
@@ -182,3 +185,142 @@ class EvaluationResultViewSet(viewsets.ModelViewSet):
             },
             status=status.HTTP_201_CREATED,
         )
+        
+    
+class PriorityListView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        """
+        Returns sorted students by average normalized marks (0–100).
+        Optional filters:
+          ?activity=GD   → only Group Discussion results
+          ?job=infosys_01 → only a specific job (job_id)
+        """
+        activity_filter = request.query_params.get("activity")
+        job_filter = request.query_params.get("job")
+
+        results = []
+        # distinct students with results
+        student_ids = EvaluationResult.objects.values_list("student", flat=True).distinct()
+
+        for sid in student_ids:
+            qs = (
+                EvaluationResult.objects
+                .filter(student_id=sid)
+                .select_related("activity", "student", "job")
+            )
+
+            if activity_filter:
+                qs = qs.filter(activity__type__iexact=activity_filter)
+            if job_filter:
+                qs = qs.filter(job__job_id=job_filter)
+
+            if not qs.exists():
+                continue
+
+            total_norm = 0
+            count = 0
+            for res in qs:
+                max_marks = res.activity.max_marks or 1
+                norm = (float(res.marks) / float(max_marks)) * 100
+                total_norm += norm
+                count += 1
+
+            avg_score = total_norm / count if count else 0
+            student = qs.first().student
+            results.append({
+                "Student_id": student.unique_id,
+                "Student_Name": f"{student.first_name} {student.last_name}",
+                "Average_score": round(avg_score, 2),
+                "Total_activities": count,
+            })
+
+        # sort descending
+        results.sort(key=lambda x: x["Average_score"], reverse=True)
+        
+        limit = request.query_params.get("limit")
+        if limit:
+            try:
+                limit = int(limit)
+                results = results[:limit]
+            except ValueError:
+                pass
+    
+        return Response(results)
+    
+    
+# class PriorityListView(APIView):
+#     permission_classes = [IsAuthenticated]
+
+#     def get(self, request):
+#         """
+#         Returns students ranked by a weighted score that combines
+#         average normalized marks and participation count.
+
+#         Optional filters:
+#           ?activity=GD      → only Group Discussion results
+#           ?job=infosys_01   → only a specific job (job_id)
+#           ?limit=10         → limit number of results
+#         """
+#         activity_filter = request.query_params.get("activity")
+#         job_filter = request.query_params.get("job")
+#         limit_param = request.query_params.get("limit")
+
+#         # weights you can tune
+#         WEIGHT_MARKS = 0.7
+#         WEIGHT_PARTICIPATION = 0.3
+
+#         # total possible distinct activity types for normalizing participation
+#         total_possible = Activity.objects.values_list("type", flat=True).distinct().count() or 1
+
+#         results = []
+#         student_ids = EvaluationResult.objects.values_list("student", flat=True).distinct()
+
+#         for sid in student_ids:
+#             qs = (
+#                 EvaluationResult.objects
+#                 .filter(student_id=sid)
+#                 .select_related("activity", "student", "job")
+#             )
+
+#             if activity_filter:
+#                 qs = qs.filter(activity__type__iexact=activity_filter)
+#             if job_filter:
+#                 qs = qs.filter(job__job_id=job_filter)
+
+#             count = qs.count()
+#             if count == 0:
+#                 continue
+
+#             total_norm = 0
+#             for res in qs:
+#                 max_marks = res.activity.max_marks or 1
+#                 total_norm += (float(res.marks) / float(max_marks)) * 100
+
+#             avg_score = total_norm / count
+#             participation_pct = (count / total_possible) * 100
+#             final_score = (avg_score * WEIGHT_MARKS) + (participation_pct * WEIGHT_PARTICIPATION)
+
+#             student = qs.first().student
+#             results.append({
+#                 "Student_id": student.unique_id,
+#                 "Student_Name": f"{student.first_name} {student.last_name}",
+#                 "Average_score": round(avg_score, 2),
+#                 "Total_activities": count,
+#                 "Participation_%": round(participation_pct, 2),
+#                 "Final_score": round(final_score, 2),
+#             })
+
+#         # sort descending by the weighted final score
+#         results.sort(key=lambda x: x["Final_score"], reverse=True)
+
+#         # optional limit
+#         if limit_param:
+#             try:
+#                 limit = int(limit_param)
+#                 results = results[:limit]
+#             except ValueError:
+#                 pass
+
+#         return Response(results)
