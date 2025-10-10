@@ -125,7 +125,7 @@
 // }
 
 // src/TrainingOfficerComponents/StudentEvaluation/UploadResultDialog.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -149,6 +149,14 @@ export default function UploadResultDialog({
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    // Clear old Excel results when dialog opens for a new activity
+    setStudents([]);
+    setVerified(false);
+    setSelectedFile(null);
+    setMessage("");
+  }, [activity, open]);
 
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
@@ -279,11 +287,14 @@ export default function UploadResultDialog({
                 <Typography>
                   {s.name || "Unknown"} — {s.marks} Marks
                 </Typography>
+                {/* <Typography color={s.eligible ? "text.primary" : "error"}>
+                  {s.name || "Unknown"} — {s.marks} Marks
+                </Typography> */}
 
                 {s.eligible ? (
                   <Chip label="Eligible" color="primary" />
                 ) : (
-                  <Chip label="Non Eligible" color="success" />
+                  <Chip label="Non Eligible" color="error" />
                 )}
               </Box>
             ))}
