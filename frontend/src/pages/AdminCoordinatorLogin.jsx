@@ -96,7 +96,8 @@ const AdminCoordinatorLogin = () => {
                 setError("Access denied: You selected the wrong role.");
             }
         } catch (err) {
-            if (err.response?.status === 401) setError("Invalid credentials");
+            if (err.response?.status === 400) setError("Invalid credentials");
+            else if(err.response?.status === 403) setError("You are blocked. Contact to Administration.");
             else setError("Something went wrong. Please try again later.");
         }
     };

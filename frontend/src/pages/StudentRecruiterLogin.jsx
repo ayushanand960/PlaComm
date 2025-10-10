@@ -245,6 +245,7 @@ const StudentRecruiterLogin = () => {
       }
     } catch (err) {
       if (err.response?.status === 400) setError("Invalid credentials");
+      else if(err.response?.status === 403) setError("You are blocked. Contact to Administration.");
       else setError("Something went wrong. Please try again later.");
     }
   };
