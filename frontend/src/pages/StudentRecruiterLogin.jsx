@@ -252,7 +252,7 @@ const StudentRecruiterLogin = () => {
 
   return (
     <Container
-      maxWidth={false}
+      maxWidth={false}      
       disableGutters
       sx={{
         minHeight: "100vh",
