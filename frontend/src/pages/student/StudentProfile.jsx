@@ -63,6 +63,7 @@ import CertificationList from "../../components/studentProfile/CertificationList
 import DocumentList from "../../components/studentProfile/DocumentList";
 import PersonalDetailList from "../../components/studentProfile/PersonalDetailList";
 import StudentNavbar from "../../components/student/StudentNavbar";
+import Footer from "../../components/student/Footer";
 
 export default function StudentProfile() {
   const [tab, setTab] = React.useState(0);
@@ -144,6 +145,8 @@ export default function StudentProfile() {
           </Box>
         </Paper>
       </Container>
+      <Footer/>
+    
     </Box>
   );
 }

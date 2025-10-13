@@ -4,6 +4,7 @@ import "./animations.css";
 import "./studentResume.css";
 import ReactMarkdown from "react-markdown";
 import StudentNavbar from "../../components/student/StudentNavbar";
+import Footer from "../../components/student/Footer";
 
 export default function StudentResume() {
   const [resume, setResume] = useState(null);
@@ -155,5 +156,7 @@ export default function StudentResume() {
         </div>
       </div>
     </div>
+    
   );
+  <Footer/>
 }

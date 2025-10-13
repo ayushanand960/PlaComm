@@ -12,6 +12,7 @@ import {
 import axiosInstance from "../../api/axiosInstance";
 import dayjs from "dayjs";
 import StudentNavbar from "../../components/student/StudentNavbar";
+import Footer from "../../components/student/Footer";
 
 const MyApplications = () => {
   const [applications, setApplications] = useState([]);
@@ -59,7 +60,7 @@ const MyApplications = () => {
         />
       </Box>
 
-      <Container sx={{ mt: 4 }}>
+      <Container sx={{ mt: 10 }}>
         <Typography variant="h4" gutterBottom>
           My Applications
         </Typography>
@@ -119,6 +120,7 @@ const MyApplications = () => {
 
         )}
       </Container>
+      <Footer />
     </Box>
   );
 };

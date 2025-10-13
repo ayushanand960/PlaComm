@@ -1,82 +1,228 @@
-// src/pages/ThreadList.jsx
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axiosInstance from "../api/axiosInstance";
+import {
+  Box,
+  Typography,
+  Button,
+  TextField,
+  Card,
+  CardContent,
+  CardActions,
+  CardActionArea,
+  Grid,
+  Divider,
+  Paper,
+} from "@mui/material";
+import StudentNavbar from "../components/student/StudentNavbar";
+import Footer from "../components/student/Footer";
 
 export default function ThreadList() {
-    const { categoryId } = useParams();
-    const [threads, setThreads] = useState([]);
-    const [newTitle, setNewTitle] = useState("");
-    const [newContent, setNewContent] = useState("");
+  const { categoryId } = useParams();
+  const [threads, setThreads] = useState([]);
+  const [newTitle, setNewTitle] = useState("");
+  const [newContent, setNewContent] = useState("");
 
-    useEffect(() => {
-        const fetchThreads = async () => {
-            try {
-                const res = await axiosInstance.get(`/forum/categories/${categoryId}/threads/`);
-                setThreads(res.data);
-            } catch (err) {
-                console.error("Failed to load threads:", err);
-            }
-        };
-        fetchThreads();
-    }, [categoryId]);
-
-    const handleCreateThread = async () => {
-        if (!newTitle.trim() || !newContent.trim()) return;
-
-        try {
-            const res = await axiosInstance.post(
-                `/forum/categories/${categoryId}/threads/`,
-                { title: newTitle, content: newContent } // ✅ send both
-            );
-            setThreads([res.data, ...threads]);
-            setNewTitle("");
-            setNewContent("");
-        } catch (err) {
-            alert("Failed to create thread");
-            console.error(err);
-        }
+  // Utility to format "time ago"
+  const getTimeAgo = (dateString) => {
+    if (!dateString) return "just now";
+    const date = new Date(dateString);
+    const seconds = Math.floor((new Date() - date) / 1000);
+    const intervals = {
+      year: 31536000,
+      month: 2592000,
+      day: 86400,
+      hour: 3600,
+      minute: 60,
     };
+    for (let [unit, value] of Object.entries(intervals)) {
+      const interval = Math.floor(seconds / value);
+      if (interval >= 1) {
+        return `${interval} ${unit}${interval > 1 ? "s" : ""} ago`;
+      }
+    }
+    return "just now";
+  };
 
-    return (
-        <div className="p-4 max-w-2xl mx-auto">
-            <h2 className="text-xl font-bold mb-4">Threads</h2>
+  useEffect(() => {
+    const fetchThreads = async () => {
+      try {
+        const res = await axiosInstance.get(
+          `/forum/categories/${categoryId}/threads/`
+        );
+        setThreads(res.data);
+      } catch (err) {
+        console.error("Failed to load threads:", err);
+      }
+    };
+    fetchThreads();
+  }, [categoryId]);
 
-            {/* Thread creation form */}
-            <div className="mb-6 space-y-2">
-                <input
-                    type="text"
-                    placeholder="Thread title..."
-                    value={newTitle}
-                    onChange={(e) => setNewTitle(e.target.value)}
-                    className="border p-2 rounded w-full"
-                />
-                <textarea
-                    placeholder="Thread content..."
-                    value={newContent}
-                    onChange={(e) => setNewContent(e.target.value)}
-                    className="border p-2 rounded w-full"
-                    rows="4"
-                />
-                <button
-                    onClick={handleCreateThread}
-                    className="bg-blue-500 text-white px-4 py-2 rounded"
-                >
-                    Create Thread
-                </button>
-            </div>
+  const handleCreateThread = async () => {
+    if (!newTitle.trim() || !newContent.trim()) return;
+    try {
+      const res = await axiosInstance.post(
+        `/forum/categories/${categoryId}/threads/`,
+        { title: newTitle, content: newContent }
+      );
+      setThreads([res.data, ...threads]);
+      setNewTitle("");
+      setNewContent("");
+    } catch (err) {
+      alert("Failed to create thread");
+      console.error(err);
+    }
+  };
 
-            {/* Thread list */}
-            <ul className="space-y-3">
-                {threads.map((thread) => (
-                    <li key={thread.id} className="p-3 border rounded">
-                        <Link to={`/threads/${thread.id}`} className="text-blue-600 font-semibold">
-                            {thread.title}
-                        </Link>
-                        <p className="text-gray-600 text-sm">{thread.content}</p>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
+  return (
+    <>
+      <StudentNavbar />
+      <Box sx={{ p: 4, backgroundColor: "#f9fafb", minHeight: "100vh" }}>
+        <Paper
+          elevation={3}
+          sx={{
+            p: 4,
+            borderRadius: 3,
+            background: "linear-gradient(145deg, #ffffff, #f1f1f1)",
+          }}
+        >
+          {/* Threads Section */}
+          <Typography variant="h4" fontWeight="bold" gutterBottom>
+            Threads
+          </Typography>
+          <Divider sx={{ mb: 3 }} />
+
+          {threads.length === 0 ? (
+            <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
+              No threads yet. Be the first to start one!
+            </Typography>
+          ) : (
+            <Grid container spacing={3} sx={{ mb: 6 }}>
+              {threads.map((thread) => (
+                <Grid item xs={12} md={6} key={thread.id}>
+                  <Card
+                    elevation={2}
+                    sx={{
+                      borderRadius: 3,
+                      transition: "0.3s",
+                      "&:hover": {
+                        transform: "translateY(-5px)",
+                        boxShadow: 5,
+                      },
+                    }}
+                  >
+                    <CardActionArea component={Link} to={`/threads/${thread.id}`}>
+                      <CardContent>
+                        <Typography
+                          variant="h6"
+                          fontWeight="bold"
+                          color="primary"
+                          gutterBottom
+                        >
+                          {thread.title}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          sx={{
+                            display: "-webkit-box",
+                            WebkitLineClamp: 3,
+                            WebkitBoxOrient: "vertical",
+                            overflow: "hidden",
+                          }}
+                        >
+                          {thread.content}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                    <CardActions
+                      sx={{ justifyContent: "space-between", px: 2, pb: 2 }}
+                    >
+                      <Typography variant="caption" color="text.secondary">
+                        Posted {getTimeAgo(thread.created_at)}
+                      </Typography>
+                      <Button
+                        component={Link}
+                        to={`/threads/${thread.id}`}
+                        size="small"
+                        color="primary"
+                      >
+                        View Discussion →
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          )}
+
+          {/* Create New Thread Section */}
+          <Paper
+            elevation={1}
+            sx={{
+              p: 4,
+              borderRadius: 3,
+              mt: 2,
+              backgroundColor: "#fdfdfd",
+              textAlign: "center",
+            }}
+          >
+            <Typography
+              variant="h5"
+              fontWeight="bold"
+              color="primary"
+              gutterBottom
+            >
+              Create Your Own Thread!
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+              Have something to share or ask? Start a new discussion below.
+            </Typography>
+
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+                maxWidth: 700,
+                mx: "auto",
+              }}
+            >
+              <TextField
+                label="Thread Title"
+                variant="outlined"
+                value={newTitle}
+                onChange={(e) => setNewTitle(e.target.value)}
+                fullWidth
+              />
+              <TextField
+                label="Thread Content"
+                variant="outlined"
+                multiline
+                rows={4}
+                value={newContent}
+                onChange={(e) => setNewContent(e.target.value)}
+                fullWidth
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                sx={{
+                  alignSelf: "center",
+                  textTransform: "none",
+                  px: 6,
+                  py: 1.2,
+                  fontWeight: "bold",
+                }}
+                onClick={handleCreateThread}
+              >
+                Create Thread
+              </Button>
+            </Box>
+          </Paper>
+        </Paper>
+        <Footer/>
+      </Box>
+    </>
+  );
 }
