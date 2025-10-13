@@ -88,6 +88,7 @@
 // };
 
 // export default AdminJobCard;
+
 import React, { useEffect, useState } from "react";
 import {
   Card,
@@ -109,10 +110,12 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import PeopleIcon from "@mui/icons-material/People";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import AssignmentIcon from "@mui/icons-material/Assignment";
+import { useNavigate } from "react-router-dom";
 
 const AdminJobCard = () => {
   const [jobPostings, setJobPostings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const fetchJobPostings = async () => {
     try {
@@ -138,16 +141,18 @@ const AdminJobCard = () => {
   }
 
   return (
-    <Box sx={{ mt: 5 }}>
+    <Box sx={{ mt: 6 }}>
+      {/* Page Title */}
       <Typography
         variant="h5"
         fontWeight="bold"
         mb={3}
         sx={{
           textAlign: "left",
-          background: "linear-gradient(90deg, #1565C0, #42A5F5)",
+          background: "linear-gradient(90deg, #0D47A1, #42A5F5)",
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
+          letterSpacing: "0.8px",
         }}
       >
         Job Management
@@ -156,30 +161,32 @@ const AdminJobCard = () => {
       <Grid container spacing={3}>
         {jobPostings.length > 0 ? (
           jobPostings.map((job, index) => (
-            <Grid item xs={12} sm={6} md={2.4} key={job.id || index}>
+            <Grid item xs={12} sm={6} md={4} lg={3} key={job.id || index}>
               <Card
+                onClick={() =>
+                  navigate(`/admin/job/${encodeURIComponent(job.company_name)}/applicants`)
+                }
                 sx={{
-                  borderRadius: "18px",
-                  overflow: "hidden",
-                  p: 2,
+                  borderRadius: "20px",
                   background:
-                    "rgba(255, 255, 255, 0.15)", // Glassmorphism base
-                  backdropFilter: "blur(10px)",
+                    "linear-gradient(145deg, rgba(255,255,255,0.9) 0%, rgba(240,248,255,0.8) 100%)",
+                  backdropFilter: "blur(12px)",
                   boxShadow:
-                    "0 4px 30px rgba(0, 0, 0, 0.1), 0 1px 4px rgba(33, 150, 243, 0.05)",
-                  transition: "all 0.35s ease-in-out",
+                    "0 4px 25px rgba(0,0,0,0.08), 0 2px 10px rgba(21,101,192,0.05)",
+                  transition: "all 0.35s ease",
                   cursor: "pointer",
+                  border: "1px solid rgba(21,101,192,0.1)",
                   "&:hover": {
                     transform: "translateY(-6px)",
                     boxShadow:
-                      "0 12px 40px rgba(33, 150, 243, 0.35), 0 6px 20px rgba(0,0,0,0.1)",
+                      "0 10px 35px rgba(21,101,192,0.25), 0 6px 15px rgba(0,0,0,0.08)",
                     background:
-                      "linear-gradient(135deg, rgba(33,150,243,0.2), rgba(255,255,255,0.2))",
+                      "linear-gradient(145deg, rgba(227,242,253,0.95), rgba(187,222,251,0.9))",
                   },
                 }}
               >
-                <CardContent>
-                  {/* Header */}
+                <CardContent sx={{ p: 2.5 }}>
+                  {/* Company Header */}
                   <Box
                     sx={{
                       display: "flex",
@@ -192,10 +199,10 @@ const AdminJobCard = () => {
                       <Typography
                         variant="subtitle2"
                         sx={{
-                          color: "#1565C0",
+                          color: "#0D47A1",
                           fontWeight: 700,
                           textTransform: "uppercase",
-                          letterSpacing: "0.5px",
+                          letterSpacing: "0.6px",
                           whiteSpace: "nowrap",
                           overflow: "hidden",
                           textOverflow: "ellipsis",
@@ -205,51 +212,42 @@ const AdminJobCard = () => {
                         {job.company_name || "Company"}
                       </Typography>
                     </Tooltip>
+
                     <Box
                       sx={{
-                        p: 1,
+                        p: 0.8,
                         borderRadius: "12px",
                         background: "rgba(25, 118, 210, 0.1)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: "#090a0cff",
+                        color: "#1565C0",
                       }}
                     >
                       <WorkOutlineIcon fontSize="small" />
                     </Box>
                   </Box>
 
-                  <Divider sx={{ mb: 1.5, borderColor: "rgba(0,0,0,0.1)" }} />
+                  <Divider sx={{ mb: 1.5, borderColor: "rgba(0,0,0,0.08)" }} />
 
                   {/* Job Title */}
-                  <Tooltip title={job.title || "Untitled Job"}>
+                  <Tooltip title={job.job_title || "Untitled Job"}>
                     <Typography
                       variant="h6"
                       fontWeight="bold"
                       sx={{
-                        color: "#08090cff",
+                        color: "#0C101A",
                         mb: 1.2,
-                        fontSize: "1.1rem",
+                        fontSize: "1.05rem",
                         whiteSpace: "nowrap",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
                       }}
                     >
-                      {job.title || "Untitled Job"}
+                      {job.job_title || "Untitled Job"}
                     </Typography>
                   </Tooltip>
 
-                  {/* Details */}
-                  <Box sx={{ color: "rgba(0, 0, 0, 0.45)", mb: 1 }}>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        mb: 0.5,
-                        fontSize: "0.9rem",
-                      }}
-                    >
+                  {/* Job Info */}
+                  <Box sx={{ color: "rgba(0,0,0,0.55)", mb: 1.5 }}>
+                    <Box sx={{ display: "flex", alignItems: "center", mb: 0.5 }}>
                       <LocationOnIcon
                         fontSize="small"
                         sx={{ mr: 0.7, color: "#1565C0" }}
@@ -259,13 +257,7 @@ const AdminJobCard = () => {
                       </Typography>
                     </Box>
 
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        fontSize: "0.9rem",
-                      }}
-                    >
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
                       <CalendarMonthIcon
                         fontSize="small"
                         sx={{ mr: 0.7, color: "#1565C0" }}
@@ -281,13 +273,17 @@ const AdminJobCard = () => {
                   {/* Status Chip */}
                   <Chip
                     icon={
-                      job.status === "Closed" ? <CancelIcon /> : <CheckCircleIcon />
+                      job.status === "Closed" ? (
+                        <CancelIcon />
+                      ) : (
+                        <CheckCircleIcon />
+                      )
                     }
                     label={job.status || "Open"}
                     sx={{
-                      mt: 1,
+                      mt: 0.5,
                       fontWeight: 600,
-                      borderRadius: "10px",
+                      borderRadius: "8px",
                       px: 1.5,
                       backgroundColor:
                         job.status === "Closed"
@@ -300,29 +296,54 @@ const AdminJobCard = () => {
                     }}
                   />
 
-                  {/* Bottom Stats Row */}
-                  <Divider sx={{ my: 1.5, borderColor: "rgba(0,0,0,0.1)" }} />
+                  <Divider sx={{ my: 2, borderColor: "rgba(0,0,0,0.08)" }} />
+
+                  {/* Stats Section */}
                   <Box
                     sx={{
                       display: "flex",
-                      justifyContent: "space-between",
+                      justifyContent: "space-around",
+                      alignItems: "center",
                       textAlign: "center",
                     }}
                   >
                     <Box>
-                      <PeopleIcon sx={{ color: "#1976d2", fontSize: 20 }} />
+                      <PeopleIcon
+                        sx={{
+                          color: "#1976d2",
+                          fontSize: 22,
+                          transition: "0.3s",
+                          "&:hover": { transform: "scale(1.2)" },
+                        }}
+                      />
                       <Typography variant="caption" display="block">
                         {job.applicants || 0} Applicants
                       </Typography>
                     </Box>
+
                     <Box>
-                      <VisibilityIcon sx={{ color: "#42a5f5", fontSize: 20 }} />
+                      <VisibilityIcon
+                        sx={{
+                          color: "#42a5f5",
+                          fontSize: 22,
+                          transition: "0.3s",
+                          "&:hover": { transform: "scale(1.2)" },
+                        }}
+                      />
                       <Typography variant="caption" display="block">
                         {job.views || 0} Views
                       </Typography>
                     </Box>
+
                     <Box>
-                      <AssignmentIcon sx={{ color: "#43a047", fontSize: 20 }} />
+                      <AssignmentIcon
+                        sx={{
+                          color: "#43a047",
+                          fontSize: 22,
+                          transition: "0.3s",
+                          "&:hover": { transform: "scale(1.2)" },
+                        }}
+                      />
                       <Typography variant="caption" display="block">
                         {job.open_positions || 0} Positions
                       </Typography>
@@ -336,7 +357,13 @@ const AdminJobCard = () => {
           <Typography
             variant="body1"
             color="textSecondary"
-            sx={{ mt: 3, textAlign: "center", width: "100%" }}
+            sx={{
+              mt: 3,
+              textAlign: "center",
+              width: "100%",
+              fontStyle: "italic",
+              opacity: 0.8,
+            }}
           >
             No job postings found.
           </Typography>

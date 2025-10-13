@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (
     AcademicViewSet, ExperienceViewSet, ProjectViewSet,
-    SkillViewSet, CertificationViewSet, DocumentViewSet
+    SkillViewSet, CertificationViewSet, DocumentViewSet, AdminStudentProfileView
 )
 
 urlpatterns = [
@@ -76,14 +76,16 @@ urlpatterns = [
         "patch": "partial_update",
         "delete": "destroy"
     }), name="documents-detail"),
+
+    path("students/<str:rum_number>/", AdminStudentProfileView.as_view(), name="admin-student-profile"),
 ]
 
 
 #----------------------------------------------------------------------------
 
-from django.urls import path
-from .views import AdminStudentProfileView
+# from django.urls import path
+# from .views import AdminStudentProfileView
 
-urlpatterns = [
-    path("students/<str:rum_number>/", AdminStudentProfileView.as_view(), name="admin-student-profile"),
-]
+# urlpatterns = [
+#     path("students/<str:rum_number>/", AdminStudentProfileView.as_view(), name="admin-student-profile"),
+# ]

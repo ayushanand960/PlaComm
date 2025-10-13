@@ -55,7 +55,8 @@ import ThreadDetail from "./pages/ThreadDetail";
 import AddCategory from "./pages/AddCategory";
 import DriveReports from "./pages/student/DriveReports";
 import AdminJobAnalysis from "./pages/admin/AdminJobAnalysis";
-
+import AdminJobApplicants from "./pages/admin/AdminJobApplicants"; // ✅ import
+import AdminStudentDetails from "./pages/admin/AdminStudentDetails";
 
 
 export default function App() {
@@ -114,6 +115,12 @@ export default function App() {
             <Route path="/admin/reports-analytics" element={<ReportAnalytics />} />
             <Route path="/admin/system-settings" element={<SystemSettings />} />
 <Route path="/admin/job-analysis" element={<AdminJobAnalysis />} />
+ <Route path="/admin/job/:id/applicants" element={<AdminJobApplicants />} />
+
+         
+      <Route path="/admin/student/:id" element={<AdminStudentDetails />} />
+
+        
 
 
 
