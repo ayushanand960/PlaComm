@@ -144,9 +144,6 @@
 // }
 
 
-
-
-
 import {
   AppBar,
   Toolbar,
@@ -155,6 +152,7 @@ import {
   Avatar,
   Box,
   Drawer,
+  Button
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate, useParams } from "react-router-dom";
@@ -164,6 +162,20 @@ import axiosInstance from "../../api/axiosInstance";
 export default function CoordinatorTopbar() {
   const navigate = useNavigate();
   const { id } = useParams();
+
+
+  
+  const handleLogout = () => {
+    // Optional: clear local storage/session data
+    localStorage.removeItem("token"); 
+    localStorage.removeItem("user");
+
+    // Close drawer
+    setOpen(false);
+
+    // Navigate to home page
+    navigate("/");
+  };
 
   const [open, setOpen] = useState(false);
 
@@ -254,11 +266,80 @@ export default function CoordinatorTopbar() {
             </Typography>
           </Box>
 
-          <Box sx={{ mt: 4 }}>
+          {/* <Box sx={{ mt: 4 }}>
             <Typography variant="body1">Employee ID: {profile.unique_id}</Typography>
             <Typography variant="body1">Role: {profile.role || "N/A"}</Typography>
             <Typography variant="body1">Email: {profile.email}</Typography>
-          </Box>
+          </Box> */}
+
+          <Box
+  sx={{
+    mt: 4,
+    p: 3,
+    borderRadius: 2,
+    backgroundColor: "#f5f5f5", // soft grey background
+    boxShadow: 3,
+    maxWidth: 400,
+    "& > *": { mb: 1 } // spacing between Typography elements
+  }}
+>
+  <Typography variant="h6" sx={{ mb: 1, fontWeight: 600 }}>
+    Profile Info
+  </Typography>
+  <Typography variant="body1">
+    <strong>Employee ID:</strong> {profile.unique_id}
+  </Typography>
+  <Typography variant="body1">
+    <strong>Role:</strong> {profile.role || "N/A"}
+  </Typography>
+  <Typography variant="body1">
+    <strong>Email:</strong> {profile.email}
+  </Typography>
+</Box>
+
+
+
+        {/* Logout Button */}
+        {/* <Box sx={{ mt: 5, textAlign: "center" }}>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={handleLogout}
+            sx={{ borderRadius: 2, textTransform: "none" }}
+          >
+            Logout
+          </Button>
+        </Box> */}
+
+        <Box
+  sx={{
+    mt: 5,
+    textAlign: "center",
+  }}
+>
+  <Button
+    variant="contained"
+    color="error"
+    onClick={handleLogout}
+    sx={{
+      borderRadius: 3,        // slightly more rounded
+      textTransform: "none",  // keep normal text
+      px: 4,                  // horizontal padding
+      py: 1.5,                // vertical padding
+      fontWeight: 600,
+      boxShadow: 3,           // subtle shadow
+      "&:hover": {
+        backgroundColor: "#d32f2f", // darker red on hover
+        boxShadow: 6,
+      },
+      transition: "all 0.3s ease",
+    }}
+  >
+    Logout
+  </Button>
+</Box>
+
+
         </Box>
       </Drawer>
     </>

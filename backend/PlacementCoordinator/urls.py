@@ -16,4 +16,7 @@ urlpatterns = [
          name="my-applications"),
      path("companies-summary/", CompanySummaryView.as_view(), name="company-summary"),
      path("company-details/<str:company_name>/",CompanyDetailsView.as_view(), name="company-details"),
+
+
+
 ]

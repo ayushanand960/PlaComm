@@ -296,7 +296,6 @@ INSTALLED_APPS = [
     'training_officer',
     'forum',
     'drivequestions',
-
 ]
 
 MIDDLEWARE = [

@@ -1,408 +1,209 @@
-// import React, { useState } from "react";
-// import {
-//   Box,
-//   Typography,
-//   Paper,
-//   List,
-//   ListItem,
-//   Divider,
-//   Chip,
-//   IconButton,
-//   Stack,
-//   Avatar,
-// } from "@mui/material";
-// import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded";
-// import BookmarkRemoveIcon from "@mui/icons-material/BookmarkRemove";
 
-// const Applications = () => {
-//   const [applications, setApplications] = useState([
-//     {
-//       id: 1,
-//       studentName: "Alex John",
-//       jobTitle: "Frontend Developer",
-//       companyName: "TechCorp",
-//       status: "Applied",
-//       applicationDate: "2025-10-06",
-//       isBookmarked: false,
-//     },
-//     {
-//       id: 2,
-//       studentName: "Sam Hill",
-//       jobTitle: "Backend Developer",
-//       companyName: "InnoSoft",
-//       status: "Shortlisted",
-//       applicationDate: "2025-09-25",
-//       isBookmarked: true,
-//     },
-//     {
-//       id: 3,
-//       studentName: "Emily Davis",
-//       jobTitle: "Data Scientist",
-//       companyName: "DataWorks",
-//       status: "Interview Scheduled",
-//       applicationDate: "2025-09-20",
-//       isBookmarked: false,
-//     },
-//   ]);
-
-//   const toggleBookmark = (id) => {
-//     setApplications((prev) =>
-//       prev.map((app) =>
-//         app.id === id ? { ...app, isBookmarked: !app.isBookmarked } : app
-//       )
-//     );
-//   };
-
-//   return (
-//     <Box p={{ xs: 2, md: 3 }} bgcolor="#f5f5f5" minHeight="100vh">
-//       <Typography variant="h4" gutterBottom fontWeight="bold">
-//         Applications
-//       </Typography>
-
-//       {applications.length === 0 ? (
-//         <Typography variant="body1" color="textSecondary">
-//           No applications found.
-//         </Typography>
-//       ) : (
-//         <Paper
-//           sx={{
-//             maxWidth: 950,
-//             mx: "auto",
-//             p: { xs: 1, md: 2 },
-//             borderRadius: 2,
-//           }}
-//         >
-//           <List>
-//             {applications.map((app) => (
-//               <React.Fragment key={app.id}>
-//                 <ListItem
-//                   sx={{
-//                     bgcolor: app.status === "Applied" ? "#e3f2fd" : "#fff",
-//                     borderRadius: 2,
-//                     mb: 2,
-//                     display: "flex",
-//                     flexDirection: { xs: "column", sm: "row" },
-//                     justifyContent: "space-between",
-//                     alignItems: "center",
-//                     px: 2,
-//                     py: 2,
-//                     boxShadow: 1,
-//                     transition: "0.3s",
-//                     "&:hover": {
-//                       boxShadow: 4,
-//                     },
-//                   }}
-//                 >
-//                   <Stack
-//                     direction={{ xs: "column", sm: "row" }}
-//                     spacing={2}
-//                     alignItems="center"
-//                     sx={{ width: "100%" }}
-//                   >
-//                     <Avatar sx={{ bgcolor: "#1976d2" }}>
-//                       {app.studentName[0]}
-//                     </Avatar>
-//                     <Box sx={{ flex: 1 }}>
-//                       <Typography fontWeight="bold" variant="subtitle1">
-//                         {app.studentName}
-//                       </Typography>
-//                       <Typography variant="body2" color="textSecondary">
-//                         {app.jobTitle} at {app.companyName}
-//                       </Typography>
-//                       <Typography variant="caption" color="textSecondary">
-//                         Applied on {app.applicationDate}
-//                       </Typography>
-//                     </Box>
-//                   </Stack>
-
-//                   <Box
-//                     display="flex"
-//                     alignItems="center"
-//                     gap={1}
-//                     mt={{ xs: 1, sm: 0 }}
-//                   >
-//                     <Chip
-//                       label={app.status}
-//                       size="small"
-//                       color={
-//                         app.status === "Applied"
-//                           ? "info"
-//                           : app.status === "Shortlisted"
-//                           ? "success"
-//                           : "warning"
-//                       }
-//                       sx={{ fontWeight: "bold" }}
-//                     />
-//                     <IconButton
-//                       onClick={() => toggleBookmark(app.id)}
-//                       color={app.isBookmarked ? "primary" : "default"}
-//                     >
-//                       {app.isBookmarked ? (
-//                         <BookmarkAddedIcon />
-//                       ) : (
-//                         <BookmarkRemoveIcon />
-//                       )}
-//                     </IconButton>
-//                   </Box>
-//                 </ListItem>
-//                 <Divider />
-//               </React.Fragment>
-//             ))}
-//           </List>
-//         </Paper>
-//       )}
-//     </Box>
-//   );
-// };
-
-// export default Applications;
-
-
-
-
-
-// import React, { useEffect, useState } from "react";
-// import axiosInstance from "../api/axiosInstance";
-
-// const Applications = () => {
-//   const [applications, setApplications] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-
-//   const fetchApplications = async () => {
-//     try {
-//       // Step 1: Get all job postings
-//       const jobsRes = await axiosInstance.get("/placements/job-postings/");
-//       const jobs = jobsRes.data;
-
-//       const allApplications = [];
-
-//       // Step 2: For each job, get its applications
-//       for (let job of jobs) {
-//         try {
-//           const appsRes = await axiosInstance.get(
-//             `/placements/job-postings/${job.id}/apply/`
-//           );
-//           const apps = appsRes.data;
-
-//           apps.forEach((app) => {
-//             allApplications.push({
-//               student_id: app.student, // backend only provides ID
-//               job_id: job.id,
-//               job_title: job.title, // from job posting
-//               company_name: job.company_name, // from job posting
-//               status: app.status,
-//             });
-//           });
-
-//           // Debug: Check in console
-//           console.log(`Applications for job ${job.id}:`, apps);
-//         } catch (err) {
-//           console.error(`Failed to fetch applications for job ${job.id}`, err);
-//         }
-//       }
-
-//       setApplications(allApplications);
-//       setLoading(false);
-//     } catch (err) {
-//       console.error("Failed to fetch job postings", err);
-//       setError("Failed to load applications.");
-//       setLoading(false);
-//     }
-//   };
-
-//   useEffect(() => {
-//     fetchApplications();
-//   }, []);
-
-//   if (loading)
-//     return <p className="text-center text-gray-600">Loading applications...</p>;
-//   if (error) return <p className="text-center text-red-500">{error}</p>;
-
-//   return (
-//     <div className="p-6">
-//       <h2 className="text-2xl font-bold mb-4">Student Applications</h2>
-//       {applications.length === 0 ? (
-//         <p className="text-gray-500">No applications found.</p>
-//       ) : (
-//         <div className="overflow-x-auto">
-//           <table className="min-w-full bg-white border border-gray-300 shadow-md">
-//             <thead className="bg-gray-100">
-//               <tr>
-//                 <th className="py-2 px-4 border">Student ID</th>
-//                 <th className="py-2 px-4 border">Job ID</th>
-//                 <th className="py-2 px-4 border">Job Title</th>
-//                 <th className="py-2 px-4 border">Company</th>
-//                 <th className="py-2 px-4 border">Status</th>
-//               </tr>
-//             </thead>
-//             <tbody>
-//               {applications.map((app, index) => (
-//                 <tr key={index}>
-//                   <td className="py-2 px-4 border">{app.student_id}</td>
-//                   <td className="py-2 px-4 border">{app.job_id}</td>
-//                   <td className="py-2 px-4 border">{app.job_title}</td>
-//                   <td className="py-2 px-4 border">{app.company_name}</td>
-//                   <td className="py-2 px-4 border font-medium text-blue-600">
-//                     {app.status}
-//                   </td>
-//                 </tr>
-//               ))}
-//             </tbody>
-//           </table>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default Applications;
-
-
-
-
-
-
-// src/pages/Applications.jsx
+// src/pages/coordinator/CoordinatorApplications.jsx
 import React, { useEffect, useState } from "react";
-import axiosInstance from "../../api/axiosInstance";
 import {
-  Box,
   Container,
-  Grid,
-  Card,
-  CardContent,
   Typography,
-  Avatar,
-  Chip,
-  Stack,
-  CircularProgress,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Paper,
+  Box,
+  TextField,
+  TableSortLabel,
+  Button,
 } from "@mui/material";
-import dayjs from "dayjs";
+import { Download, FileSpreadsheet } from "lucide-react";
+import * as XLSX from "xlsx";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import axiosInstance from "../../api/axiosInstance";
 
 const Applications = () => {
   const [applications, setApplications] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [orderBy, setOrderBy] = useState("applied_at");
+  const [order, setOrder] = useState("desc");
 
-  const fetchApplications = async () => {
-    try {
-      const jobsRes = await axiosInstance.get("/placements/job-postings/");
-      const jobs = jobsRes.data;
-
-      const allApplications = [];
-
-      for (let job of jobs) {
-        try {
-          const appsRes = await axiosInstance.get(
-            `/placements/job-postings/${job.id}/apply/`
-          );
-          const apps = appsRes.data;
-
-          apps.forEach((app) => {
-            allApplications.push({
-              student_id: app.student,
-              student_name: app.student_name || "N/A",
-              job_id: job.id,
-              job_title: job.title,
-              company_name: job.company_name,
-              status: app.status,
-              updated_at: app.updated_at || new Date().toISOString(),
-            });
-          });
-        } catch (err) {
-          console.error(`Failed to fetch applications for job ${job.id}`, err);
-        }
-      }
-
-      setApplications(allApplications);
-      setLoading(false);
-    } catch (err) {
-      console.error("Failed to fetch job postings", err);
-      setError("Failed to load applications.");
-      setLoading(false);
-    }
-  };
+  const coordinator = JSON.parse(localStorage.getItem("user")); // coordinator info
 
   useEffect(() => {
+    const fetchApplications = async () => {
+      try {
+        // 1. Get all jobs posted by this coordinator
+        const res = await axiosInstance.get("/placements/job-postings/");
+        const myJobs = (Array.isArray(res.data) ? res.data : []).filter(
+          (job) => job.coordinator === coordinator.username
+        );
+
+        // 2. For each job, fetch its applications
+        const allApplications = await Promise.all(
+          myJobs.map(async (job) => {
+            try {
+              const appRes = await axiosInstance.get(
+                `/placements/job-postings/${job.job_id}/apply/`
+              );
+              return appRes.data.map((app) => ({
+                ...app,
+                jobTitle: job.job_title,
+                company: job.company_name,
+                location: job.location,
+              }));
+            } catch {
+              return [];
+            }
+          })
+        );
+
+        setApplications(allApplications.flat());
+      } catch (err) {
+        console.error(err.response?.data || err.message);
+      }
+    };
+
     fetchApplications();
-  }, []);
+  }, [coordinator.username]);
 
-  if (loading)
-    return (
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 6 }}>
-        <CircularProgress />
-      </Box>
-    );
+  // Sorting
+  const handleSort = (property) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
+    setOrderBy(property);
+  };
 
-  if (error)
-    return (
-      <Container sx={{ mt: 6 }}>
-        <Typography color="error">{error}</Typography>
-      </Container>
-    );
+  const sorted = [...applications].sort((a, b) => {
+    if (!a[orderBy]) return 1;
+    if (!b[orderBy]) return -1;
+    if (a[orderBy] < b[orderBy]) return order === "asc" ? -1 : 1;
+    if (a[orderBy] > b[orderBy]) return order === "asc" ? 1 : -1;
+    return 0;
+  });
+
+  const filtered = sorted.filter((app) =>
+    [app.student_username, app.company, app.jobTitle]
+      .join(" ")
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase())
+  );
+
+  // Download Excel
+  const handleDownloadExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(filtered);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Applications");
+    XLSX.writeFile(wb, "Coordinator_Applications.xlsx");
+  };
+
+  // // Download PDF
+  // const handleDownloadPDF = () => {
+  //   const doc = new jsPDF();
+  //   doc.text("Coordinator Applications", 14, 15);
+  //   doc.autoTable({
+  //     startY: 20,
+  //     head: [
+  //       [
+  //         "Student Username",
+  //         "Email",
+  //         "Job Title",
+  //         "Company",
+  //         "Location",
+  //         "Status",
+  //         "Applied At",
+  //       ],
+  //     ],
+  //     body: filtered.map((a) => [
+  //       a.student_username,
+  //       a.student_email,
+  //       a.jobTitle,
+  //       a.company,
+  //       a.location || "—",
+  //       a.status,
+  //       new Date(a.applied_at).toLocaleDateString("en-IN"),
+  //     ]),
+  //   });
+  //   doc.save("Coordinator_Applications.pdf");
+  // };
 
   return (
-    <Box sx={{ minHeight: "100vh", pt: 4, backgroundColor: "#f5f5f5" }}>
-      <Container>
-        <Typography variant="h4" gutterBottom fontWeight="bold">
-          Student Applications
+    <Container sx={{ mt: 5 }}>
+      <Typography variant="h4" fontWeight="bold" gutterBottom>
+        Student Applications Overview
+      </Typography>
+
+      <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+        <Typography variant="subtitle1">Total Applications: {applications.length}</Typography>
+        <Box display="flex" gap={2}>
+          <TextField
+            variant="outlined"
+            size="small"
+            placeholder="Search by Student / Company / Job"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <Button variant="outlined" startIcon={<FileSpreadsheet size={18} />} onClick={handleDownloadExcel}>
+            Excel
+          </Button>
+          {/* <Button variant="outlined" color="error" startIcon={<Download size={18} />} onClick={handleDownloadPDF}>
+            PDF
+          </Button> */}
+        </Box>
+      </Box>
+
+      {filtered.length === 0 ? (
+        <Typography color="text.secondary" mt={4}>
+          No applications yet.
         </Typography>
-
-        {applications.length === 0 ? (
-          <Typography>No applications found.</Typography>
-        ) : (
-          <Grid container spacing={3}>
-            {applications.map((app) => (
-              <Grid item xs={12} sm={6} md={4} key={`${app.student_id}-${app.job_id}`}>
-                <Card
-                  sx={{
-                    borderRadius: 3,
-                    boxShadow: 4,
-                    transition: "0.3s",
-                    "&:hover": { boxShadow: 6 },
-                  }}
-                >
-                  <CardContent>
-                    <Stack direction="row" spacing={2} alignItems="center">
-                      <Avatar sx={{ bgcolor: "#1976d2" }}>
-                        {app.student_name ? app.student_name[0] : "S"}
-                      </Avatar>
-                      <Box>
-                        <Typography variant="subtitle1" fontWeight="bold">
-                          {app.student_name} ({app.student_id})
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {app.job_title} at {app.company_name}
-                        </Typography>
-                        <Typography variant="caption" color="text.secondary">
-                          Updated {dayjs(app.updated_at).format("DD MMM YYYY")}
-                        </Typography>
-                      </Box>
-                    </Stack>
-
-                    <Box sx={{ mt: 2 }}>
-                      <Chip
-                        label={app.status}
-                        color={
-                          app.status === "applied"
-                            ? "info"
-                            : app.status === "shortlisted"
-                            ? "success"
-                            : "error"
-                        }
-                        sx={{ fontWeight: "bold" }}
-                      />
-                    </Box>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        )}
-      </Container>
-    </Box>
+      ) : (
+        <Paper sx={{ p: 2 }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                {[
+                  { key: "student_username", label: "Student Username" },
+                  { key: "student_email", label: "Email" },
+                  { key: "jobTitle", label: "Job Title" },
+                  { key: "company", label: "Company" },
+                  { key: "location", label: "Location" },
+                  { key: "status", label: "Status" },
+                  { key: "applied_at", label: "Applied Date" },
+                ].map((col) => (
+                  <TableCell key={col.key}  sx={{ fontWeight: "bold" }} >
+                    <TableSortLabel
+                      active={orderBy === col.key}
+                      direction={orderBy === col.key ? order : "asc"}
+                      onClick={() => handleSort(col.key)}
+                    >
+                      {col.label}
+                    </TableSortLabel>
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {filtered.map((app) => (
+                <TableRow key={app.id}>
+                  <TableCell>{app.student_username}</TableCell>
+                  <TableCell>{app.student_email}</TableCell>
+                  <TableCell>{app.jobTitle}</TableCell>
+                  <TableCell>{app.company}</TableCell>
+                  <TableCell>{app.location || "—"}</TableCell>
+                  <TableCell>{app.status}</TableCell>
+                  <TableCell>{new Date(app.applied_at).toLocaleDateString("en-IN")}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Paper>
+      )}
+    </Container>
   );
 };
 
 export default Applications;
+
+
+
+
+
