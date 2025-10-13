@@ -299,6 +299,9 @@
 
 // export default StudentNavbar;
 
+
+
+// src/components/Navbar.jsx
 import React, { useEffect, useState } from "react";
 import {
   AppBar,
@@ -322,9 +325,9 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 
 const StudentNavbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+   const user = JSON.parse(localStorage.getItem("user"));
+  const studentId = user?.unique_id || "1"; // fallback to "1" if not found
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user"));
-  const studentId = user?.unique_id || "1";
 
   const navItems = [
     { label: "Dashboard", icon: <DashboardIcon />, path: `/student-dashboard/${studentId}` },
@@ -337,14 +340,14 @@ const StudentNavbar = () => {
     { label: "Drive Reports", icon: <BarChartIcon />, path: "/reports" },
   ];
 
+  // Scroll effect
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Logout with confirmation
-  const handleLogout = () => {
+   const handleLogout = () => {
     const confirmLogout = window.confirm("Are you sure you want to logout?");
     if (confirmLogout) {
       localStorage.removeItem("user");
@@ -395,7 +398,7 @@ const StudentNavbar = () => {
           </Box>
         </Box>
 
-        {/* Right side with logout */}
+        {/* Right side */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <Typography variant="body2" color="text.secondary">
             Logged in as <b>Student</b>
@@ -414,12 +417,12 @@ const StudentNavbar = () => {
           >
             Logout
           </Button>
-        </Box>
+          </Box>
       </Toolbar>
 
       <Divider />
 
-      {/* Bottom Navigation Bar */}
+      {/* Bottom Navigation */}
       <Toolbar
         sx={{
           display: "flex",
@@ -428,10 +431,7 @@ const StudentNavbar = () => {
           whiteSpace: "nowrap",
           px: 1,
           "&::-webkit-scrollbar": { height: 6 },
-          "&::-webkit-scrollbar-thumb": {
-            backgroundColor: "#888",
-            borderRadius: 3,
-          },
+          "&::-webkit-scrollbar-thumb": { backgroundColor: "#888", borderRadius: 3 },
           "&::-webkit-scrollbar-track": { backgroundColor: "transparent" },
         }}
       >
@@ -445,15 +445,8 @@ const StudentNavbar = () => {
               textTransform: "none",
               borderRadius: 1,
               flexShrink: 0,
-              "&.active": {
-                fontWeight: "bold",
-                color: "#fff",
-                backgroundColor: "#1976d2",
-              },
-              "&:hover": {
-                backgroundColor: "#1565c0",
-                color: "#fff",
-              },
+              "&.active": { fontWeight: "bold", color: "#fff", backgroundColor: "#1976d2" },
+              "&:hover": { backgroundColor: "#1565c0", color: "#fff" },
             }}
           >
             {item.label}
