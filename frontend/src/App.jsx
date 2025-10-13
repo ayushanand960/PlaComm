@@ -33,6 +33,7 @@ import CoordinatorDashboard from "./pages/placementCoordinator/CoordinatorDashbo
 // import Profile from "./pages/Profile"
 // import JobManagement from "./pages/JobManagement";
 import PlacementDrives from "./pages/placementCoordinator/PlacementDrives";
+import EditJob from "./pages/placementCoordinator/EditJob";
 import Applications from "./pages/placementCoordinator/Applications";
 import CompanyRelations from "./pages/placementCoordinator/CompanyRelations";
 import Reports from "./pages/placementCoordinator/Reports";
@@ -83,9 +84,14 @@ export default function App() {
           <Route element={<PrivateRoute allowedRoles={["placement_coordinator"]} />}>
             <Route path="/coordinator-dashboard/:id/*" element={<CoordinatorLayout />}>
               <Route index element={<CoordinatorDashboard />} />
-              <Route path="placements/job-postings" element={<PostJob />} />
+            {/* Job Postings */}
+    <Route path="placements/job-postings" element={<PostJob />} />               {/* Create Job */}
+  
 
+
+ <Route path="placements/job-postings/edit/:job_id" element={<EditJob />} />  ✅ Added here
               {/* <Route path="post-job" element={<JobManagement />} /> */}
+        
 
               <Route path="placement-drives" element={<PlacementDrives />} />
               <Route path="applications" element={<Applications />} />

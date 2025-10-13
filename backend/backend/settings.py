@@ -295,7 +295,7 @@ INSTALLED_APPS = [
     'resume_ai',
     'training_officer',
     'forum',
-
+    
 ]
 
 MIDDLEWARE = [

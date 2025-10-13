@@ -21,7 +21,8 @@ class JobPostingSerializer(serializers.ModelSerializer):
 
 
 class JobApplicationSerializer(serializers.ModelSerializer):
-    student_username = serializers.ReadOnlyField(source='student.username')
+    # student_username = serializers.ReadOnlyField(source='student.username')
+    student_username = serializers.SerializerMethodField()
     student_email = serializers.ReadOnlyField(source='student.email')
     job_title = serializers.ReadOnlyField(source='job.job_title')
 
@@ -32,6 +33,18 @@ class JobApplicationSerializer(serializers.ModelSerializer):
             "student_email", "status", "applied_at"
         ]
         read_only_fields = ["student", "applied_at"]
+    
+    def get_student_username(self, obj):
+        first = obj.student.first_name or ""
+        middle = getattr(obj.student, "middle_name", "")
+        last = obj.student.last_name or ""
+
+        if middle:  # if middle name exists and not empty
+            full_name = f"{first} {middle} {last}"
+        else:
+            full_name = f"{first} {last}"
+
+        return full_name.strip()
 
 class MyJobApplicationSerializer(serializers.ModelSerializer):
     job = JobPostingSerializer(read_only=True)  # full job details inside

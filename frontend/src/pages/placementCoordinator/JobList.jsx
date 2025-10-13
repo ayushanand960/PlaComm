@@ -13,11 +13,19 @@ import {
   Button,
 } from "@mui/material";
 import { Edit, Delete } from "@mui/icons-material";
+
+import { useNavigate, useParams } from "react-router-dom"; 
+
+
 // import axios from "axios";
 import axiosInstance from "../../api/axiosInstance";
 
 export default function JobList() {
   const [jobs, setJobs] = useState([]);
+
+
+  const navigate = useNavigate();
+  const { id } = useParams(); // coordinator ID
 
   // Fetch jobs on load
   useEffect(() => {
@@ -33,21 +41,54 @@ export default function JobList() {
     }
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this job?")) return;
-    try {
-      await axiosInstance.delete(`/placements/job-postings/${id}/`);
-      alert("✅ Job deleted!");
-      fetchJobs(); // refresh list
-    } catch (err) {
-      console.error("❌ Failed to delete job", err);
+  // const handleDelete = async (job_id) => {
+  //   if (!window.confirm("Are you sure you want to delete this job?")) return;
+  //   try {
+  //     await axiosInstance.delete(`/placements/job-postings/${job_id}/`);
+  //     alert("✅ Job deleted!");
+  //     fetchJobs(); // refresh list
+  //   } catch (err) {
+  //     console.error("❌ Failed to delete job", err);
+  //   }
+  // };
+
+
+  const handleDelete = async (job_id) => {
+  if (!window.confirm("Are you sure you want to delete this job?")) return;
+
+  try {
+    // Attempt deletion without requiring a token
+    await axiosInstance.delete(`/placements/job-postings/${job_id}/`);
+
+    // Show success alert
+    alert("✅ Job deleted successfully!");
+
+    // Refresh the job list
+    fetchJobs();
+  } catch (err) {
+    console.error("❌ Failed to delete job", err);
+
+    // Show backend error message if available
+    if (err.response) {
+      alert(
+        `Failed to delete job: ${err.response.status} ${
+          err.response.data.detail || ""
+        }`
+      );
+    } else {
+      alert("Failed to delete job. Please try again.");
     }
+  }
+};
+
+
+  // ✅ Navigate to edit job page
+  const handleEdit = (job_id) => {
+    navigate(`/coordinator-dashboard/${id}/placements/job-postings/edit/${job_id}`);
   };
 
-  const handleEdit = (id) => {
-    // You can navigate to a separate EditJob page OR inline edit
-    alert(`Edit functionality for job ID ${id} coming soon 🚀`);
-  };
+
+
 
   return (
     <Container maxWidth="lg" sx={{ mt: 6 }}>
@@ -72,7 +113,7 @@ export default function JobList() {
           <TableBody>
             {jobs.length > 0 ? (
               jobs.map((job) => (
-                <TableRow key={job.id}>
+                <TableRow key={job.job_id}>
                   <TableCell>{job.company_name}</TableCell>
                   {/* <TableCell>{job.job_title}</TableCell> */}
                   <TableCell>{job.positions}</TableCell>
@@ -81,10 +122,10 @@ export default function JobList() {
                   <TableCell>{job.number_of_candidates}</TableCell>
                   <TableCell>{job.deadline}</TableCell>
                   <TableCell>
-                    <IconButton color="primary" onClick={() => handleEdit(job.id)}>
+                    <IconButton color="primary" onClick={() => handleEdit(job.job_id)}>
                       <Edit />
                     </IconButton>
-                    <IconButton color="error" onClick={() => handleDelete(job.id)}>
+                    <IconButton color="error" onClick={() => handleDelete(job.job_id)}>
                       <Delete />
                     </IconButton>
                   </TableCell>
@@ -103,3 +144,11 @@ export default function JobList() {
     </Container>
   );
 }
+
+
+
+
+
+
+
+
