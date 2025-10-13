@@ -21,17 +21,25 @@ class DriveQuestion(models.Model):
     ]
 
     company = models.ForeignKey(
-        Company, related_name="questions",
-        on_delete=models.CASCADE,
-        null=True, blank=True  # 👈 Allow no company
+        Company,
+        related_name="questions",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True  # optional for general questions
     )
     question = models.TextField()
     solution = models.TextField(blank=True, null=True)
     type = models.CharField(max_length=50, choices=QUESTION_TYPES)
-    uploaded_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='uploaded_questions')
+    uploaded_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='uploaded_questions'
+    )
     is_approved = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)  # optional: track updates
+    drive_name = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return f"{self.company.name if self.company else 'General'} - {self.question[:50]}"
-
