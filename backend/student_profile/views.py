@@ -67,3 +67,20 @@ class DocumentViewSet(BaseStudentViewSet):
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
     parser_classes = [MultiPartParser, FormParser]  # ✅ only here for file uploads
+
+
+
+from .serializers import StudentFullProfileSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAdminUser , AllowAny
+from django.shortcuts import get_object_or_404
+from users.models import Student
+
+class AdminStudentProfileView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, rum_number):
+        student = get_object_or_404(Student.objects.select_related("user"), rum_number=rum_number)
+        serializer = StudentFullProfileSerializer(student, context={"request": request})
+        return Response(serializer.data)

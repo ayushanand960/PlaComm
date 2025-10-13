@@ -41,6 +41,10 @@ class Activity(models.Model):
 
 
 class EvaluationResult(models.Model):
+    
+    class Meta:
+        unique_together = ("activity", "job", "student")
+        
     activity = models.ForeignKey(Activity, on_delete=models.CASCADE, related_name="evaluations")
     job = models.ForeignKey(
         JobPosting,

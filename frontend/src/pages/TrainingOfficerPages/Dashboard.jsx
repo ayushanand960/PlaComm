@@ -116,30 +116,54 @@ const Dashboard = () => {
       </Box>
 
       {/* Discussion Forum Card */}
-      <Box mb={4}>
-        <Card
-          sx={{
-            cursor: "pointer",
-            transition: "0.3s",
-            "&:hover": { boxShadow: 6 },
-            height: 120,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: 2,
-            backgroundColor: "#e3f2fd",
-          }}
+<Box
+  mb={4}
+  sx={{
+    mt: 6, // adds gap from banner above
+    mx: { xs: 2, sm: 4, md: 6 }, // horizontal margin to avoid full width
+  }}
+>
+  <Card
+    sx={{
+      cursor: "pointer",
+      transition: "all 0.3s ease",
+      "&:hover": {
+        boxShadow: 8,
+        transform: "translateY(-5px)",
+      },
+      height: 120,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      padding: 2,
+      borderRadius: 2,
+      background: "#f2f2f2", // light yellow to light blue
+    }}
           onClick={() => navigate("/discussion-forum")} // Card click
         >
-          <CardContent>
-            <Typography variant="h6">Discussion Forum</Typography>
-            <Typography variant="body2" color="text.secondary">
-              Explore categories, threads, and participate in discussions.
-            </Typography>
-          </CardContent>
-          <Button variant="contained">Go</Button> {/* No need for onClick here */}
-        </Card>
-      </Box>
+          <CardContent sx={{ flex: 1 }}>
+      <Typography
+        variant="h6"
+        sx={{ fontWeight: "bold", color: "#333", mb: 0.5 }}
+      >
+        Discussion Forum
+      </Typography>
+      <Typography variant="body2" sx={{ color: "#555" }}>
+        Explore categories, threads, and participate in discussions.
+      </Typography>
+    </CardContent>
+    <Button
+      variant="contained"
+      sx={{
+        bgcolor: "goldenrod",
+        color: "#fff",
+        "&:hover": { bgcolor: "#5d91f9ff" },
+      }}
+    >
+      Go
+    </Button>
+  </Card>
+</Box>
 
       {/* StatsCards */}
       <StatsCards stats={stats} />
