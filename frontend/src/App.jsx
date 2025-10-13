@@ -191,9 +191,9 @@ export default function App() {
             <Route path="/reports" element={<DriveReports />} />
 
             {/* Discussion Forum */}
-           {/* <Route path="/forum" element={<DiscussionForum />} />
+           <Route path="/discussion-forum" element={<CategoryList />} />
             <Route path="/categories/:categoryId/threads" element={<ThreadList />} />
-            <Route path="/threads/:id" element={<ThreadDetail />} />  */}
+            <Route path="/threads/:id" element={<ThreadDetail />} /> 
           </Route>
 
 
