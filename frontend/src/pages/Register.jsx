@@ -20,6 +20,10 @@ import {
 import { Home as HomeIcon } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import axiosInstance from "../api/axiosInstance";
+import { faculties } from "../data/faculties";
+import { courses } from "../data/courses";
+import { designations } from "../data/designation.js";
+
 // import { MenuItem } from "@mui/material";
 
 export default function Register() {
@@ -28,10 +32,34 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const [selectedFaculty, setSelectedFaculty] = useState("");
+const [availableCourses, setAvailableCourses] = useState([]);
+
+
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
+
+ const handleFacultyChange = (e) => {
+  const faculty = e.target.value;
+  setSelectedFaculty(faculty);
+
+  const foundCourses = courses[faculty] || [];
+
+  setAvailableCourses(foundCourses);
+
+  // 🧩 Reset course and year whenever faculty changes
+  setFormData((prev) => ({
+    ...prev,
+    faculty,
+    course: "",
+    year: "",
+  }));
+};
+
+
+
 
   const validateFields = () => {
     const newErrors = {};
@@ -77,9 +105,40 @@ export default function Register() {
           ? "/users/register/student/"
           : "/users/register/officer/";
 
-      const payload = { ...formData };
-      if (role === "student") payload.unique_id = formData.rum_number;
-      else payload.unique_id = formData.employee_id;
+      // const payload = { ...formData };
+      // if (role === "student") payload.unique_id = formData.rum_number;
+      // else payload.unique_id = formData.employee_id;
+
+      let payload = {};
+
+if (role === "student") {
+  payload = {
+    unique_id: formData.rum_number,
+    first_name: formData.first_name,
+    middle_name: formData.middle_name || "",
+    last_name: formData.last_name,
+    email: formData.email,
+    phone: formData.phone,
+    faculty: selectedFaculty,       // 👈 new field
+    course: formData.course,        // 👈 new field
+    year: formData.year,
+    gender: formData.gender,
+    password: formData.password,
+  };
+} else {
+  payload = {
+  unique_id: formData.employee_id,
+  first_name: formData.first_name,
+  middle_name: formData.middle_name || "",
+  last_name: formData.last_name,
+  faculty: formData.faculty,        // ✅ new
+  designation: formData.designation, // ✅ dropdown
+  email: formData.email,
+  phone: formData.phone,
+  password: formData.password,
+};
+
+}
 
       await axiosInstance.post(endpoint, payload, { withCredentials: false });
 
@@ -245,33 +304,79 @@ export default function Register() {
                       helperText={errors.phone}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={4}>
-                    <TextField
-                      required
-                      fullWidth
-                      label="Course"
-                      name="course"
-                      onChange={handleChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={4}>
-                    <TextField
-                      required
-                      fullWidth
-                      label="Branch"
-                      name="branch"
-                      onChange={handleChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={4}>
-                    <TextField
-                      required
-                      fullWidth
-                      label="Year"
-                      name="year"
-                      onChange={handleChange}
-                    />
-                  </Grid>
+{/* Faculty Dropdown */}
+<Grid item xs={12} sm={4}>
+  <FormControl fullWidth required sx={{ minWidth: 120 }}>
+    <InputLabel>Faculty</InputLabel>
+    <Select
+      label="Faculty"
+      name="faculty"
+      value={selectedFaculty || ""}
+      onChange={handleFacultyChange}  // ✅ FIXED — now triggers faculty change
+      sx={{
+        height: "56px",
+        borderRadius: "4px",
+      }}
+    >
+      {faculties.map((fac, i) => (
+        <MenuItem key={i} value={fac}>
+          {fac}
+        </MenuItem>
+      ))}
+    </Select>
+  </FormControl>
+</Grid>
+
+{/* Course Dropdown */}
+<Grid item xs={12} sm={6}>
+  <FormControl fullWidth required sx={{ minWidth: 120 }} disabled={availableCourses.length === 0}>
+    <InputLabel>Course</InputLabel>
+    <Select
+      label="Course"
+      name="course"
+      value={formData.course || ""}
+      onChange={handleChange}
+      sx={{
+        height: "56px",
+        borderRadius: "4px",
+      }}
+    >
+      {availableCourses.map((course, i) => (
+        <MenuItem key={i} value={course}>
+          {course}
+        </MenuItem>
+      ))}
+    </Select>
+  </FormControl>
+</Grid>
+
+
+             <Grid item xs={12} sm={4}>
+  <FormControl fullWidth required sx={{ minWidth: 120 }}>
+    <InputLabel>Year</InputLabel>
+    <Select
+      label="Year"
+      name="year"
+      value={formData.year || ""}
+      onChange={handleChange}
+      sx={{
+        height: "56px", // ✅ Consistent height
+        borderRadius: "4px",
+      }}
+    >
+      <MenuItem value="">
+        <em>Select Year</em>
+      </MenuItem>
+      <MenuItem value="I Year">I Year</MenuItem>
+      <MenuItem value="II Year">II Year</MenuItem>
+      <MenuItem value="III Year">III Year</MenuItem>
+      <MenuItem value="IV Year">IV Year</MenuItem>
+      <MenuItem value="V Year">V Year</MenuItem>
+    </Select>
+  </FormControl>
+</Grid>
+
+
                   <Grid item xs={12} sm={4}>
                     <FormControl fullWidth required sx={{ minWidth: 120 }}>
                       <InputLabel>Gender</InputLabel>
@@ -332,26 +437,56 @@ export default function Register() {
                       onChange={handleChange}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      required
-                      fullWidth
-                      label="Department"
-                      value={formData.department || ""}
-                      name="department"
-                      onChange={handleChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      required
-                      fullWidth
-                      label="Designation"
-                      value={formData.designation || ""}
-                      name="designation"
-                      onChange={handleChange}
-                    />
-                  </Grid>
+
+                  {/* Faculty Dropdown */}
+<Grid item xs={12} sm={6}>
+  <FormControl fullWidth required sx={{ minWidth: 120 }}>
+    <InputLabel>Faculty</InputLabel>
+    <Select
+      label="Faculty"
+      name="faculty"
+      value={formData.faculty || ""}
+      onChange={handleChange}
+      sx={{
+        height: "56px",
+        borderRadius: "4px",
+      }}
+    >
+      {faculties.map((fac, i) => (
+        <MenuItem key={i} value={fac}>
+          {fac}
+        </MenuItem>
+      ))}
+    </Select>
+  </FormControl>
+</Grid>
+
+{/* Designation Dropdown */}
+<Grid item xs={12} sm={6}>
+  <FormControl fullWidth required sx={{ minWidth: 140 }}>
+    <InputLabel>Designation</InputLabel>
+    <Select
+      label="Designation"
+      name="designation"
+      value={formData.designation || ""}
+      onChange={handleChange}
+      sx={{
+        height: "56px",
+        borderRadius: "4px",
+      }}
+    >
+      {designations.map((des, i) => (
+        <MenuItem key={i} value={des}>
+          {des}
+        </MenuItem>
+      ))}
+    </Select>
+  </FormControl>
+</Grid>
+
+
+
+
                   <Grid item xs={12} sm={6}>
                     <TextField
                       required
