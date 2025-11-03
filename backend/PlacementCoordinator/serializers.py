@@ -76,6 +76,7 @@ class JobWithStudentsSerializer(serializers.Serializer):
     job_id = serializers.CharField()
     title = serializers.CharField()
     applications_count = serializers.IntegerField()
+    description = serializers.CharField()
     students = StudentInfoSerializer(many=True)
 
 

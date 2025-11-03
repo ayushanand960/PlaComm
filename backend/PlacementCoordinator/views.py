@@ -212,6 +212,7 @@ class CompanyDetailsView(APIView):
                 "job_id": job.job_id,
                 "title": job.job_title,
                 "applications_count": applications.count(),
+                "description": job.job_description,
                 "students": students,
             }
             job_data.append(job_info)
