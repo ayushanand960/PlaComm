@@ -24,7 +24,10 @@ const navItems = [
   { name: "Training Program", path: "trainingprogram" },
   { name: "Priority List", path: "prioritylist" },
   { name: "Student Evaluation", path: "studentevaluation" },
-  { name: "Training Report", path: "trainingreport" },
+  // { name: "Job Analysis", path: "trainingreport" },
+ { name: "Job Analysis", path: "/admin/job-analysis" },
+
+  
   // { name: "Mock Interview", path: "mockinterview" },
 ];
 

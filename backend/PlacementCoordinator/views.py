@@ -169,7 +169,7 @@ from django.db.models import Count
 from .models import JobPosting, JobApplication
 from users.models import Student
 from .serializers import CompanySummarySerializer, JobWithStudentsSerializer
-
+from .permissions import IsAdminCoordinatorOfficerOrAuthority
 
 # 🏢 1. Company Summary API
 class CompanySummaryView(APIView):
@@ -190,7 +190,7 @@ class CompanySummaryView(APIView):
 
 # 📄 2. Company Details API
 class CompanyDetailsView(APIView):
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminCoordinatorOfficerOrAuthority]
 
     def get(self, request, company_name):
         jobs = JobPosting.objects.filter(company_name=company_name)

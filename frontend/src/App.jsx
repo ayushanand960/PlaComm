@@ -114,11 +114,6 @@ export default function App() {
             <Route path="/admin/role-assignment" element={<AdminManageUsers />} />
             <Route path="/admin/reports-analytics" element={<ReportAnalytics />} />
             <Route path="/admin/system-settings" element={<SystemSettings />} />
-<Route path="/admin/job-analysis" element={<AdminJobAnalysis />} />
- <Route path="/admin/job/:id/applicants" element={<AdminJobApplicants />} />
-
-         
-      <Route path="/admin/student/:id" element={<AdminStudentDetails />} />
 
         
 
@@ -152,6 +147,12 @@ export default function App() {
             }
           >
           <Route path="/admin/add-category" element={<AddCategory />} />
+          <Route path="/admin/job-analysis" element={<AdminJobAnalysis />} />
+          <Route path="/admin/job/:id/applicants" element={<AdminJobApplicants />} />
+
+         
+          <Route path="/admin/student/:id" element={<AdminStudentDetails />} />
+
 
           </Route>
 

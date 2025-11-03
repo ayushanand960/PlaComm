@@ -8,6 +8,7 @@ import {
   Business,
   BarChart,
   Notifications,
+  Person,
 } from "@mui/icons-material";
 
 export default function Navbar() {
@@ -17,7 +18,8 @@ export default function Navbar() {
     { to: `/coordinator-dashboard/${id}`, label: "Dashboard", icon: <Dashboard /> },
     // { to:coordinator- `/dashboard/${id}/job-management`, label: "Job Management", icon: <Work />  },
     { to: `/coordinator-dashboard/${id}/placement-drives`, label: "Placement Drives", icon: <Event /> },
-    { to: `/coordinator-dashboard/${id}/applications`, label: "Applications", icon: <Assignment /> },
+    // 
+    { to: "/admin/job-analysis", label: "Job Analysis", icon: <Person /> },
     { to: `/coordinator-dashboard/${id}/company-relations`, label: "Company Relations", icon: <Business /> },
     { to: `/coordinator-dashboard/${id}/reports`, label: "Reports", icon: <BarChart /> },
     { to: `/coordinator-dashboard/${id}/notifications`, label: "Notifications", icon: <Notifications /> },
