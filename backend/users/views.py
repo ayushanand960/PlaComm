@@ -77,7 +77,7 @@ class StudentDetailView(APIView):
         student.middle_name = request.data.get("middle_name", student.middle_name)
         student.phone = request.data.get("phone", student.phone)
         student.course = request.data.get("course", student.course)
-        student.branch = request.data.get("branch", student.branch)
+        student.faculty = request.data.get("faculty", student.faculty)
         student.year = request.data.get("year", student.year)
         student.gender = request.data.get("gender", student.gender)
         student.save()

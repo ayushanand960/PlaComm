@@ -113,6 +113,7 @@ const [availableCourses, setAvailableCourses] = useState([]);
 
 if (role === "student") {
   payload = {
+    rum_number: formData.rum_number, 
     unique_id: formData.rum_number,
     first_name: formData.first_name,
     middle_name: formData.middle_name || "",
@@ -127,6 +128,7 @@ if (role === "student") {
   };
 } else {
   payload = {
+  employee_id:formData.employee_id,
   unique_id: formData.employee_id,
   first_name: formData.first_name,
   middle_name: formData.middle_name || "",
@@ -408,7 +410,7 @@ if (role === "student") {
                       value={formData.employee_id || ""}
                       onChange={handleChange}
                       error={!!errors.employee_id}
-                      helperText={errors.employee_id || "Ex: RG-MND/E0011314"}
+                      helperText={errors.employee_id || "Ex: RG-MNDE0011314"}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
@@ -417,6 +419,7 @@ if (role === "student") {
                       fullWidth
                       label="First Name"
                       name="first_name"
+                      value={formData.first_name || ""}
                       onChange={handleChange}
                     />
                   </Grid>
@@ -425,6 +428,7 @@ if (role === "student") {
                       fullWidth
                       label="Middle Name"
                       name="middle_name"
+                      value={formData.middle_name || ""}
                       onChange={handleChange}
                     />
                   </Grid>
@@ -434,6 +438,7 @@ if (role === "student") {
                       fullWidth
                       label="Last Name"
                       name="last_name"
+                      value={formData.last_name || ""}
                       onChange={handleChange}
                     />
                   </Grid>

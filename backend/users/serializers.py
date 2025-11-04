@@ -81,7 +81,7 @@ class StudentSerializer(serializers.ModelSerializer):
         model = Student
         fields = [
             "rum_number", "first_name", "middle_name", "last_name",
-            "email", "phone", "course", "branch", "year", "gender", "password"
+            "email", "phone", "faculty", "course", "year", "gender", "password"
         ]
 
     def create(self, validated_data):
@@ -106,7 +106,7 @@ class StudentDashboardSerializer(serializers.ModelSerializer):
     middle_name = serializers.CharField(source="student.middle_name", allow_blank=True, allow_null=True)
     phone = serializers.CharField(source="student.phone", allow_blank=True, allow_null=True)
     course = serializers.CharField(source="student.course", allow_blank=True, allow_null=True)
-    branch = serializers.CharField(source="student.branch", allow_blank=True, allow_null=True)
+    faculty = serializers.CharField(source="student.faculty", allow_blank=True, allow_null=True)
     year = serializers.CharField(source="student.year", allow_blank=True, allow_null=True)
     gender = serializers.CharField(source="student.gender", allow_blank=True, allow_null=True)
 
@@ -120,7 +120,7 @@ class StudentDashboardSerializer(serializers.ModelSerializer):
             "email",
             "phone",
             "course",
-            "branch",
+            "faculty",
             "year",
             "gender"
         ]
@@ -131,7 +131,7 @@ class PersonalDetailUpdateSerializer(serializers.ModelSerializer):
         model = Student
         fields = [
             "first_name", "middle_name", "last_name", "email",
-            "phone", "course", "branch", "year", "gender"
+            "phone", "course", "faculty", "year", "gender"
         ]
 
     def update(self, instance, validated_data):
@@ -160,7 +160,7 @@ class TrainingOfficerSerializer(serializers.ModelSerializer):
         model = TrainingOfficer
         fields = [
             "employee_id", "first_name", "middle_name", "last_name",
-            "email", "password", "department", "designation", "phone"
+            "email", "password", "faculty", "designation", "phone"
         ]
 
     def create(self, validated_data):
@@ -190,7 +190,7 @@ class TrainingOfficerSerializer(serializers.ModelSerializer):
             middle_name=middle_name,
             last_name=last_name,
             email=email,
-            department=validated_data.get("department"),
+            faculty=validated_data.get("faculty"),
             designation=validated_data.get("designation"),
             phone=validated_data.get("phone"),
         )
