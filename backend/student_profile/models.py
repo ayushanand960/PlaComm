@@ -76,3 +76,20 @@ class Document(models.Model):
 
     def __str__(self):
         return f"{self.student.rum_number} - {self.title or self.file.name}"
+    
+
+class SocialLink(models.Model):
+    student = models.ForeignKey(
+        Student,
+        on_delete=models.CASCADE,
+        related_name="social_links"
+    )
+    github = models.URLField(blank=True, null=True)
+    linkedin = models.URLField(blank=True, null=True)
+    portfolio = models.URLField(blank=True, null=True)
+    # other = models.URLField(blank=True, null=True)
+    other = models.TextField(blank=True, null=True)  # stores JSON list of {name, url}
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.student.rum_number} - Social Links"
