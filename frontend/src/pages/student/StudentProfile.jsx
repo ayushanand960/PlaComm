@@ -64,6 +64,9 @@ import DocumentList from "../../components/studentProfile/DocumentList";
 import PersonalDetailList from "../../components/studentProfile/PersonalDetailList";
 import StudentNavbar from "../../components/student/StudentNavbar";
 import Footer from "../../components/student/Footer";
+import SocialLinks from "../../components/studentProfile/SocialLinks";
+
+
 
 export default function StudentProfile() {
   const [tab, setTab] = React.useState(0);
@@ -131,6 +134,8 @@ export default function StudentProfile() {
             <Tab label="Skills" />
             <Tab label="Certifications" />
             <Tab label="Documents" />
+            <Tab label="Social Links" />
+
           </Tabs>
 
           {/* Content */}
@@ -142,11 +147,13 @@ export default function StudentProfile() {
             {tab === 4 && <SkillList />}
             {tab === 5 && <CertificationList />}
             {tab === 6 && <DocumentList />}
+            {tab === 7 && <SocialLinks />}
+
           </Box>
         </Paper>
       </Container>
-      <Footer/>
-    
+      <Footer />
+
     </Box>
   );
 }

@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (
     AcademicViewSet, ExperienceViewSet, ProjectViewSet,
-    SkillViewSet, CertificationViewSet, DocumentViewSet, AdminStudentProfileView
+    SkillViewSet, CertificationViewSet, DocumentViewSet, AdminStudentProfileView, SocialLinkViewSet
 )
 
 urlpatterns = [
@@ -78,6 +78,21 @@ urlpatterns = [
     }), name="documents-detail"),
 
     path("students/<str:rum_number>/", AdminStudentProfileView.as_view(), name="admin-student-profile"),
+
+
+     # ✅ Social Links
+    path("social-links/", SocialLinkViewSet.as_view({
+        "get": "list",
+        "post": "create"
+    }), name="social-links-list"),
+
+    path("social-links/<int:pk>/", SocialLinkViewSet.as_view({
+        "get": "retrieve",
+        "put": "update",
+        "patch": "partial_update",
+        "delete": "destroy"
+    }), name="social-links-detail"),
+
 ]
 
 
