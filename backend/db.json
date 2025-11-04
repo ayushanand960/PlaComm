@@ -1,0 +1,373 @@
+[
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$ZnkeYmdpJxsqgBitvYk8bo$qD0QNWjGKF+JGunnI5IpFW4/AL4Iq9eispqaR9Eo1Kk=",
+    "last_login": null,
+    "is_superuser": false,
+    "unique_id": "RUM2220000",
+    "email": "Rama@gmail.com",
+    "first_name": "Rama",
+    "last_name": "Shyam",
+    "role": "student",
+    "is_blocked": false,
+    "is_staff": false,
+    "is_active": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$YtbJeIVXg5rh1BFgDfw4CB$2d3bRRJTq5w4TyvOs0ToMcbFF922M8OGKLCbqO31aGk=",
+    "last_login": null,
+    "is_superuser": false,
+    "unique_id": "RG-MNDE0000001",
+    "email": "shyama@gmail.com",
+    "first_name": "Shyama",
+    "last_name": "Shyam",
+    "role": "officer",
+    "is_blocked": false,
+    "is_staff": false,
+    "is_active": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$N8KPBYca84xyZxq4kvLHri$0Gt3wYlcXxn+zkbpxSBd3TiAnAVynizVIkch4uCMnJY=",
+    "last_login": null,
+    "is_superuser": false,
+    "unique_id": "RUM2221489",
+    "email": "piyushra71@gmail.com",
+    "first_name": "Piyush",
+    "last_name": "Sahu",
+    "role": "placement_coordinator",
+    "is_blocked": false,
+    "is_staff": false,
+    "is_active": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$ke0nIU8DQ5LKgA0vxkl0kA$qizcZr4uuTeaDMR5oOCaNnHm6miMNM+Y9gwWkQnclxk=",
+    "last_login": null,
+    "is_superuser": false,
+    "unique_id": "RUM2201146",
+    "email": "munnaanand960@gmail.com",
+    "first_name": "Ayush",
+    "last_name": "Anand",
+    "role": "student",
+    "is_blocked": false,
+    "is_staff": false,
+    "is_active": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$12jdL4XAEmkszNoiQxRDAg$8fmi93dvs1+Ea4Y4+iR8OwfgFaGZQ0+iVhjiXOpEnbI=",
+    "last_login": null,
+    "is_superuser": false,
+    "unique_id": "RUM2322389",
+    "email": "sg23661352@gmail.com",
+    "first_name": "Sneha",
+    "last_name": "Gupta",
+    "role": "student",
+    "is_blocked": false,
+    "is_staff": false,
+    "is_active": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$fPM4NVMvQXelXCjQPeCH1w$HZLhLpfh0UwldW11nuI4mBfNRZHx47OgmFGiGmP2+jE=",
+    "last_login": null,
+    "is_superuser": false,
+    "unique_id": "RG-MNDE0011314",
+    "email": "shambhavi@gmail.com",
+    "first_name": "Shambhavi",
+    "last_name": "Dwivedi",
+    "role": "officer",
+    "is_blocked": false,
+    "is_staff": false,
+    "is_active": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$2ukaTxanKGOqLrSPzzMQqP$j13jjZiPCDR3a2GbMF00d1MPQVJgL/NDMxudJs2wEVQ=",
+    "last_login": null,
+    "is_superuser": false,
+    "unique_id": "RG-MNDE0012345",
+    "email": "maya261125@gmail.com",
+    "first_name": "Pawan",
+    "last_name": "Rathour",
+    "role": "placement_coordinator",
+    "is_blocked": false,
+    "is_staff": false,
+    "is_active": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$ZumVqpR8HadLQMCLEfIc50$coPpqmAyBBh95LrizYjL3EZhn0K/odpKYVwfsNtKvk4=",
+    "last_login": null,
+    "is_superuser": false,
+    "unique_id": "RG-MNDE0012346",
+    "email": "siddharthmishrasvm12a@gmail.com",
+    "first_name": "Siddharth",
+    "last_name": "Mishra",
+    "role": "officer",
+    "is_blocked": false,
+    "is_staff": false,
+    "is_active": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$lE0YSHgyVkzUpipU9GSX5Q$7DzqkiZCFvxpoT1t0BSd3q1ZRjDnszKxf+W7Due0dFY=",
+    "last_login": null,
+    "is_superuser": true,
+    "unique_id": "admin",
+    "email": "admin@gmail.com",
+    "first_name": "Admin",
+    "last_name": "admin",
+    "role": "admin",
+    "is_blocked": false,
+    "is_staff": true,
+    "is_active": true,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.student",
+  "pk": 1,
+  "fields": {
+    "rum_number": "RUM2220000",
+    "first_name": "Rama",
+    "middle_name": "`",
+    "last_name": "Shyam",
+    "email": "Rama@gmail.com",
+    "phone": "9541203687",
+    "faculty": "Faculty of Engineering & Technology",
+    "course": "B.Tech Computer Science and Engineering",
+    "year": "IV Year",
+    "gender": "Male",
+    "is_active": true,
+    "is_staff": false,
+    "is_coordinator": false
+  }
+},
+{
+  "model": "users.student",
+  "pk": 3,
+  "fields": {
+    "rum_number": "RUM2221489",
+    "first_name": "Piyush",
+    "middle_name": "",
+    "last_name": "Sahu",
+    "email": "piyushra71@gmail.com",
+    "phone": "9569587990",
+    "faculty": "Faculty of Engineering & Technology",
+    "course": "B.Tech Computer Science and Engineering",
+    "year": "IV Year",
+    "gender": "Male",
+    "is_active": true,
+    "is_staff": false,
+    "is_coordinator": false
+  }
+},
+{
+  "model": "users.student",
+  "pk": 4,
+  "fields": {
+    "rum_number": "RUM2201146",
+    "first_name": "Ayush",
+    "middle_name": "",
+    "last_name": "Anand",
+    "email": "munnaanand960@gmail.com",
+    "phone": "9608590242",
+    "faculty": "Faculty of Engineering & Technology",
+    "course": "B.Tech Computer Science and Engineering",
+    "year": "IV Year",
+    "gender": "Male",
+    "is_active": true,
+    "is_staff": false,
+    "is_coordinator": false
+  }
+},
+{
+  "model": "users.student",
+  "pk": 5,
+  "fields": {
+    "rum_number": "RUM2322389",
+    "first_name": "Sneha",
+    "middle_name": "",
+    "last_name": "Gupta",
+    "email": "sg23661352@gmail.com",
+    "phone": "9628653101",
+    "faculty": "Faculty of Engineering & Technology",
+    "course": "BCA",
+    "year": "III Year",
+    "gender": "Female",
+    "is_active": true,
+    "is_staff": false,
+    "is_coordinator": false
+  }
+},
+{
+  "model": "users.trainingofficer",
+  "pk": 2,
+  "fields": {
+    "employee_id": "RG-MNDE0000001",
+    "first_name": "Shyama",
+    "middle_name": "",
+    "last_name": "Shyam",
+    "email": "shyama@gmail.com",
+    "faculty": "Faculty of Engineering & Technology",
+    "designation": "Assistant Professor",
+    "phone": "9912036547",
+    "is_active": true,
+    "is_staff": false,
+    "is_coordinator": false,
+    "is_superuser": false,
+    "is_authority": false
+  }
+},
+{
+  "model": "users.trainingofficer",
+  "pk": 6,
+  "fields": {
+    "employee_id": "RG-MNDE0011314",
+    "first_name": "Shambhavi",
+    "middle_name": "",
+    "last_name": "Dwivedi",
+    "email": "shambhavi@gmail.com",
+    "faculty": "Faculty of Engineering & Technology",
+    "designation": "Assistant Professor",
+    "phone": "7518309953",
+    "is_active": true,
+    "is_staff": false,
+    "is_coordinator": false,
+    "is_superuser": false,
+    "is_authority": false
+  }
+},
+{
+  "model": "users.trainingofficer",
+  "pk": 7,
+  "fields": {
+    "employee_id": "RG-MNDE0012345",
+    "first_name": "Pawan",
+    "middle_name": "",
+    "last_name": "Rathour",
+    "email": "maya261125@gmail.com",
+    "faculty": "Faculty of Engineering & Technology",
+    "designation": "Assistant Professor",
+    "phone": "7007208960",
+    "is_active": true,
+    "is_staff": false,
+    "is_coordinator": false,
+    "is_superuser": false,
+    "is_authority": false
+  }
+},
+{
+  "model": "users.trainingofficer",
+  "pk": 8,
+  "fields": {
+    "employee_id": "RG-MNDE0012346",
+    "first_name": "Siddharth",
+    "middle_name": "",
+    "last_name": "Mishra",
+    "email": "siddharthmishrasvm12a@gmail.com",
+    "faculty": "Faculty of Engineering & Technology",
+    "designation": "Assistant Professor",
+    "phone": "8555393082",
+    "is_active": true,
+    "is_staff": false,
+    "is_coordinator": false,
+    "is_superuser": false,
+    "is_authority": false
+  }
+},
+{
+  "model": "PlacementCoordinator.jobposting",
+  "pk": "datadog_01",
+  "fields": {
+    "coordinator": [
+      "RUM2221489"
+    ],
+    "company_name": "DataDog",
+    "job_title": "Data Scientist",
+    "job_description": "Jd of DataDog",
+    "positions": "Data Scientist",
+    "number_of_candidates": 5,
+    "eligibility_criteria": "btech",
+    "location": "knp",
+    "package": "89",
+    "deadline": "2026-02-20",
+    "created_at": "2025-11-04T09:02:13.135Z"
+  }
+},
+{
+  "model": "PlacementCoordinator.jobposting",
+  "pk": "google_01",
+  "fields": {
+    "coordinator": [
+      "RUM2221489"
+    ],
+    "company_name": "Google",
+    "job_title": "Software Engineer",
+    "job_description": "JD of frontend Engineer",
+    "positions": "Frontend Engineer",
+    "number_of_candidates": 5,
+    "eligibility_criteria": "btech",
+    "location": "banglore",
+    "package": "45",
+    "deadline": "2026-02-20",
+    "created_at": "2025-11-04T09:03:17.772Z"
+  }
+},
+{
+  "model": "PlacementCoordinator.jobposting",
+  "pk": "microsoft_01",
+  "fields": {
+    "coordinator": [
+      "RUM2221489"
+    ],
+    "company_name": "Microsoft",
+    "job_title": "Software Engineer",
+    "job_description": "JD of Backend Engineer",
+    "positions": "Backend engineer",
+    "number_of_candidates": 5,
+    "eligibility_criteria": "btech",
+    "location": "Hyderabad",
+    "package": "50",
+    "deadline": "2026-02-20",
+    "created_at": "2025-11-04T09:04:30.753Z"
+  }
+}
+]
