@@ -202,7 +202,7 @@ class StudentFullProfileSerializer(serializers.ModelSerializer):
             "email",
             "phone",
             "course",
-            "branch",
+            "faculty",
             "year",
             "gender",
             # Related data
