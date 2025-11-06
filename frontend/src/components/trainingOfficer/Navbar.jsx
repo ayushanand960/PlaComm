@@ -19,17 +19,14 @@ import logo from "../../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../api/axiosInstance";
 
-const navItems = [
-  { name: "Dashboard", path: "dashboard" },
-  { name: "Training Program", path: "trainingprogram" },
-  { name: "Priority List", path: "prioritylist" },
-  { name: "Student Evaluation", path: "studentevaluation" },
-  // { name: "Job Analysis", path: "trainingreport" },
- { name: "Job Analysis", path: "/admin/job-analysis" },
-
-  
-  // { name: "Mock Interview", path: "mockinterview" },
+const navItems = (unique_id) => [
+  { name: "Dashboard", path: `/officer-dashboard/${unique_id}/dashboard` },
+  { name: "Training Program", path: `/officer-dashboard/${unique_id}/trainingprogram` },
+  { name: "Priority List", path: `/officer-dashboard/${unique_id}/prioritylist` },
+  { name: "Student Evaluation", path: `/officer-dashboard/${unique_id}/studentevaluation` },
+  { name: "Job Analysis", path: `/admin/job-analysis` }, // stays same
 ];
+
 
 
 const Navbar = () => {
@@ -59,7 +56,7 @@ const Navbar = () => {
   const drawer = (
     <Box sx={{ width: 250 }} onClick={handleDrawerToggle}>
       <List>
-        {navItems.map((item) => {
+        {navItems(profile.unique_id).map((item) => {
           const isActive = location.pathname.toLowerCase().includes(item.path.toLowerCase());
           return (
             <ListItemButton
@@ -131,11 +128,11 @@ const Navbar = () => {
 
           {/* Right: Nav Items + Logout + Avatar */}
           <Box sx={{ display: { xs: "none", sm: "flex" }, alignItems: "center" }}>
-            {navItems.map((item) => {
+            {navItems(profile.unique_id).map((item) => {
               const isActive = location.pathname.toLowerCase().includes(item.path.toLowerCase());
               return (
                 <Button
-                  key={item.name}
+                  key={item.name} 
                   component={Link}
                   to={item.path}
                   sx={{

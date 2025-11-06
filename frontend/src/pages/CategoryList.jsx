@@ -16,6 +16,10 @@ import {
   Grid,
 } from "@mui/material";
 import StudentNavbar from "../components/student/StudentNavbar";
+import AdminNavbar from "../components/admin/AdminNavbar";
+import CoordinatorNavbar from "../components/PlacementCoordinator/Navbar";
+import Topbar from "../components/PlacementCoordinator/TopNavbar";
+import OfficerNavbar from "../components/trainingOfficer/Navbar";
 import Footer from "../components/student/Footer";
 
 export default function CategoryList() {
@@ -28,8 +32,10 @@ export default function CategoryList() {
   const [description, setDescription] = useState("");
   const [formError, setFormError] = useState("");
   const [formSuccess, setFormSuccess] = useState("");
+  // const [user, setUser] = useState(null);
 
   useEffect(() => {
+
     const fetchData = async () => {
       try {
         const [catRes, userRes] = await Promise.all([
@@ -47,6 +53,27 @@ export default function CategoryList() {
     };
     fetchData();
   }, []);
+
+
+
+  const renderNavbar = () => {
+    if (!user) return null;
+
+    const role = user.role?.toLowerCase();
+
+    if (role === "admin") return <AdminNavbar />;
+    if (role === "placement_coordinator")
+      return (
+        <>
+          <Topbar />   {/* top header */}
+          <CoordinatorNavbar /> {/* bottom navigation */}
+        </>
+      );
+
+    if (role === "officer") return <OfficerNavbar />;
+    return <StudentNavbar />; // default
+  };
+
 
   const handleAddCategory = async (e) => {
     e.preventDefault();
@@ -83,15 +110,16 @@ export default function CategoryList() {
 
   return (
     <>
-      <StudentNavbar />
+      {renderNavbar()}
       <Box
         sx={{
+          pt: "90px",  // ✅ pushes entire page below navbar
           minHeight: "100vh",
           background: "linear-gradient(180deg, #f9fafb 0%, #f3f4f6 100%)",
-          py: 6,
-          px: { xs: 2, sm: 6 },
+          px: { xs: 2, sm: 6 }
         }}
       >
+
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={5}>
           <Typography
             variant="h4"

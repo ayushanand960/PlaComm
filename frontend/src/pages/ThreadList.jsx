@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../api/axiosInstance";
 import {
   Box,
@@ -15,6 +15,10 @@ import {
   Paper,
 } from "@mui/material";
 import StudentNavbar from "../components/student/StudentNavbar";
+import AdminNavbar from "../components/admin/AdminNavbar";
+import CoordinatorNavbar from "../components/PlacementCoordinator/Navbar";
+import Topbar from "../components/PlacementCoordinator/TopNavbar";
+import OfficerNavbar from "../components/trainingOfficer/Navbar";
 import Footer from "../components/student/Footer";
 
 export default function ThreadList() {
@@ -22,6 +26,38 @@ export default function ThreadList() {
   const [threads, setThreads] = useState([]);
   const [newTitle, setNewTitle] = useState("");
   const [newContent, setNewContent] = useState("");
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+  const fetchUser = async () => {
+    try {
+      const res = await axiosInstance.get("/users/profile/");
+      setUser(res.data);
+    } catch (err) {
+      console.error("Failed to load user", err);
+    }
+  };
+
+  fetchUser();
+}, []);
+
+  const renderNavbar = () => {
+    if (!user) return null;
+
+    const role = user.role?.toLowerCase();
+
+    if (role === "admin") return <AdminNavbar />;
+    if (role === "placement_coordinator")
+  return (
+    <>
+      <Topbar />   {/* top header */}
+      <CoordinatorNavbar /> {/* bottom navigation */}
+    </>
+  );
+
+    if (role === "officer") return <OfficerNavbar />;
+    return <StudentNavbar />; // default
+  };
 
   // Utility to format "time ago"
   const getTimeAgo = (dateString) => {
@@ -76,8 +112,15 @@ export default function ThreadList() {
 
   return (
     <>
-      <StudentNavbar />
-      <Box sx={{ p: 4, backgroundColor: "#f9fafb", minHeight: "100vh" }}>
+      {renderNavbar()}
+      <Box
+              sx={{
+                pt: "90px",  // ✅ pushes entire page below navbar
+                minHeight: "100vh",
+                background: "linear-gradient(180deg, #f9fafb 0%, #f3f4f6 100%)",
+                px: { xs: 2, sm: 6 }
+              }}
+            >
         <Paper
           elevation={3}
           sx={{

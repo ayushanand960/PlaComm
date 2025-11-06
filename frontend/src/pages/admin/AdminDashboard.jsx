@@ -184,7 +184,7 @@
 //               </ul>
 //             </CardContent>
 //           </Card>
-          
+
 //           {/* ✅ Job Management Section */}
 //           <Box mt={5}>
 //             <AdminJobCard />
@@ -212,6 +212,7 @@ import {
   Divider,
   Paper,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { Person, Work, TrendingUp, Group } from "@mui/icons-material";
 import AdminNavbar from "../../components/admin/AdminNavbar";
 import StatCard from "../../components/admin/StatCard";
@@ -228,6 +229,8 @@ const AdminDashboard = () => {
   const [newActivityStaff, setNewActivityStaff] = useState("");
   const [newActivityAction, setNewActivityAction] = useState("");
   const [newRole, setNewRole] = useState("");
+  const navigate = useNavigate();
+
 
   const addNewActivity = () => {
     if (newActivityStaff.trim() && newActivityAction.trim()) {
@@ -252,7 +255,7 @@ const AdminDashboard = () => {
 
   const recentActivities = allStaffActivities.slice(0, 3);
 
- 
+
   return (
     <Box
       sx={{
@@ -332,150 +335,36 @@ const AdminDashboard = () => {
             />
           </Grid>
         </Grid>
-
-        {/* ===== Recent Activity Section ===== */}
-        <Paper
-          elevation={4}
-          sx={{
-            mt: 6,
-            borderRadius: "16px",
-            overflow: "hidden",
-            background:
-              "linear-gradient(135deg, rgba(255,255,255,0.95), rgba(240,244,255,0.9))",
-            boxShadow: "0 6px 18px rgba(0,0,0,0.08)",
-            transition: "0.3s ease",
-            "&:hover": {
-              boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
-            },
-          }}
-        >
-          <Box sx={{ p: 3 }}>
-            <Typography variant="h6" fontWeight="bold" color="primary" gutterBottom>
-              Recent Staff Activity
-            </Typography>
-            <Typography variant="body2" color="text.secondary" mb={3}>
-              Latest actions by placement staff.
-            </Typography>
-
-            <Stack direction={{ xs: "column", sm: "row" }} spacing={2} mb={3}>
-              <TextField
-                label="Staff Name"
-                value={newActivityStaff}
-                onChange={(e) => setNewActivityStaff(e.target.value)}
-                fullWidth
-              />
-              <TextField
-                label="Action"
-                value={newActivityAction}
-                onChange={(e) => setNewActivityAction(e.target.value)}
-                fullWidth
-              />
-              <Button
-                variant="contained"
-                sx={{
-                  px: 3,
-                  borderRadius: "10px",
-                  textTransform: "none",
-                  fontWeight: 600,
-                  bgcolor: "primary.main",
-                  "&:hover": { bgcolor: "primary.dark" },
-                }}
-                onClick={addNewActivity}
-              >
-                Add Activity
-              </Button>
-            </Stack>
-
-            <Divider sx={{ mb: 2 }} />
-
-            {recentActivities.map((activity) => (
-              <Box
-                key={activity.id}
-                sx={{
-                  mb: 1.5,
-                  p: 1.2,
-                  borderRadius: "10px",
-                  "&:hover": {
-                    background: "rgba(25,118,210,0.05)",
-                    transition: "0.3s",
-                  },
-                }}
-              >
-                <Typography variant="body1">
-                  <strong>{activity.staffName}</strong> {activity.action}
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  {activity.timestamp}
-                </Typography>
-              </Box>
-            ))}
-          </Box>
-        </Paper>
-
-        {/* ===== Role Management Section ===== */}
-        <Paper
-          elevation={4}
-          sx={{
-            mt: 5,
-            borderRadius: "16px",
-            overflow: "hidden",
-            background:
-              "linear-gradient(135deg, rgba(255,255,255,0.95), rgba(245,245,255,0.9))",
-            boxShadow: "0 6px 18px rgba(0,0,0,0.08)",
-            transition: "0.3s",
-            "&:hover": {
-              boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
-            },
-          }}
-        >
-          <Box sx={{ p: 3 }}>
-            <Typography variant="h6" fontWeight="bold" color="primary" gutterBottom>
-              Role Management
-            </Typography>
-            <Typography variant="body2" color="text.secondary" mb={3}>
-              Assign and manage user roles.
-            </Typography>
-
-            <Stack direction={{ xs: "column", sm: "row" }} spacing={2} mb={3}>
-              <TextField
-                label="New Role Name"
-                value={newRole}
-                onChange={(e) => setNewRole(e.target.value)}
-                fullWidth
-              />
-              <Button
-                variant="contained"
-                sx={{
-                  px: 3,
-                  borderRadius: "10px",
-                  textTransform: "none",
-                  fontWeight: 600,
-                  bgcolor: "primary.main",
-                  "&:hover": { bgcolor: "primary.dark" },
-                }}
-                onClick={addNewRole}
-              >
-                Add Role
-              </Button>
-            </Stack>
-
-            <Divider sx={{ mb: 2 }} />
-
-            {roles.map((role, index) => (
-              <Typography
-                key={index}
-                sx={{
-                  mb: 1,
-                  p: 0.5,
-                  borderRadius: "6px",
-                  "&:hover": { background: "rgba(25,118,210,0.05)" },
-                }}
-              >
-                • {role}
+        {/* Discussion Forum Card */}
+        <Box mb={4} mt={4}>
+          <Card
+            sx={{
+              cursor: "pointer",
+              transition: "0.3s",
+              "&:hover": { boxShadow: 6 },
+              height: 120,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: 2,
+              backgroundColor: "#e3f2fd"
+            }}
+            onClick={() => navigate("/discussion-forum")}
+          >
+            <CardContent>
+              <Typography variant="h6">Discussion Forum</Typography>
+              <Typography variant="body2" color="text.secondary">
+                Explore categories, threads, and participate in discussions.
               </Typography>
-            ))}
-          </Box>
-        </Paper>
+            </CardContent>
+            <Button variant="contained" onClick={(e) => {
+              e.stopPropagation(); // ✅ prevents double navigation
+              navigate("/discussion-forum");
+            }}>
+              Go
+            </Button>
+          </Card>
+        </Box>
 
         {/* ===== Job Management Section ===== */}
         <Box mt={6}>

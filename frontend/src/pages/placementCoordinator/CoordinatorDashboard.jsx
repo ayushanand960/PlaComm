@@ -319,7 +319,10 @@ export default function CoordinatorDashboard() {
               Explore categories, threads, and participate in discussions.
             </Typography>
           </CardContent>
-          <Button variant="contained" onClick={() => navigate("/discussion-forum")}>
+          <Button variant="contained" onClick={(e) => {
+              e.stopPropagation(); // ✅ prevents double navigation
+              navigate("/discussion-forum");
+            }}>
             Go
           </Button>
         </Card>

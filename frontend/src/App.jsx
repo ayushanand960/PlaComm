@@ -88,14 +88,8 @@ export default function App() {
             <Route path="/coordinator-dashboard/:id/*" element={<CoordinatorLayout />}>
               <Route index element={<CoordinatorDashboard />} />
             {/* Job Postings */}
-    <Route path="placements/job-postings" element={<PostJob />} />               {/* Create Job */}
-  
-
-
- <Route path="placements/job-postings/edit/:job_id" element={<EditJob />} />  ✅ Added here
-              {/* <Route path="post-job" element={<JobManagement />} /> */}
-        
-
+            <Route path="placements/job-postings" element={<PostJob />} />               
+            <Route path="placements/job-postings/edit/:job_id" element={<EditJob />} />  
               <Route path="placement-drives" element={<PlacementDrives />} />
               <Route path="applications" element={<Applications />} />
               <Route path="company-relations" element={<CompanyRelations />} />
@@ -112,7 +106,7 @@ export default function App() {
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/user-management" element={<UserManagement />} />
             <Route path="/admin/role-assignment" element={<AdminManageUsers />} />
-            <Route path="/admin/reports-analytics" element={<ReportAnalytics />} />
+            <Route path="/admin/reports-analytics" element={<Reports />} />
             <Route path="/admin/system-settings" element={<SystemSettings />} />
 
         

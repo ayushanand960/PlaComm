@@ -116,7 +116,7 @@
 // }
 // // src/pages/ThreadDetail.jsx
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axiosInstance from "../api/axiosInstance";
 import {
   Box,
@@ -131,6 +131,10 @@ import {
   Stack,
 } from "@mui/material";
 import StudentNavbar from "../components/student/StudentNavbar";
+import AdminNavbar from "../components/admin/AdminNavbar";
+import CoordinatorNavbar from "../components/PlacementCoordinator/Navbar";
+import Topbar from "../components/PlacementCoordinator/TopNavbar";
+import OfficerNavbar from "../components/trainingOfficer/Navbar";
 import Footer from "../components/student/Footer";
 
 export default function ThreadDetail() {
@@ -139,6 +143,8 @@ export default function ThreadDetail() {
   const [replyContent, setReplyContent] = useState("");
   const [replyTo, setReplyTo] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState(null);
+  
 
   const fetchThread = async () => {
     try {
@@ -149,9 +155,38 @@ export default function ThreadDetail() {
     }
   };
 
+
+    const renderNavbar = () => {
+    if (!user) return null;
+
+    const role = user.role?.toLowerCase();
+
+    if (role === "admin") return <AdminNavbar />;
+    if (role === "placement_coordinator")
+          return (
+            <>
+              <Topbar />   {/* top header */}
+              <CoordinatorNavbar /> {/* bottom navigation */}
+            </>
+          );
+    
+    if (role === "officer") return <OfficerNavbar />;
+    return <StudentNavbar />; // default
+  };
   useEffect(() => {
-    fetchThread();
-  }, [id]);
+  const fetchUser = async () => {
+    try {
+      const res = await axiosInstance.get("/users/profile/");
+      setUser(res.data);
+    } catch (err) {
+      console.error("Failed to load user", err);
+    }
+  };
+
+  fetchUser();
+  fetchThread(); // you already run this
+}, [id]);
+
 
   const handleSubmitReply = async () => {
     if (!replyContent.trim()) return;
@@ -230,7 +265,7 @@ export default function ThreadDetail() {
   if (!thread)
     return (
       <>
-        <StudentNavbar />
+        {renderNavbar()}
         <Box sx={{ p: 4, textAlign: "center" }}>
           <Typography variant="body1" color="text.secondary">
             Loading thread...
@@ -241,8 +276,15 @@ export default function ThreadDetail() {
 
   return (
     <>
-      <StudentNavbar />
-      <Box sx={{ p: 4, backgroundColor: "#f9fafb", minHeight: "100vh" }}>
+      {renderNavbar()}
+      <Box
+              sx={{
+                pt: "90px",  // ✅ pushes entire page below navbar
+                minHeight: "100vh",
+                background: "linear-gradient(180deg, #f9fafb 0%, #f3f4f6 100%)",
+                px: { xs: 2, sm: 6 }
+              }}
+            >
         <Paper
           elevation={3}
           sx={{
