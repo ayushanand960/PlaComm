@@ -14,6 +14,8 @@ import PrivateRoute from "./pages/PrivateRoute";
 import StudentDashboard from "./pages/student/StudentDashboard";
 import StudentProfile from "./pages/student/StudentProfile";
 import JobOpportunities from "./pages/student/JobOpportunities";
+import NotificationsPage from "./pages/NotificationsPage";
+
 
 import MyApplications from "./pages/student/MyApplications";
 import StudentResume from "./pages/student/StudentResume";
@@ -79,6 +81,7 @@ export default function App() {
           <Route path="/admin-coordinator-login" element={<AdminCoordinatorLogin />} />
           <Route path="/about" element={<About />} />
           <Route path="/gallery" element={<Gallery />} />
+          <Route path="/notifications" element={<NotificationsPage />} />
 
 
           {/* Protected Routes */}

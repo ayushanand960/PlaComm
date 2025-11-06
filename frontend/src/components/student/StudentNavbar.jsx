@@ -322,6 +322,8 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import ForumIcon from "@mui/icons-material/Forum";
 import HelpIcon from "@mui/icons-material/Help";
 import BarChartIcon from "@mui/icons-material/BarChart";
+import NotificationBell from "../NotificationBell";
+
 
 const StudentNavbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -403,6 +405,9 @@ const StudentNavbar = () => {
           <Typography variant="body2" color="text.secondary">
             Logged in as <b>Student</b>
           </Typography>
+
+          {/* Notification Bell */}
+  <NotificationBell />
 
           <Button
             onClick={handleLogout}
