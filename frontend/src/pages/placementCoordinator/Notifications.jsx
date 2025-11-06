@@ -140,9 +140,210 @@
 
 
 
-// src/pages/NotificationsPage.jsx
+// // src/pages/placementCoordinator/NotificationsPage.jsx
+// import React, { useEffect, useState } from "react";
+// import axiosInstance from "../../api/axiosInstance";
+// import axios from "axios";
+// import {
+//   Container,
+//   Typography,
+//   Box,
+//   List,
+//   ListItem,
+//   ListItemText,
+//   IconButton,
+//   Button,
+//   TextField,
+//   MenuItem,
+//   CircularProgress,
+//   Chip
+// } from "@mui/material";
+// import MarkEmailReadIcon from "@mui/icons-material/MarkEmailRead";
+// import DeleteIcon from "@mui/icons-material/Delete";
+// import SendIcon from "@mui/icons-material/Send";
+
+// // Direct API URL — no process.env
+// const API_BASE = "http://localhost:8000/api";
+
+// function humanDate(iso) {
+//   if (!iso) return "";
+//   return new Date(iso).toLocaleString();
+// }
+
+// export default function NotificationsPage() {
+//   const [notifications, setNotifications] = useState([]);
+//   const [loading, setLoading] = useState(false);
+
+//   const [form, setForm] = useState({
+//     title: "",
+//     message: "",
+//     audience: "all",
+//     type: "info",
+//     scheduled_for: ""
+//   });
+
+//   const token = localStorage.getItem("token"); // adjust if needed
+
+//   useEffect(() => {
+//     fetchNotifications();
+//   }, []);
+
+//   async function fetchNotifications() {
+//     setLoading(true);
+//     try {
+//       const res = await axiosInstance.get(`${API_BASE}/notifications/`, {
+//         headers: token ? { Authorization: `Bearer ${token}` } : {}
+//       });
+//       const data = res.data.results ? res.data.results : res.data;
+//       setNotifications(data);
+//     } catch (err) {
+//       console.error("Failed to fetch notifications", err);
+//     } finally {
+//       setLoading(false);
+//     }
+//   }
+
+//   async function markRead(id, currentlyRead) {
+//     try {
+//       await axiosInstance.patch(`${API_BASE}/notifications/${id}/`, { is_read: !currentlyRead }, {
+//         headers: token ? { Authorization: `Bearer ${token}` } : {}
+//       });
+//       setNotifications(prev => prev.map(n => n.id === id ? { ...n, is_read: !currentlyRead } : n));
+//     } catch (err) {
+//       console.error("Mark read error", err);
+//     }
+//   }
+
+//   async function handleDelete(id) {
+//     if (!window.confirm("Delete this notification?")) return;
+//     try {
+//       await axiosInstance.delete(`${API_BASE}/notifications/${id}/`, {
+//         headers: token ? { Authorization: `Bearer ${token}` } : {}
+//       });
+//       setNotifications(prev => prev.filter(n => n.id !== id));
+//     } catch (err) {
+//       console.error("Delete failed", err);
+//     }
+//   }
+
+//   async function handleCreate(e) {
+//   e.preventDefault();
+//   try {
+//     await axiosInstance.post("/placements/send-notification/", {
+//       title: form.title,
+//       message: form.message,
+//       audience: form.audience
+//     });
+
+//     alert("✅ Notification sent successfully!");
+//     setForm({ title: "", message: "", audience: "all" });
+//     fetchNotifications();
+//   } catch (err) {
+//     console.error("Create failed", err);
+//     alert("Failed to send notification.");
+//   }
+// }
+
+
+//   return (
+//     <Container maxWidth="md" sx={{ py: 4 }}>
+//       <Typography variant="h5" gutterBottom>Notifications</Typography>
+
+//       <Box component="form" onSubmit={handleCreate} sx={{ mb: 3, display: "grid", gap: 1 }}>
+//         <TextField
+//           label="Title"
+//           value={form.title}
+//           onChange={e => setForm(s => ({ ...s, title: e.target.value }))}
+//           required
+//         />
+//         <TextField
+//           label="Message"
+//           multiline
+//           minRows={2}
+//           value={form.message}
+//           onChange={e => setForm(s => ({ ...s, message: e.target.value }))}
+//           required
+//         />
+//         <Box sx={{ display: "flex", gap: 1 }}>
+//           <TextField
+//             select
+//             label="Audience"
+//             value={form.audience}
+//             onChange={e => setForm(s => ({ ...s, audience: e.target.value }))}
+//             sx={{ minWidth: 160 }}
+//           >
+//             <MenuItem value="all">All Students</MenuItem>
+//             <MenuItem value="cs">CS Branch</MenuItem>
+//             <MenuItem value="ece">ECE Branch</MenuItem>
+//             <MenuItem value="coordinator">Coordinators Only</MenuItem>
+//           </TextField>
+//           <TextField
+//             select
+//             label="Type"
+//             value={form.type}
+//             onChange={e => setForm(s => ({ ...s, type: e.target.value }))}
+//             sx={{ minWidth: 140 }}
+//           >
+//             <MenuItem value="info">Info</MenuItem>
+//             <MenuItem value="alert">Alert</MenuItem>
+//             <MenuItem value="reminder">Reminder</MenuItem>
+//           </TextField>
+//           <TextField
+//             label="Schedule (optional)"
+//             type="datetime-local"
+//             value={form.scheduled_for}
+//             onChange={e => setForm(s => ({ ...s, scheduled_for: e.target.value }))}
+//             InputLabelProps={{ shrink: true }}
+//           />
+//           <Button type="submit" variant="contained" endIcon={<SendIcon />}>Send</Button>
+//         </Box>
+//       </Box>
+
+//       <Box sx={{ mb: 2 }}>
+//         <Button onClick={fetchNotifications} variant="outlined" sx={{ mr: 1 }}>Refresh</Button>
+//         <Button onClick={() => setNotifications(n => n.filter(x => !x.is_read))} variant="text">Show Unread</Button>
+//       </Box>
+
+//       {loading ? <CircularProgress /> : (
+//         <List>
+//           {notifications.map(n => (
+//             <ListItem key={n.id} sx={{ bgcolor: n.is_read ? "grey.100" : "background.paper", mb: 1, borderRadius: 1 }}>
+//               <ListItemText
+//                 primary={
+//                   <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+//                     <Typography variant="subtitle1">{n.title}</Typography>
+//                     <Chip label={n.type} size="small" />
+//                     {n.scheduled_for && <Typography variant="caption">• {humanDate(n.scheduled_for)}</Typography>}
+//                   </Box>
+//                 }
+//                 secondary={<>
+//                   <Typography variant="body2">{n.message}</Typography>
+//                   <Typography variant="caption">To: {n.audience} • {humanDate(n.created_at)}</Typography>
+//                 </>}
+//               />
+//               <IconButton onClick={() => markRead(n.id, n.is_read)} title={n.is_read ? "Mark unread" : "Mark read"}>
+//                 <MarkEmailReadIcon />
+//               </IconButton>
+//               <IconButton onClick={() => handleDelete(n.id)} title="Delete">
+//                 <DeleteIcon />
+//               </IconButton>
+//             </ListItem>
+//           ))}
+//         </List>
+//       )}
+//     </Container>
+//   );
+// }
+
+
+
+
+
+
+
+// src/pages/placementCoordinator/NotificationsPage.jsx
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../../api/axiosInstance";
 import {
   Container,
   Typography,
@@ -158,11 +359,7 @@ import {
   Chip
 } from "@mui/material";
 import MarkEmailReadIcon from "@mui/icons-material/MarkEmailRead";
-import DeleteIcon from "@mui/icons-material/Delete";
 import SendIcon from "@mui/icons-material/Send";
-
-// Direct API URL — no process.env
-const API_BASE = "http://localhost:8000/api";
 
 function humanDate(iso) {
   if (!iso) return "";
@@ -177,11 +374,7 @@ export default function NotificationsPage() {
     title: "",
     message: "",
     audience: "all",
-    type: "info",
-    scheduled_for: ""
   });
-
-  const token = localStorage.getItem("token"); // adjust if needed
 
   useEffect(() => {
     fetchNotifications();
@@ -190,11 +383,8 @@ export default function NotificationsPage() {
   async function fetchNotifications() {
     setLoading(true);
     try {
-      const res = await axios.get(`${API_BASE}/notifications/`, {
-        headers: token ? { Authorization: `Bearer ${token}` } : {}
-      });
-      const data = res.data.results ? res.data.results : res.data;
-      setNotifications(data);
+      const res = await axiosInstance.get("/placements/notifications/");
+      setNotifications(res.data);
     } catch (err) {
       console.error("Failed to fetch notifications", err);
     } finally {
@@ -202,126 +392,114 @@ export default function NotificationsPage() {
     }
   }
 
-  async function markRead(id, currentlyRead) {
+  async function markRead(id) {
     try {
-      await axios.patch(`${API_BASE}/notifications/${id}/`, { is_read: !currentlyRead }, {
-        headers: token ? { Authorization: `Bearer ${token}` } : {}
-      });
-      setNotifications(prev => prev.map(n => n.id === id ? { ...n, is_read: !currentlyRead } : n));
+      await axiosInstance.patch(`/placements/notifications/${id}/mark-read/`);
+      setNotifications((prev) =>
+        prev.map((n) => (n.id === id ? { ...n, is_read: true } : n))
+      );
     } catch (err) {
       console.error("Mark read error", err);
-    }
-  }
-
-  async function handleDelete(id) {
-    if (!window.confirm("Delete this notification?")) return;
-    try {
-      await axios.delete(`${API_BASE}/notifications/${id}/`, {
-        headers: token ? { Authorization: `Bearer ${token}` } : {}
-      });
-      setNotifications(prev => prev.filter(n => n.id !== id));
-    } catch (err) {
-      console.error("Delete failed", err);
     }
   }
 
   async function handleCreate(e) {
     e.preventDefault();
     try {
-      const payload = { ...form };
-      if (!payload.scheduled_for) delete payload.scheduled_for;
-      const res = await axios.post(`${API_BASE}/notifications/`, payload, {
-        headers: token ? { Authorization: `Bearer ${token}` } : {}
+      await axiosInstance.post("/placements/send-notification/", {
+        title: form.title,
+        message: form.message,
+        audience: form.audience,
       });
-      setNotifications(prev => [res.data, ...prev]);
-      setForm({ title: "", message: "", audience: "all", type: "info", scheduled_for: "" });
+
+      alert("✅ Notification sent to users & emailed!");
+      setForm({ title: "", message: "", audience: "all" });
+      fetchNotifications();
     } catch (err) {
       console.error("Create failed", err);
+      alert("❌ Failed to send notification.");
     }
   }
 
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
-      <Typography variant="h5" gutterBottom>Notifications</Typography>
+      <Typography variant="h5" gutterBottom>
+        Send Notification
+      </Typography>
 
-      <Box component="form" onSubmit={handleCreate} sx={{ mb: 3, display: "grid", gap: 1 }}>
+      {/* Send Notification Form */}
+      <Box component="form" onSubmit={handleCreate} sx={{ mb: 3, display: "grid", gap: 2 }}>
         <TextField
           label="Title"
           value={form.title}
-          onChange={e => setForm(s => ({ ...s, title: e.target.value }))}
+          onChange={(e) => setForm((s) => ({ ...s, title: e.target.value }))}
           required
         />
         <TextField
           label="Message"
           multiline
-          minRows={2}
+          minRows={3}
           value={form.message}
-          onChange={e => setForm(s => ({ ...s, message: e.target.value }))}
+          onChange={(e) => setForm((s) => ({ ...s, message: e.target.value }))}
           required
         />
-        <Box sx={{ display: "flex", gap: 1 }}>
-          <TextField
-            select
-            label="Audience"
-            value={form.audience}
-            onChange={e => setForm(s => ({ ...s, audience: e.target.value }))}
-            sx={{ minWidth: 160 }}
-          >
-            <MenuItem value="all">All Students</MenuItem>
-            <MenuItem value="cs">CS Branch</MenuItem>
-            <MenuItem value="ece">ECE Branch</MenuItem>
-            <MenuItem value="coordinator">Coordinators Only</MenuItem>
-          </TextField>
-          <TextField
-            select
-            label="Type"
-            value={form.type}
-            onChange={e => setForm(s => ({ ...s, type: e.target.value }))}
-            sx={{ minWidth: 140 }}
-          >
-            <MenuItem value="info">Info</MenuItem>
-            <MenuItem value="alert">Alert</MenuItem>
-            <MenuItem value="reminder">Reminder</MenuItem>
-          </TextField>
-          <TextField
-            label="Schedule (optional)"
-            type="datetime-local"
-            value={form.scheduled_for}
-            onChange={e => setForm(s => ({ ...s, scheduled_for: e.target.value }))}
-            InputLabelProps={{ shrink: true }}
-          />
-          <Button type="submit" variant="contained" endIcon={<SendIcon />}>Send</Button>
-        </Box>
+
+        <TextField
+          select
+          label="Send To"
+          value={form.audience}
+          onChange={(e) => setForm((s) => ({ ...s, audience: e.target.value }))}
+          sx={{ maxWidth: 250 }}
+        >
+          <MenuItem value="all">All Users</MenuItem>
+          <MenuItem value="coordinator">Coordinators Only</MenuItem>
+        </TextField>
+
+        <Button type="submit" variant="contained" endIcon={<SendIcon />}>
+          Send Notification
+        </Button>
       </Box>
 
-      <Box sx={{ mb: 2 }}>
-        <Button onClick={fetchNotifications} variant="outlined" sx={{ mr: 1 }}>Refresh</Button>
-        <Button onClick={() => setNotifications(n => n.filter(x => !x.is_read))} variant="text">Show Unread</Button>
-      </Box>
+      <Typography variant="h6" sx={{ mb: 1 }}>
+        Your Sent Notifications
+      </Typography>
 
-      {loading ? <CircularProgress /> : (
+      {/* Notification List */}
+      {loading ? (
+        <CircularProgress />
+      ) : (
         <List>
-          {notifications.map(n => (
-            <ListItem key={n.id} sx={{ bgcolor: n.is_read ? "grey.100" : "background.paper", mb: 1, borderRadius: 1 }}>
+          {notifications.map((n) => (
+            <ListItem
+              key={n.id}
+              sx={{
+                bgcolor: n.is_read ? "grey.100" : "#e3f2fd",
+                mb: 1,
+                borderRadius: 1,
+              }}
+            >
               <ListItemText
                 primary={
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                     <Typography variant="subtitle1">{n.title}</Typography>
-                    <Chip label={n.type} size="small" />
-                    {n.scheduled_for && <Typography variant="caption">• {humanDate(n.scheduled_for)}</Typography>}
+                    <Chip label={n.is_read ? "Read" : "New"} size="small" />
                   </Box>
                 }
-                secondary={<>
-                  <Typography variant="body2">{n.message}</Typography>
-                  <Typography variant="caption">To: {n.audience} • {humanDate(n.created_at)}</Typography>
-                </>}
+                secondary={
+                  <>
+                    <Typography variant="body2">{n.message}</Typography>
+                    <Typography variant="caption">
+                      Sent on: {humanDate(n.created_at)}
+                    </Typography>
+                  </>
+                }
               />
-              <IconButton onClick={() => markRead(n.id, n.is_read)} title={n.is_read ? "Mark unread" : "Mark read"}>
-                <MarkEmailReadIcon />
-              </IconButton>
-              <IconButton onClick={() => handleDelete(n.id)} title="Delete">
-                <DeleteIcon />
-              </IconButton>
+
+              {!n.is_read && (
+                <IconButton onClick={() => markRead(n.id)} title="Mark Read">
+                  <MarkEmailReadIcon />
+                </IconButton>
+              )}
             </ListItem>
           ))}
         </List>
