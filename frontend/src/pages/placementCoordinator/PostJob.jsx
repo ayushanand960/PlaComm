@@ -6,10 +6,13 @@ import {
   Typography,
   Grid,
   Paper,
+  CircularProgress,
 } from "@mui/material";
 import axiosInstance from "../../api/axiosInstance";
 
 export default function PostJob() {
+  const [loading, setLoading] = useState(false);
+
   const [formData, setFormData] = useState({
     company_name: "",
     job_title: "",
@@ -28,6 +31,7 @@ export default function PostJob() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     // 🧠 Validation (optional but recommended)
     if (!formData.company_name || !formData.job_description || !formData.positions) {
@@ -71,6 +75,8 @@ export default function PostJob() {
       } else {
         alert("❌ Failed to post job. Please try again.");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -196,9 +202,15 @@ export default function PostJob() {
             variant="contained"
             color="primary"
             sx={{ mt: 3 }}
+            disabled={loading}
           >
-            Submit Job
+            {loading ? (
+              <CircularProgress size={24} sx={{ color: "white" }} />
+            ) : (
+              "Submit Job"
+            )}
           </Button>
+
         </form>
       </Paper>
     </Container>

@@ -369,6 +369,8 @@ function humanDate(iso) {
 export default function NotificationsPage() {
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [sendingLoading, setSendingLoading] = useState(false);
+
 
   const [form, setForm] = useState({
     title: "",
@@ -405,6 +407,7 @@ export default function NotificationsPage() {
 
   async function handleCreate(e) {
     e.preventDefault();
+    setSendingLoading(true);
     try {
       await axiosInstance.post("/placements/send-notification/", {
         title: form.title,
@@ -418,6 +421,8 @@ export default function NotificationsPage() {
     } catch (err) {
       console.error("Create failed", err);
       alert("❌ Failed to send notification.");
+    } finally {
+      setSendingLoading(false); // ✅ Stop Spinner
     }
   }
 
@@ -455,9 +460,19 @@ export default function NotificationsPage() {
           <MenuItem value="coordinator">Coordinators Only</MenuItem>
         </TextField>
 
-        <Button type="submit" variant="contained" endIcon={<SendIcon />}>
-          Send Notification
+        <Button
+          type="submit"
+          variant="contained"
+          endIcon={!sendingLoading && <SendIcon />}
+          disabled={sendingLoading}
+        >
+          {sendingLoading ? (
+            <CircularProgress size={22} sx={{ color: "white" }} />
+          ) : (
+            "Send Notification"
+          )}
         </Button>
+
       </Box>
 
       <Typography variant="h6" sx={{ mb: 1 }}>

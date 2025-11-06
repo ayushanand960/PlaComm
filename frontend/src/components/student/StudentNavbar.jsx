@@ -339,7 +339,7 @@ const StudentNavbar = () => {
     { label: "Resume & ATS", icon: <DescriptionIcon />, path: "/resume" },
     { label: "Discussion Forum", icon: <ForumIcon />, path: "/discussion-forum" },
     { label: "Drive Questions", icon: <HelpIcon />, path: "/questions" },
-    { label: "Drive Reports", icon: <BarChartIcon />, path: "/reports" },
+    // { label: "Drive Reports", icon: <BarChartIcon />, path: "/reports" },
   ];
 
   // Scroll effect
