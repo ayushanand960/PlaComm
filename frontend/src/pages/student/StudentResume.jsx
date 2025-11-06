@@ -79,84 +79,75 @@ export default function StudentResume() {
             </button>
           </form>
 
-          {/* Results */}
-          {/* {result && (
-            <div className="resume-suggestions slide-up">
-              {result.ats_score && (
-                <div className="ats-score-box">
-                  <h3>ATS Score: {result.ats_score}</h3>
-
-                </div>
-              )}
-
-              <h3>AI Suggestions</h3>
-              <pre>{result.suggestions}</pre>
-            </div>
-          )} */}
-
-
-          {/* Results */}
           {result && (
             <div className="resume-suggestions slide-up">
-              {result.ats_score && (
+
+              {/* ATS SCORE */}
+              {typeof result.ats_score === "number" && (
                 <div className="ats-score-box">
                   <h3>ATS Score: {result.ats_score}%</h3>
                 </div>
               )}
 
-              {/* Summary */}
+              {/* SUMMARY */}
               {result.summary && (
                 <>
                   <h3>Summary</h3>
-                  <ReactMarkdown>{result.summary}</ReactMarkdown>
+                  <p>{result.summary}</p>
                 </>
               )}
 
-              {/* Key Matches */}
-              {result.key_matches && result.key_matches.length > 0 && (
+              {/* KEY MATCHES */}
+              {Array.isArray(result.key_matches) && result.key_matches.length > 0 && (
                 <>
                   <h3>Key Matches</h3>
                   <ul>
-                    {result.key_matches.map((skill, i) => (
-                      <li key={i}>{skill}</li>
+                    {result.key_matches.map((item, i) => (
+                      <li key={i}>
+                        ✅ <strong>{item.skill}</strong>
+                        <br />
+                        <small>{item.evidence}</small>
+                      </li>
                     ))}
                   </ul>
                 </>
               )}
 
-              {/* Missing Skills */}
-              {result.missing_skills && result.missing_skills.length > 0 && (
+              {/* MISSING SKILLS */}
+              {Array.isArray(result.missing_skills) && result.missing_skills.length > 0 && (
                 <>
                   <h3>Missing Skills</h3>
                   <ul>
-                    {result.missing_skills.map((skill, i) => (
-                      <li key={i}>{skill}</li>
+                    {result.missing_skills.map((item, i) => (
+                      <li key={i}>
+                        ❌ <strong>{item.skill}</strong>
+                        <br />
+                        <small>{item.details}</small>
+                      </li>
                     ))}
                   </ul>
                 </>
               )}
 
-              {/* Recommendations */}
-              {result.recommendations && (
+              {/* RECOMMENDATIONS */}
+              {Array.isArray(result.recommendations) && result.recommendations.length > 0 && (
                 <>
                   <h3>Recommendations</h3>
-                  <ReactMarkdown>{result.recommendations}</ReactMarkdown>
-                </>
-              )}
-
-              {/* If Gemini didn't return structured data */}
-              {result.suggestions && !result.ats_score && (
-                <>
-                  <h3>AI Suggestions</h3>
-                  <ReactMarkdown>{result.suggestions}</ReactMarkdown>
+                  <ul>
+                    {result.recommendations.map((r, i) => (
+                      <li key={i}>✔ {r}</li>
+                    ))}
+                  </ul>
                 </>
               )}
             </div>
           )}
+
         </div>
       </div>
+      <Footer />
+
     </div>
-    
+
   );
-  <Footer/>
 }
