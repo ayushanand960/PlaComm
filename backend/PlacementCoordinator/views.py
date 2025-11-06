@@ -222,3 +222,86 @@ class CompanyDetailsView(APIView):
             "company_name": company_name,
             "jobs": serializer.data
         })
+
+
+
+
+# placement_app/views.py
+from rest_framework import generics, permissions
+from .models import Notification
+from .serializers import NotificationSerializer
+
+class NotificationListView(generics.ListAPIView):
+    serializer_class = NotificationSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Notification.objects.filter(recipient=self.request.user).order_by('-created_at')
+
+
+# placement_app/views.py
+class MarkNotificationReadView(generics.UpdateAPIView): 
+    serializer_class = NotificationSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def patch(self, request, pk):
+        notification = self.get_queryset().filter(pk=pk).first()
+        if notification:
+            notification.is_read = True
+            notification.save()
+            return Response({"status": "success", "message": "Notification marked as read"})
+        return Response({"status": "error", "message": "Notification not found"}, status=404)
+
+    def get_queryset(self):
+        return Notification.objects.filter(recipient=self.request.user)
+
+
+
+
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from users.models import User
+from .models import Notification
+from django.core.mail import send_mass_mail
+
+from django.core.mail import EmailMessage
+
+class SendCustomNotificationView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        title = request.data.get("title")
+        message = request.data.get("message")
+        audience = request.data.get("audience", "all")
+
+        if not title or not message:
+            return Response({"error": "Title and message are required"}, status=400)
+
+        # Select recipients
+        if audience == "all":
+            recipients = User.objects.filter(is_active=True).exclude(email="")
+        elif audience == "coordinator":
+            recipients = User.objects.filter(role="placement_coordinator", is_active=True).exclude(email="")
+        else:
+            return Response({"error": "Invalid audience selection"}, status=400)
+
+        # ✅ Create DB notifications
+        for user in recipients:
+            Notification.objects.create(recipient=user, title=title, message=message)
+
+        # ✅ Email List (CC all)
+        email_list = list(recipients.values_list('email', flat=True))
+
+        if email_list:
+            email = EmailMessage(
+                subject=title,
+                body=message,
+                from_email="pla.ramauniversity@gmail.com",
+                to=[email_list[0]],        # first user
+                cc=email_list[1:],         # rest in CC
+            )
+            email.send(fail_silently=True)
+
+        return Response({"success": True, "message": "Notification sent successfully."}, status=201)

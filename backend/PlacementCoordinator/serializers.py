@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from .models import JobPosting, JobApplication
+from users.models import Student
+from .models import Notification
 
 class JobPostingSerializer(serializers.ModelSerializer):
     coordinator = serializers.ReadOnlyField(source="coordinator.username")
@@ -59,9 +61,7 @@ class MyJobApplicationSerializer(serializers.ModelSerializer):
             "updated_at",
         ]
 #--------------------------------------------------------------------------------------------------
-from rest_framework import serializers
-from .models import JobPosting, JobApplication
-from users.models import Student
+
 
 
 
@@ -85,3 +85,12 @@ class CompanySummarySerializer(serializers.Serializer):
     company_name = serializers.CharField()
     total_applications = serializers.IntegerField()
     unique_jobs = serializers.IntegerField()
+
+
+
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
+        fields = '__all__'
