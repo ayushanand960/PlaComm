@@ -122,6 +122,9 @@ export default function HomePage() {
             <Button color="inherit" component={Link} to="/gallery">
               Gallery
             </Button>
+            <Button color="inherit" component={Link} to="/developers">
+              Core Team
+            </Button>
             <Button
               variant="contained"
               sx={{ background: colors.secondary, borderRadius: "25px" }}

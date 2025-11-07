@@ -1,0 +1,108 @@
+// src/teamData.js
+
+export const mentors = [
+  {
+    name: "Dr. Indrajeet Gupta",
+    title: "Dean, Faculty of Engineering & Technology",
+    role: "Advisor",
+    photo: "/images/team/indrajeet-gupta.png",
+    linkedin: "https://www.linkedin.com/in/indrajeet-gupta-02b96664/",
+  },
+  {
+    name: "Shambhavi Dwivedi",
+    title: "Soft Skills Trainer",
+    role: "Mentor",
+    photo: "/images/team/shambhavi-dwivedi.jpg",
+    linkedin: "https://www.linkedin.com/in/shambhavi025/",
+  },
+  {
+    name: "Kirti Shree Omer",
+    title: "Assistant Placement Manager",
+    role: "Mentor",
+    photo: "/images/team/kirti.png",
+    linkedin: "https://www.linkedin.com/in/kirti-shree-omer-b9227a193/",
+  },
+];
+
+export const members = [
+  {
+    name: "Ayush Anand",
+  title: "B.Tech CSE — 4th Year",
+  role: "Project Lead • Full-Stack Developer",
+  photo: "/images/team/ayush.png",
+  github: "https://github.com/ayushanand960",
+  linkedin: "https://www.linkedin.com/in/ayushanand960/",
+  },
+  {
+    name: "Saumya Kushwaha",
+    title: "B.Tech CSE — 3rd Year",
+    role: "Frontend • Placement Coordinator module",
+    photo: "/images/team/saumya.jpeg",
+    github: "https://github.com/saumya-2005",
+    linkedin: "https://www.linkedin.com/in/saumya-kushwaha-691457301/",
+  },
+  {
+    name: "Mahera Kulsoom",
+    title: "B.Tech CSE — 3rd Year",
+    role: "Frontend • Student module",
+    photo: "/images/team/mahera-kulsoom.jpg",
+    github: "https://github.com/mahera8hub",
+    linkedin: "https://www.linkedin.com/in/mahera-kulsoom-43b051291/",
+  },
+  {
+    name: "Aarohi Sharma",
+    title: "BCA — 3rd Year",
+    role: "Frontend • Admin module",
+    photo: "/images/team/aarohi-sharma.jpg",
+    github: "https://github.com/asharma77173-art",
+    linkedin: "https://www.linkedin.com/in/aarohi-sharma-5026b8346/",
+  },
+  {
+    name: "Sneha Gupta",
+    title: "BCA — 3rd Year",
+    role: "Frontend • Training Officer module",
+    photo: "/images/team/sneha.jpeg",
+    github: "https://github.com/Student-Sneha09",
+    linkedin: "https://www.linkedin.com/in/sneha-gupta-22a7a92b1/",
+  },
+  {
+    name: "Siddharth Mishra",
+    title: "B.Tech CSE — 4th Year",
+    role: "Backend • Student module • Documentation lead",
+    photo: "/images/team/siddharth-mishra.jpeg",
+    github: "https://github.com/SiddharthMishra019",
+    linkedin: "https://www.linkedin.com/in/siddharth-mishra-648866281",
+  },
+  {
+    name: "Piyush Sahu",
+    title: "B.Tech CSE — 4th Year",
+    role: "Backend • Training Officer backend • Notifications",
+    photo: "/images/team/piyush.png",
+    github: "https://github.com/piyushsahu01",
+    linkedin: "https://www.linkedin.com/in/piyushsahu-dev",
+  },
+  {
+    name: "Pawan Rathour",
+    title: "B.Tech CSE — 4th Year",
+    role: "Backend • Placement Coordinator backend • Testing",
+    photo: "/images/team/pawan.png",
+    github: "https://github.com/Pawan-DS-ML",
+    linkedin: "https://www.linkedin.com/in/pawanrathour96",
+  },
+  {
+    name: "Sumit Yadav",
+    title: "B.Tech CSE — 4th Year",
+    role: "Frontend • Web Designer",
+    photo: "/images/team/sumit.png",
+    github: "https://github.com/sumityadavRU",
+    linkedin: "https://www.linkedin.com/in/sumit-yadav-18v269",
+  },
+  {
+    name: "Harshit Tiwari",
+    title: "B.Tech CSE — 4th Year",
+    role: "Frontend • Recruiter module",
+    photo: "/images/team/harshit.png",
+    github: "https://github.com/harshu309",
+    linkedin: "https://www.linkedin.com/in/harshit-tiwari-245614237",
+  },
+];

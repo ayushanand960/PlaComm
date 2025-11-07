@@ -59,6 +59,7 @@ import DriveReports from "./pages/student/DriveReports";
 import AdminJobAnalysis from "./pages/admin/AdminJobAnalysis";
 import AdminJobApplicants from "./pages/admin/AdminJobApplicants"; // ✅ import
 import AdminStudentDetails from "./pages/admin/AdminStudentDetails";
+import DevelopersPage from "./pages/DevelopersPage";
 
 
 export default function App() {
@@ -81,6 +82,7 @@ export default function App() {
           <Route path="/admin-coordinator-login" element={<AdminCoordinatorLogin />} />
           <Route path="/about" element={<About />} />
           <Route path="/gallery" element={<Gallery />} />
+          <Route path="/developers" element={<DevelopersPage />} />
           <Route path="/notifications" element={<NotificationsPage />} />
 
 
